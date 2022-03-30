@@ -2,11 +2,15 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const pool = require("./db");
+const PORT = process.env.SERVER_PORT;
 
 //middleware
 app.use(cors());
 app.use(express.json());
 
-app.listen(4000, () => {
-    console.log("server has started at port 4000");
+app.listen(PORT, () => {
+    console.log(`server has started at port ${PORT}`);
 });
+
+
+
