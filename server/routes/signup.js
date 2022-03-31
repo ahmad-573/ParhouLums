@@ -1,3 +1,4 @@
+const e = require("express");
 const express = require(`express`)
 const router = express.Router()
 const pool = require("../db");
@@ -9,9 +10,22 @@ router.post('/signup', async (req,res) => {
         const usernames = await pool.query(
             "SELECT username FROM users WHERE username = $1", [username]  
         );
-        console.log(usernames);
+        if (usernames.rows != []){
+            res.status(400).json({ error: `An account with this username exists. Please try again with a different username.` })
+        }
+        else{
+            try {
+                
+                const email = await pool.query(
+                    "SELECT email FROM users WHERE email = $1", [username]  
+                );
+
+            } catch (err) {
+                res.status(400).json({ error: `Request failed. Try again.` })
+            }
+        }
     } catch (err) {
-        console.error(err.message);
+        res.status(400).json({ error: `Request failed. Try again.` })
         
     }
 })
