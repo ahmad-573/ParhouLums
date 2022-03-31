@@ -49,20 +49,20 @@ CREATE TABLE flashcards(
 CREATE TABLE topic(
     topic_id SERIAL PRIMARY KEY, 
     group_id INT NOT NULL REFERENCES groups(group_id),
-    title TEXT NOT NULL,
+    title TEXT NOT NULL
 );
 
 -- Files
 CREATE TABLE files(
     file_id SERIAL PRIMARY KEY, 
-    topic_id INT NOT NULL REFERENCES topics(topic_id),
+    topic_id INT NOT NULL REFERENCES topic(topic_id),
     file TEXT NOT NULL -- to review
 );
 
 -- Links
 CREATE TABLE links(
     link_id SERIAL PRIMARY KEY, 
-    topic_id INT NOT NULL REFERENCES topics(topic_id),
+    topic_id INT NOT NULL REFERENCES topic(topic_id),
     link TEXT NOT NULL -- to review
 );
 
