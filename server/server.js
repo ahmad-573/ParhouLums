@@ -11,6 +11,9 @@ const PORT = process.env.SERVER_PORT;
 app.use(cors());
 app.use(express.json());
 
+// api route
+app.use(require(`./routes/apirouter`));
+
 app.listen(PORT, () => {
     console.log(`server has started at port ${PORT}`);
 });
