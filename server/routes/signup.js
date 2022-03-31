@@ -9,9 +9,11 @@ router.post('/signup', async (req,res) => {
         const usernames = await pool.query(
             "SELECT username FROM users WHERE username = $1", [username]  
         );
-        if ()
+        console.log(usernames);
     } catch (err) {
         console.error(err.message);
         
     }
 })
+
+module.exports = router;
