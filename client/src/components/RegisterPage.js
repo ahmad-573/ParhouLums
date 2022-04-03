@@ -52,7 +52,7 @@ const validationSchemaRegister = yup.object({
     .min(3, 'Username should be of minimum 3 characters length')
     .max(30, 'Username should be of maximum 30 characters length')
     .required('Username is required'),
-    username: yup
+    email: yup
     .string('Enter your email address')
     .email('Enter a valid email address')
     .min(3, 'Email address should be of minimum 3 characters length')
