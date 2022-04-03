@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Card, CardContent, Grid, TextField, Button, Divider, Box } from '@material-ui/core'
 import { useFormik } from 'formik'
@@ -115,7 +116,16 @@ function LoginPage() {
                   />
                 </Grid>
                 <Grid item>
-                  <Typography className={classes.textLabel} align='left'>Password</Typography>
+                  <Grid container direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+                    <Grid item>
+                      <Typography className={classes.textLabel} align='left'>Password</Typography>
+                    </Grid>
+                    <Grid item>
+                      <Link to="/forgot-password">
+                        <Typography className={classes.textLabel} align='left'>Forgot Password?</Typography>                     
+                      </Link>
+                    </Grid>
+                  </Grid>
                   <TextField
                   fullWidth
                   margin="dense"
@@ -145,6 +155,18 @@ function LoginPage() {
               </Grid>
             </CardContent>
           </Card>
+        </Grid>
+        <Grid item>
+          <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2}>
+            <Grid item>
+              <Typography className={classes.textLabel} align='left'>
+              Don't have an account? {' '}
+              <Link to="/register">
+                Create an account
+              </Link>
+              </Typography>                     
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </div>
