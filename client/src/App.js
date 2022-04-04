@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import LoginPage from './components/LoginPage'
 import RegisterPage from './components/RegisterPage'
 import FPassPage from './components/FPassPage'
@@ -7,14 +7,14 @@ import FPassPage from './components/FPassPage'
 function App() {
 
   return (
-      <BrowserRouter>
-        {/* Add Nav Bar Component Here! */}
-        <Switch>
-            <Route exact path="/" component={LoginPage} />
-            <Route exact path="/register" component={RegisterPage}/>
-            <Route exact path="/forgot-password" component={FPassPage}/>
-        </Switch>
-      </BrowserRouter>
+    <Router>
+      {/* Add Nav Bar Component Here! */}
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<FPassPage />} />
+      </Routes>
+    </Router>
   );
 }
 
