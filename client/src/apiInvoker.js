@@ -5,7 +5,9 @@ export async function apiInvoker(api, body = {}, sendToken = true) {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-      }
+      },
+      mode: `cors`,
+      credentials: "include"
     }
 
     if (sendToken) {
