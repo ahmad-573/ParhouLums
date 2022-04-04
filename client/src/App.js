@@ -6,15 +6,15 @@ import FPassPage from './components/FPassPage'
 import Dashboard from './components/Dashboard'
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false)
 
   return (
     <Router>
       {/* Add Nav Bar Component Here! */}
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={isLoggedIn ? <Dashboard/> : <LoginPage setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<FPassPage />} />
-        <Route path='/dashboard' element={<Dashboard/>}/>
       </Routes>
     </Router>
   );
