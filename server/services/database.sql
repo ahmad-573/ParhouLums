@@ -4,7 +4,7 @@ CREATE DATABASE parhoulums;
 CREATE TABLE users(
     user_id SERIAL PRIMARY KEY,
     username TEXT NOT NULL UNIQUE,
-    email TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
     fullname TEXT NOT NULL,
     password TEXT NOT NULL,
     question_field INT NOT NULL,
