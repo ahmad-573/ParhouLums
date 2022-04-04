@@ -1,4 +1,4 @@
-export async function apiInvoker(api, body = {}, sendToken = true) {
+export async function apiInvoker(api, body = {}) {
   try {
     let reqHeader = {
       method: 'POST',
@@ -8,10 +8,6 @@ export async function apiInvoker(api, body = {}, sendToken = true) {
       },
       mode: `cors`,
       credentials: "include"
-    }
-
-    if (sendToken) {
-      body.token = localStorage.token
     }
 
     if (body !== {}) {
