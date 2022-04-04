@@ -2,7 +2,7 @@
 
 ## APIs
 
-## Front End should check for empty forms/fields wherever required.
+## Note: Front End should check for empty forms/fields wherever required.
 
 ### 1. Sign in, Sign up, Logout
 |#|Name|Description|Route|Request Object|Request Type|Response Object|Additional Note
