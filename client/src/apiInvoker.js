@@ -1,3 +1,5 @@
+const base_url = 'http://localhost:8080'
+
 export async function apiInvoker(api, body = {}) {
   try {
     let reqHeader = {
@@ -11,22 +13,22 @@ export async function apiInvoker(api, body = {}) {
     }
 
     if (body !== {}) {
-      req_init['body'] = JSON.stringify(body)
+      reqHeader['body'] = JSON.stringify(body)
     }
 
     const res = await fetch(api, reqHeader)
     if (res.ok) {
       const data = await res.json()
       
-      if (data.statusCode !== successCode) {
+      if (data.statusCode !== 200) {
         throw new Error(data.error)
       }
-      return data
+      return [data, undefined]
     }
 
     throw new Error("" + res.status + res.statusText) 
   }
   catch (err) {
-    return err.message
+    return [undefined, err.message]
   }
 }

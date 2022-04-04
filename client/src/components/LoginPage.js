@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Card, CardContent, Grid, TextField, Button, Divider, Box } from '@material-ui/core'
 import { useFormik } from 'formik'
 import * as yup from 'yup';
 import { LogoIcon, LogoBigIcon } from './CustomIcons'
+import { apiInvoker } from '../apiInvoker'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   cardRoot: {
     backgroundColor: theme.primary,
     width: 520,
-    height: 300,
+    maxHeight: 500,
   },
   button: {
     backgroundColor: '#015719',
@@ -62,6 +63,7 @@ const validationSchemaLogin = yup.object({
 function LoginPage() {
 
   const classes = useStyles();
+  const navigate = useNavigate()
 
   const formikLogin = useFormik({
     initialValues: {
@@ -69,8 +71,13 @@ function LoginPage() {
       password: ''
     },
     validationSchema: validationSchemaLogin,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      const [data, err] = await apiInvoker('/api/login', values)
+      if (err === undefined) {
+        navigate('/dashboard', { replace: true })
+      } else {
+        console.log('LOGIN ERROR:', err)
+      }
     }
   });
 
@@ -156,7 +163,7 @@ function LoginPage() {
             <CardContent>
               <Grid container direction="row" justifyContent="flex-end" alignItems="right" spacing={2}>
                 <Grid item>
-                  <Button variant="contained" className={classes.button}>Sign in</Button>
+                  <Button variant="contained" className={classes.button} onClick={formikLogin.handleSubmit}>Sign in</Button>
                 </Grid>
               </Grid>
             </CardContent>
