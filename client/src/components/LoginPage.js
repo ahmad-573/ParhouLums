@@ -60,7 +60,7 @@ const validationSchemaLogin = yup.object({
     .required('Password is required'),
 });
 
-function LoginPage({setIsLoggedIn}) {
+function LoginPage({setIsLoggedIn, setSnackbarMsg}) {
 
   const classes = useStyles();
 
@@ -75,7 +75,8 @@ function LoginPage({setIsLoggedIn}) {
       if (err === undefined) {
         setIsLoggedIn(true)
       } else {
-        console.log('LOGIN ERROR:', err)
+        // console.log('LOGIN ERROR:', err)
+        setSnackbarMsg('Login Error: ' + err)
       }
     }
   });

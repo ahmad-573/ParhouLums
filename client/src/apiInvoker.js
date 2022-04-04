@@ -26,7 +26,7 @@ export async function apiInvoker(api, body = {}) {
       return [data, undefined]
     }
 
-    throw new Error("" + res.status + res.statusText) 
+    throw new Error("" + res.status + " " + res.statusText) 
   }
   catch (err) {
     return [undefined, err.message]
