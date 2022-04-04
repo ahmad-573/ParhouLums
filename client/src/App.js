@@ -1,7 +1,9 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import LoginPage from './components/LoginPage'
+import Sidebar from './components/sidebar'
 import RegisterPage from './components/RegisterPage'
+import ChatPage from './components/chat'
 import FPassPage from './components/FPassPage'
 
 function App() {
@@ -11,6 +13,8 @@ function App() {
         {/* Add Nav Bar Component Here! */}
         <Switch>
             <Route exact path="/" component={LoginPage} />
+            <Route exact path="/navbar" component={Sidebar} />
+            <Route exact path="/chat" component={ChatPage} />
             <Route exact path="/register" component={RegisterPage}/>
             <Route exact path="/forgot-password" component={FPassPage}/>
         </Switch>

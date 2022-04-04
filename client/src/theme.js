@@ -16,7 +16,7 @@ const theme = createTheme({
       main: red.A400,
     },
     background: {
-      default: '#f2f3f5',
+      default: '#F2F3F5',
     },
   },
   spacing: 8
