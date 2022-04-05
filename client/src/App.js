@@ -10,9 +10,9 @@ import NavBar from './components/NavBar'
 import CompAdjustor from './components/CompAdjustor'
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(true)
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false)
   // Username State
-  const [group, setGroup] = React.useState({id: 1, name: 'abc'})
+  const [group, setGroup] = React.useState({})
   const [navTitle, setNavTitle] = React.useState('groups')
   const [snackbarMsg, setSnackbarMsg] = React.useState('')
 
