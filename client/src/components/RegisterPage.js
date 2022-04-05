@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Card, CardContent, Grid, TextField, Button, Divider, Box } from '@material-ui/core'
+import { Typography, Card, CardContent, Grid, TextField, Button, Divider, Box, NativeSelect } from '@material-ui/core'
 import { useFormik } from 'formik'
 import * as yup from 'yup';
 import { LogoIcon, LogoBigIcon } from './CustomIcons'
+import { apiInvoker } from '../apiInvoker'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
   },
   cardRoot: {
     backgroundColor: theme.primary,
-    width: 520,
-    height: 470,
+    width: 530,
+    maxHeight: 900,
   },
   button: {
     backgroundColor: '#015719',
@@ -47,33 +48,48 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const validationSchemaRegister = yup.object({
-    username: yup
-    .string('Enter your username')
-    .min(3, 'Username should be of minimum 3 characters length')
-    .max(30, 'Username should be of maximum 30 characters length')
-    .required('Username is required'),
-    email: yup
-    .string('Enter your email address')
-    .email('Enter a valid email address')
-    .min(3, 'Email address should be of minimum 3 characters length')
-    .max(50, 'Email address should be of maximum 50 characters length')
-    .required('Email address is required'),
-    password: yup
-    .string("Enter your password")
-    .min(8, 'Password should be of minimum 8 characters length')
-    .max(30, 'Password should be of maximum 30 characters length')
-    .required('Password is required'),
-    passwordAgain: yup
-    .string("Enter your password")
-    .min(8, 'Password should be of minimum 8 characters length')
-    .max(30, 'Password should be of maximum 30 characters length')
-    .required('Password is required'),
-
+  securityId: yup
+  .number('Select a valid security question')
+  .integer('Select a valid security question please')
+  .min(0, 'Security question should not be None')
+  .required('Security question is required'),
+  username: yup
+  .string('Enter your username')
+  .min(3, 'Username should be of minimum 3 characters length')
+  .max(30, 'Username should be of maximum 30 characters length')
+  .required('Username is required'),
+  email: yup
+  .string('Enter your email address')
+  .email('Enter a valid email address')
+  .min(3, 'Email address should be of minimum 3 characters length')
+  .max(50, 'Email address should be of maximum 50 characters length')
+  .required('Email address is required'),
+  password: yup
+  .string("Enter your password")
+  .min(8, 'Password should be of minimum 8 characters length')
+  .max(30, 'Password should be of maximum 30 characters length')
+  .required('Password is required'),
+  passwordAgain: yup
+  .string("Enter your password")
+  .min(8, 'Password should be of minimum 8 characters length')
+  .max(30, 'Password should be of maximum 30 characters length')
+  .required('Password is required'),
+  answer: yup
+  .string("Enter your answer")
+  .min(8, 'Answer should be of minimum 8 characters length')
+  .max(30, 'Answer should be of maximum 30 characters length')
+  .required('Answer is required'),
+  name: yup
+  .string("Enter your name")
+  .min(3, 'Name should be of minimum 8 characters length')
+  .max(30, 'Name should be of maximum 30 characters length')
+  .required('Name is required'),
 });
 
-function RegisterPage() {
+function RegisterPage({setSnackbarMsg}) {
 
   const classes = useStyles();
+  const navigate = useNavigate();
 
   const formikRegister = useFormik({
     initialValues: {
@@ -81,10 +97,22 @@ function RegisterPage() {
       email: '',
       password: '',
       passwordAgain: '',
+      securityId: -1,
+      answer: '',
+      name: ''
     },
     validationSchema: validationSchemaRegister,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 4));
+    onSubmit: async (values) => {
+      if (values.password !== values.passwordAgain) {
+        setSnackbarMsg('Sign Up Error: Passwords Do Not Match!')
+      } else {
+        const [data, err] = await apiInvoker('/api/signup', {question: values.securityId, answer: values.answer, password: values.password, username: values.username, email: values.email, fullname: values.name})
+        if (err === undefined) {
+          navigate('/', { replace: true })
+        } else {
+          setSnackbarMsg('Sign Up Error: ' + err)
+        }
+      }
     }
   });
 
@@ -115,6 +143,25 @@ function RegisterPage() {
                       <Typography className={classes.textHeading} align='left'>Register</Typography>
                     </Grid>
                   </Grid>
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.textLabel} align='left'>Name</Typography>
+                  <TextField
+                  fullWidth
+                  margin="dense"
+                  id="name"
+                  name="name"
+                  label="Name"
+                  value={formikRegister.values.name}
+                  placeholder="SaadSultanSheikh00"
+                  onChange={formikRegister.handleChange}
+                  error={formikRegister.touched.name && Boolean(formikRegister.errors.name)}
+                  helperText={formikRegister.touched.name && formikRegister.errors.name}
+                  color="background"
+                  variant="outlined"
+                  InputProps={{style: {fontSize: 12}}}
+                  InputLabelProps={{style: {fontSize: 12}}}
+                  />
                 </Grid>
                 <Grid item>
                   <Typography className={classes.textLabel} align='left'>Username</Typography>
@@ -194,13 +241,53 @@ function RegisterPage() {
                   InputLabelProps={{style: {fontSize: 12}}}
                   />
                 </Grid>
+                <Grid item>  
+                  <Typography className={classes.textLabel} align='left'>Security Question</Typography>
+                  <NativeSelect
+                    variant = "outlined"
+                    style={{ width: 500, fontSize: 12}}
+                    inputProps={{
+                      name: 'Security Question',
+                      id: 'uncontrolled-native',
+                    }}
+                    onChange={formikRegister.handleChange('securityId')}
+                    value={formikRegister.values.securityId}
+                    error={formikRegister.touched.securityId && Boolean(formikRegister.errors.securityId)}
+                    helperText={formikRegister.touched.securityId && formikRegister.errors.securityId}
+                  >
+                    <option value={-1}>None</option>
+                    <option value={0}>0th</option>
+                    <option value={1}>1st</option>
+                    <option value={2}>2nd</option>
+                  </NativeSelect>
+                </Grid>
+                <Grid item>  
+                  <Typography className={classes.textLabel} align='left'>Your Answer</Typography>
+                  <TextField
+                  fullWidth
+                  margin="dense"
+                  id="answer"
+                  name="answer"
+                  label="Your Answer"
+                  value={formikRegister.values.answer}
+                  placeholder="Qwerty12345"
+                  type="answer"
+                  onChange={formikRegister.handleChange}
+                  error={formikRegister.touched.answer && Boolean(formikRegister.errors.answer)}
+                  helperText={formikRegister.touched.answer && formikRegister.errors.answer}
+                  color="background"
+                  variant="outlined"
+                  InputProps={{style: {fontSize: 12}}}
+                  InputLabelProps={{style: {fontSize: 12}}}
+                  />
+                </Grid>
               </Grid>
             </CardContent>
             <Divider/>
             <CardContent>
               <Grid container direction="row" justifyContent="flex-end" alignItems="right" spacing={2}>
                 <Grid item>
-                  <Button variant="contained" className={classes.button}>Sign up</Button>
+                  <Button variant="contained" className={classes.button} onClick={formikRegister.handleSubmit}>Sign up</Button>
                 </Grid>
               </Grid>
             </CardContent>

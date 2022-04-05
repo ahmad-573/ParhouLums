@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Card, CardContent, Grid, TextField, Button, Divider, Box } from '@material-ui/core'
+import { Typography, Card, CardContent, Grid, TextField, Button, Divider, Box, NativeSelect } from '@material-ui/core'
 import { useFormik } from 'formik'
 import * as yup from 'yup';
 import { LogoIcon, LogoBigIcon } from './CustomIcons'
+import { apiInvoker } from '../apiInvoker'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
   },
   cardRoot: {
     backgroundColor: theme.primary,
-    width: 520,
-    height: 383,
+    width: 530,
+    maxHeight: 700,
   },
   button: {
     backgroundColor: '#015719',
@@ -46,46 +47,67 @@ const useStyles = makeStyles((theme) => ({
   },
   button2: {
     backgroundColor: '#d4d4d4',
-    // color: '#ebebeb',
     '&:hover': {
       backgroundColor: '#e8e8e8'
     }
   }
 }));
 
-const validationSchemaRegister = yup.object({
-    email: yup
-    .string('Enter your email address')
-    .email('Enter a valid email address')
-    .min(3, 'Email address should be of minimum 3 characters length')
-    .max(50, 'Email address should be of maximum 50 characters length')
-    .required('Email address is required'),
-    password: yup
-    .string("Enter your password")
-    .min(8, 'Password should be of minimum 8 characters length')
-    .max(30, 'Password should be of maximum 30 characters length')
-    .required('Password is required'),
-    passwordAgain: yup
-    .string("Enter your password")
-    .min(8, 'Password should be of minimum 8 characters length')
-    .max(30, 'Password should be of maximum 30 characters length')
-    .required('Password is required'),
+const validationSchemaFPass = yup.object({
+  securityId: yup
+  .number('Select a valid security question')
+  .integer('Select a valid security question please')
+  .min(0, 'Security question should not be None')
+  .required('Security question is required'),
+  email: yup
+  .string('Enter your email address')
+  .email('Enter a valid email address')
+  .min(3, 'Email address should be of minimum 3 characters length')
+  .max(50, 'Email address should be of maximum 50 characters length')
+  .required('Email address is required'),
+  password: yup
+  .string("Enter your password")
+  .min(8, 'Password should be of minimum 8 characters length')
+  .max(30, 'Password should be of maximum 30 characters length')
+  .required('Password is required'),
+  passwordAgain: yup
+  .string("Enter your password")
+  .min(8, 'Password should be of minimum 8 characters length')
+  .max(30, 'Password should be of maximum 30 characters length')
+  .required('Password is required'),
+  answer: yup
+  .string("Enter your answer")
+  .min(8, 'Answer should be of minimum 8 characters length')
+  .max(30, 'Answer should be of maximum 30 characters length')
+  .required('Answer is required'),
 
 });
 
-function RegisterPage() {
+function FPassPage({setSnackbarMsg}) {
 
   const classes = useStyles();
+  const navigate = useNavigate();
 
   const formikFPass = useFormik({
     initialValues: {
       email: '',
       password: '',
       passwordAgain: '',
+      securityId: -1,
+      answer: '',
     },
-    validationSchema: validationSchemaRegister,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 3));
+    validationSchema: validationSchemaFPass,
+    onSubmit: async (values) => {
+      if (values.password !== values.passwordAgain) {
+        setSnackbarMsg('Forgot Password Error: Passwords Do Not Match!')
+      } else {
+        const [data, err] = await apiInvoker('/api/forgot-password', {question: values.securityId, email: values.email, answer: values.answer, new_password: values.password})
+        if (err === undefined) {
+          navigate('/', { replace: true })
+        } else {
+          setSnackbarMsg('Forgot Password Error: ' + err)
+        }
+      }
     }
   });
 
@@ -116,6 +138,46 @@ function RegisterPage() {
                       <Typography className={classes.textHeading} align='left'>Forgot Password</Typography>
                     </Grid>
                   </Grid>
+                </Grid>
+                <Grid item>  
+                  <Typography className={classes.textLabel} align='left'>Security Question</Typography>
+                  <NativeSelect
+                    variant = "outlined"
+                    style={{ width: 500, fontSize: 12}}
+                    inputProps={{
+                      name: 'Security Question',
+                      id: 'uncontrolled-native',
+                    }}
+                    onChange={formikFPass.handleChange('securityId')}
+                    value={formikFPass.values.securityId}
+                    error={formikFPass.touched.securityId && Boolean(formikFPass.errors.securityId)}
+                    helperText={formikFPass.touched.securityId && formikFPass.errors.securityId}
+                  >
+                    <option value={-1}>None</option>
+                    <option value={0}>0th</option>
+                    <option value={1}>1st</option>
+                    <option value={2}>2nd</option>
+                  </NativeSelect>
+                </Grid>
+                <Grid item>  
+                  <Typography className={classes.textLabel} align='left'>Your Answer</Typography>
+                  <TextField
+                  fullWidth
+                  margin="dense"
+                  id="answer"
+                  name="answer"
+                  label="Your Answer"
+                  value={formikFPass.values.answer}
+                  placeholder="Qwerty12345"
+                  type="answer"
+                  onChange={formikFPass.handleChange}
+                  error={formikFPass.touched.answer && Boolean(formikFPass.errors.answer)}
+                  helperText={formikFPass.touched.answer && formikFPass.errors.answer}
+                  color="background"
+                  variant="outlined"
+                  InputProps={{style: {fontSize: 12}}}
+                  InputLabelProps={{style: {fontSize: 12}}}
+                  />
                 </Grid>
                 <Grid item>
                   <Typography className={classes.textLabel} align='left'>Email</Typography>
@@ -182,10 +244,10 @@ function RegisterPage() {
             <CardContent>
               <Grid container direction="row" justifyContent="flex-end" alignItems="right" spacing={2}>
                 <Grid item>
-                  <Button variant="contained" className={classes.button2}>Cancel</Button>
+                  <Button component = {Link} to = "/" variant="contained" className={classes.button2}>Cancel</Button>
                 </Grid>
                 <Grid item>
-                  <Button variant="contained" className={classes.button}>Update</Button>
+                  <Button variant="contained" className={classes.button} onClick={formikFPass.handleSubmit}>Update</Button>
                 </Grid>
               </Grid>
             </CardContent>
@@ -196,4 +258,4 @@ function RegisterPage() {
   )
 }
 
-export default RegisterPage;
+export default FPassPage;

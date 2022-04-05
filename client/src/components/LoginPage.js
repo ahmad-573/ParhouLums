@@ -5,6 +5,7 @@ import { Typography, Card, CardContent, Grid, TextField, Button, Divider, Box } 
 import { useFormik } from 'formik'
 import * as yup from 'yup';
 import { LogoIcon, LogoBigIcon } from './CustomIcons'
+import { apiInvoker } from '../apiInvoker'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   cardRoot: {
     backgroundColor: theme.primary,
     width: 520,
-    height: 300,
+    maxHeight: 500,
   },
   button: {
     backgroundColor: '#015719',
@@ -59,7 +60,7 @@ const validationSchemaLogin = yup.object({
     .required('Password is required'),
 });
 
-function LoginPage() {
+function LoginPage({setIsLoggedIn, setSnackbarMsg}) {
 
   const classes = useStyles();
 
@@ -69,8 +70,13 @@ function LoginPage() {
       password: ''
     },
     validationSchema: validationSchemaLogin,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      const [data, err] = await apiInvoker('/api/login', values)
+      if (err === undefined) {
+        setIsLoggedIn(true)
+      } else {
+        setSnackbarMsg('Login Error: ' + err)
+      }
     }
   });
 
@@ -156,7 +162,7 @@ function LoginPage() {
             <CardContent>
               <Grid container direction="row" justifyContent="flex-end" alignItems="right" spacing={2}>
                 <Grid item>
-                  <Button variant="contained" className={classes.button}>Sign in</Button>
+                  <Button variant="contained" className={classes.button} onClick={formikLogin.handleSubmit}>Sign in</Button>
                 </Grid>
               </Grid>
             </CardContent>
