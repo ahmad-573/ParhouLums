@@ -101,7 +101,7 @@ function FPassPage({setSnackbarMsg}) {
       if (values.password !== values.passwordAgain) {
         setSnackbarMsg('Forgot Password Error: Passwords Do Not Match!')
       } else {
-        const [data, err] = await apiInvoker('/api/forgot-password', {question: values.securityId, answer: values.answer, new_password: values.password})
+        const [data, err] = await apiInvoker('/api/forgot-password', {question: values.securityId, email: values.email, answer: values.answer, new_password: values.password})
         if (err === undefined) {
           navigate('/', { replace: true })
         } else {
