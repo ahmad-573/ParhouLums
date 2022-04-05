@@ -71,8 +71,7 @@ function LoginPage({setIsLoggedIn, setSnackbarMsg}) {
     },
     validationSchema: validationSchemaLogin,
     onSubmit: async (values) => {
-      // const [data, err] = await apiInvoker('/api/login', values)
-      const err = undefined
+      const [data, err] = await apiInvoker('/api/login', values)
       if (err === undefined) {
         setIsLoggedIn(true)
       } else {
