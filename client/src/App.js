@@ -18,7 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={isLoggedIn ? <Dashboard/> : <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg}/>} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/forgot-password" element={<FPassPage />} />
+        <Route path="/forgot-password" element={<FPassPage setSnackbarMsg={setSnackbarMsg}/>} />
       </Routes>
     </Router>
   );
