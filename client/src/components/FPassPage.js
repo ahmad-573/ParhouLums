@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cardRoot: {
     backgroundColor: theme.primary,
-    width: 520,
+    width: 530,
     maxHeight: 700,
   },
   button: {
@@ -98,16 +98,15 @@ function FPassPage({setSnackbarMsg}) {
     },
     validationSchema: validationSchemaFPass,
     onSubmit: async (values) => {
-      console.log('Hello')
       if (values.password !== values.passwordAgain) {
         setSnackbarMsg('Forgot Password Error: Passwords Do Not Match!')
-      }
-
-      const [data, err] = await apiInvoker('/api/forgot-password', {question: values.securityId, answer: values.answer, new_password: values.password})
-      if (err === undefined) {
-        navigate('/', { replace: true })
       } else {
-        setSnackbarMsg('Forgot Password Error: ' + err)
+        const [data, err] = await apiInvoker('/api/forgot-password', {question: values.securityId, answer: values.answer, new_password: values.password})
+        if (err === undefined) {
+          navigate('/', { replace: true })
+        } else {
+          setSnackbarMsg('Forgot Password Error: ' + err)
+        }
       }
     }
   });
