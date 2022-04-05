@@ -1,16 +1,18 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { Grid } from '@material-ui/core'
 import LoginPage from './components/LoginPage'
 import RegisterPage from './components/RegisterPage'
 import FPassPage from './components/FPassPage'
-import Dashboard from './components/Dashboard'
+import GroupSelectorPage from './components/GroupSelectorPage'
 import ErrorPopup from './components/ErrorPopup'
 import NavBar from './components/NavBar'
+import CompAdjustor from './components/CompAdjustor'
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false)
+  const [isLoggedIn, setIsLoggedIn] = React.useState(true)
   // Username State
-  // Group State -> Name & Id
+  const [group, setGroup] = React.useState({id: 1, name: 'abc'})
   const [navTitle, setNavTitle] = React.useState('groups')
   const [snackbarMsg, setSnackbarMsg] = React.useState('')
 
@@ -20,15 +22,17 @@ function App() {
 
   return (
     <Router>
+      <ErrorPopup snackbarMsg={snackbarMsg} setSnackbarMsg={setSnackbarMsg}/>
       {
-        isLoggedIn &&
+        isLoggedIn && group === {} &&
         <NavBar navTitle={navTitle} setNavTitle={setNavTitle} logout={logout}/>
       }
-      <ErrorPopup snackbarMsg={snackbarMsg} setSnackbarMsg={setSnackbarMsg}/>
       <Routes>
-        <Route path="/" element={isLoggedIn ? <Dashboard/> : <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg}/>} />
+        <Route path="/" element={isLoggedIn ? <GroupSelectorPage/> : <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg}/>} />
         <Route path="/register" element={<RegisterPage setSnackbarMsg={setSnackbarMsg}/>} />
         <Route path="/forgot-password" element={<FPassPage setSnackbarMsg={setSnackbarMsg}/>} />
+        {/* Just An Idea for showing components with both NavBar and SideBar */}
+        {/* <Route path='/temp' element={(isLoggedIn && group !== {}) ? <CompAdjustor comp={(() => <GroupSelectorPage/>)()} navTitle={navTitle} setNavTitle={setNavTitle} logout={logout}/> : <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg}/>} /> */}
       </Routes>
     </Router>
   );
