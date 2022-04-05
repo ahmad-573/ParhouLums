@@ -12,7 +12,7 @@ import CompAdjustor from './components/CompAdjustor'
 function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false)
   // Username State
-  const [group, setGroup] = React.useState({})
+  const [group, setGroup] = React.useState(undefined)
   const [navTitle, setNavTitle] = React.useState('groups')
   const [snackbarMsg, setSnackbarMsg] = React.useState('')
 
@@ -24,7 +24,7 @@ function App() {
     <Router>
       <ErrorPopup snackbarMsg={snackbarMsg} setSnackbarMsg={setSnackbarMsg}/>
       {
-        isLoggedIn && group === {} &&
+        isLoggedIn && group === undefined &&
         <NavBar navTitle={navTitle} setNavTitle={setNavTitle} logout={logout}/>
       }
       <Routes>
@@ -32,7 +32,7 @@ function App() {
         <Route path="/register" element={<RegisterPage setSnackbarMsg={setSnackbarMsg}/>} />
         <Route path="/forgot-password" element={<FPassPage setSnackbarMsg={setSnackbarMsg}/>} />
         {/* Just An Idea for showing components with both NavBar and SideBar */}
-        {/* <Route path='/temp' element={(isLoggedIn && group !== {}) ? <CompAdjustor comp={(() => <GroupSelectorPage/>)()} navTitle={navTitle} setNavTitle={setNavTitle} logout={logout}/> : <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg}/>} /> */}
+        {/* <Route path='/temp' element={(isLoggedIn && group !== undefined) ? <CompAdjustor comp={(() => <GroupSelectorPage/>)()} navTitle={navTitle} setNavTitle={setNavTitle} logout={logout}/> : <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg}/>} /> */}
       </Routes>
     </Router>
   );
