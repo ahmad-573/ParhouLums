@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Card, CardContent, Grid, TextField, Button, Divider, Box } from '@material-ui/core'
+import { Typography, Card, CardContent, Grid, TextField, Button, Divider, Box, NativeSelect } from '@material-ui/core'
 import { useFormik } from 'formik'
 import * as yup from 'yup';
 import { LogoIcon, LogoBigIcon } from './CustomIcons'
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   cardRoot: {
     backgroundColor: theme.primary,
     width: 520,
-    height: 470,
+    height: 610,
   },
   button: {
     backgroundColor: '#015719',
@@ -68,6 +68,11 @@ const validationSchemaRegister = yup.object({
     .min(8, 'Password should be of minimum 8 characters length')
     .max(30, 'Password should be of maximum 30 characters length')
     .required('Password is required'),
+    answer: yup
+    .string("Enter your answer")
+    .min(8, 'Answer should be of minimum 8 characters length')
+    .max(30, 'Answer should be of maximum 30 characters length')
+    .required('Answer is required'),
 
 });
 
@@ -81,10 +86,12 @@ function RegisterPage() {
       email: '',
       password: '',
       passwordAgain: '',
+      securityQuestion: '',
+      answer: '',
     },
     validationSchema: validationSchemaRegister,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 4));
+      alert(JSON.stringify(values, null, 6));
     }
   });
 
@@ -188,6 +195,42 @@ function RegisterPage() {
                   onChange={formikRegister.handleChange}
                   error={formikRegister.touched.passwordAgain && Boolean(formikRegister.errors.passwordAgain)}
                   helperText={formikRegister.touched.passwordAgain && formikRegister.errors.passwordAgain}
+                  color="background"
+                  variant="outlined"
+                  InputProps={{style: {fontSize: 12}}}
+                  InputLabelProps={{style: {fontSize: 12}}}
+                  />
+                </Grid>
+                <Grid item>  
+                  <Typography className={classes.textLabel} align='left'>Security Question</Typography>
+                  <NativeSelect
+                    variant = "outlined"
+                    style={{ width: 500, fontSize: 12}}
+                    defaultValue={30}
+                    inputProps={{
+                      name: 'Security Question',
+                      id: 'uncontrolled-native',
+                    }}
+                  >
+                    <option value={10}>Ten</option>
+                    <option value={20}>Twenty</option>
+                    <option value={30}>Thirty</option>
+                  </NativeSelect>
+                </Grid>
+                <Grid item>  
+                  <Typography className={classes.textLabel} align='left'>Your Answer</Typography>
+                  <TextField
+                  fullWidth
+                  margin="dense"
+                  id="answer"
+                  name="answer"
+                  label="Your Answer"
+                  value={formikRegister.values.answer}
+                  placeholder="Qwerty12345"
+                  type="answer"
+                  onChange={formikRegister.handleChange}
+                  error={formikRegister.touched.answer && Boolean(formikRegister.errors.answer)}
+                  helperText={formikRegister.touched.answer && formikRegister.errors.answer}
                   color="background"
                   variant="outlined"
                   InputProps={{style: {fontSize: 12}}}
