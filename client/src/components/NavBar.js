@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Grid, TextField, Button, Dialog, DialogTitle, DialogActions, DialogContent, Box, IconButton, Divider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { Autocomplete } from '@material-ui/lab'
@@ -97,15 +96,10 @@ function NavBar({navTitle, setNavTitle, logout}) {
   const [selectedMember, setSelectedMember] = React.useState('')
 
   const classes = useStyles()
-  const navigate = useNavigate()
 
   const handleOpenCreateGroup = () => {
-    if (navTitle === 'groups') {
-      setMemberList(['Saad', 'Taha', 'Moaiz', 'Fahad', 'Ahmad'])
-      setOpenCreateGroup(true)
-    } else {
-      navigate('/', { replace: true })
-    }
+    setMemberList(['Saad', 'Taha', 'Moaiz', 'Fahad', 'Ahmad'])
+    setOpenCreateGroup(true)
   }
 
   const handleCloseCreateGroup = () => {
@@ -123,7 +117,7 @@ function NavBar({navTitle, setNavTitle, logout}) {
                     <Typography className={classes.textHash} align='left'>#</Typography>
                   </Grid>
                   <Grid item>  
-                    <Typography className={classes.textLabel} align='left'>{navTitle}</Typography>
+                    <Typography className={classes.textLabel} align='left'>groups</Typography>
                   </Grid>
               </Grid>
             </Grid>
@@ -131,9 +125,7 @@ function NavBar({navTitle, setNavTitle, logout}) {
               <Grid container direction="row" justifyContent="right" alignItems="center" spacing={1}>
                   <Grid item>
                     <Button variant="outlined" className={classes.button2} onClick={handleOpenCreateGroup}>
-                      {
-                        navTitle === 'groups' ? 'Create new Group' : 'Groups'
-                      }
+                      Create new Group
                     </Button>
                   </Grid>
                   <Grid item>
