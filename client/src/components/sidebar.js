@@ -2,7 +2,7 @@ import React from 'react'
 import { NavLink } from "react-router-dom";
 import { LogoIcon } from './CustomIcons'
 import { makeStyles } from "@material-ui/core/styles";
-import { AnnotationIcon, ClipboardListIcon, DocumentTextIcon, FolderOpenIcon, LogoutIcon, ChevronRightIcon } from '@heroicons/react/outline'
+import { AnnotationIcon, HashtagIcon, ClipboardListIcon, DocumentTextIcon, FolderOpenIcon, LogoutIcon, ChevronRightIcon } from '@heroicons/react/outline'
 import { FiSettings } from 'react-icons/fi';
 
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +21,7 @@ function Sidebar() {
     const classes = useStyles();
     return (
         <div className={classes.body}>
-            <div class="relative py-3 w-[248px] h-screen bg-[#F2F3F5]">
+            <div class="relative py-3 z-10 w-[248px] h-screen bg-[#F2F3F5]">
                 <div class="relative w-full h-[30px] -mt-1 mb-5 px-3 border-b-2 border-[#E3E5E8]">
                     <div class="flex pl-1 mb-5">
                         <LogoIcon/>
@@ -78,11 +78,29 @@ function Sidebar() {
                         </NavLink>
                         </a>
                     </li>
+                    <li className='w-[232px] rounded h-[38px]'>
+                        <a href="#" class="absolute flex justify-center items-center h-screen w-full h-[52px] bottom-0 left-0 self-center text-[16px] bg-[#D3D7DB] hover:font-semibold">
+                            <LogoutIcon className='text-[#F05454] h-5 w-5 mr-2 hover:text-red-600 hover:font-semibold'/>
+                            <NavLink className="text-[#F05454] inline-block align-middle whitespace-nowrap hover:font-semibold" to="/blog">
+                                Leave Group
+                            </NavLink>
+                        </a>
+                    </li>
                 </ul>
-                <NavLink class="absolute flex justify-center items-center h-screen w-full h-[52px] bottom-0 left-0 self-center text-[16px]  bg-[#D3D7DB] hover:font-semibold" to="/">
+                {/* <NavLink class="absolute flex justify-center items-center h-screen w-full h-[52px] bottom-0 left-0 self-center text-[16px] bg-[#D3D7DB] hover:font-semibold" to="/">
                     <LogoutIcon className='text-[#F05454] h-5 w-5 mr-2 hover:text-red-600 hover:font-semibold'/>
                     <span class="text-[#F05454] inline-block align-middle whitespace-nowrap hover:font-semibold">Leave Group</span>
-                </NavLink>
+                </NavLink> */}
+            </div>
+            <div class="absolute flex items-stretch w-screen z-0 h-[38px] bg-white top-0 border-b-2 border-[#E3E5E8]">
+                <div class="flex self-center pl-1 ml-[248px]">
+                    <HashtagIcon class="text-[#4F5659] h-5 w-4" />
+                        <span class="self-center text-[#4F5659] text-[15px] ml-[2px] font-semibold whitespace-nowrap">[page]</span>
+                </div>
+                <div class="flex self-center absolute right-3 w-1/12 h-3/4 grid grid-cols-2 gap-2">
+                    <button type="button" class="text-[#4F5659] ring-[#4F5659] ring-opacity-80 bg-white rounded ring-1 hover:font-semibold font-medium text-sm">Groups</button>
+                    <button type="button" class="text-white ring-1 ring-[#E01E5A] bg-[#E01E5A] rounded hover:font-semibold font-medium text-sm">Logout</button>
+                </div>
             </div>
         </div>
     )
