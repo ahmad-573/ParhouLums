@@ -5,7 +5,7 @@ import { Typography, Card, CardContent, Grid, TextField, Button, Divider, Box } 
 import { useFormik } from 'formik'
 import * as yup from 'yup';
 
-function Dashboard() {
+function GroupSelectorPage() {
 
   return (
     <div>
@@ -14,4 +14,4 @@ function Dashboard() {
   )
 }
 
-export default Dashboard;
+export default GroupSelectorPage;

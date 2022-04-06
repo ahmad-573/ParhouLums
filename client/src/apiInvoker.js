@@ -16,7 +16,7 @@ export async function apiInvoker(api, body = {}) {
       reqHeader['body'] = JSON.stringify(body)
     }
 
-    const res = await fetch(api, reqHeader)
+    const res = await fetch(base_url + api, reqHeader)
     if (res.ok) {
       const data = await res.json()
       

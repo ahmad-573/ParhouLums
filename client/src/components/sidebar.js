@@ -87,11 +87,8 @@ function Sidebar() {
                         </a>
                     </li>
                 </ul>
-                {/* <NavLink class="absolute flex justify-center items-center h-screen w-full h-[52px] bottom-0 left-0 self-center text-[16px] bg-[#D3D7DB] hover:font-semibold" to="/">
-                    <LogoutIcon className='text-[#F05454] h-5 w-5 mr-2 hover:text-red-600 hover:font-semibold'/>
-                    <span class="text-[#F05454] inline-block align-middle whitespace-nowrap hover:font-semibold">Leave Group</span>
-                </NavLink> */}
             </div>
+            {/* Navbar */}
             <div class="absolute flex items-stretch w-screen z-0 h-[38px] bg-white top-0 border-b-2 border-[#E3E5E8]">
                 <div class="flex self-center pl-1 ml-[248px]">
                     <HashtagIcon class="text-[#4F5659] h-5 w-4" />

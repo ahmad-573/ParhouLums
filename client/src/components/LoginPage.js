@@ -75,7 +75,6 @@ function LoginPage({setIsLoggedIn, setSnackbarMsg}) {
       if (err === undefined) {
         setIsLoggedIn(true)
       } else {
-        // console.log('LOGIN ERROR:', err)
         setSnackbarMsg('Login Error: ' + err)
       }
     }
