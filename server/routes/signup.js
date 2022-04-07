@@ -1,6 +1,7 @@
 const express = require(`express`)
 const router = express.Router()
 const pool = require("../db");
+const helpers = require('./helper.js');
 
 // Sign up post route
 router.post('/signup', async (req,res) => {
@@ -23,9 +24,10 @@ router.post('/signup', async (req,res) => {
                 }
                 else{
                     try {
+                        const hash = await helpers.encrypt(req.body.password);
                         
                         const result = await pool.query(
-                            "INSERT INTO users(username,password,fullname,email,question_field,answer) VALUES($1,$2,$3,$4,$5,$6);", [req.body.username,req.body.password,req.body.fullname,req.body.email,req.body.question,req.body.answer]
+                            "INSERT INTO users(username,password,fullname,email,question_field,answer) VALUES($1,$2,$3,$4,$5,$6);", [req.body.username,hash,req.body.fullname,req.body.email,req.body.question,req.body.answer]
 
                         );
                         console.log("signed up");

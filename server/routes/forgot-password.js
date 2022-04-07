@@ -1,7 +1,7 @@
-const e = require("express");
 const express = require(`express`)
 const router = express.Router()
 const pool = require("../db");
+const helpers = require('./helper.js');
 
 // forgot password post route
 router.post('/forgot-password', async (req,res) => {
@@ -24,8 +24,10 @@ router.post('/forgot-password', async (req,res) => {
                         );
                         if (answers.rows[0].answer === req.body.answer){
                             try {
+                                const hash = await helpers.encrypt(req.body.new_password);
+
                                 await pool.query(
-                                    "UPDATE users SET password = $1 WHERE email = $2", [req.body.new_password, req.body.email]
+                                    "UPDATE users SET password = $1 WHERE email = $2", [hash, req.body.email]
                                 );
                                 console.log("password changed!");
                                 res.status(200).json({}) 
