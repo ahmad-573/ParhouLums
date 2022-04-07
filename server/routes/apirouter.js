@@ -5,6 +5,7 @@ const router = express.Router()
 
 
 // login, sign up and signout routes
-router.use('/api',require('./signup'))
+router.use('/api', require('./signup'))
+router.use('/api', require('./loginout'))
 
 module.exports = router
