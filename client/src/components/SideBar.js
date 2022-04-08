@@ -397,7 +397,7 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg}) {
       },
       validationSchema: validationSchemaSettings,
       onSubmit: async (values) => {
-        const [data, err] = await apiInvoker('/api/updatePassword', values)
+        const [data, err] = await apiInvoker('/api/updateInformation', values)
         if (err === undefined) {
           setOpenSettings(false)
         } else {
