@@ -15,7 +15,7 @@
 ### 2. Group management
 |#|Name|Description|Route|Request Object|Request Type|Response Object|Additional Note
 |-|----|-----------|---------------|------------|----------|---------------|----------|
-|1|Display group dashboard|Gets all groups of specific user|/api/getAllGroups|{user_id: INT}|`POST`|{response.status: 200 (success) or 400 (failure), if 400, response.json: {error: String}, if 200, response.json: {groups: list({name: String, status: INT, group_id: INT})}}|status=1 means admin, 0 otherwise|
+|1|Display group dashboard|Gets all groups of specific user|/api/getAllGroups|{}|`POST`|{response.status: 200 (success) or 400 (failure), if 400, response.json: {error: String}, if 200, response.json: {groups: list({name: String, status: INT, group_id: INT})}}|status=1 means admin, 0 otherwise|
 |2|Display list of users for creating groups|Gets all users|/api/getUsers|{}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {users : list({username: String, fullname: String, user_id: INT})}|Send this request when user clicks create a new group before modal opens (?). Do not display user id and current user|
-|3|Create a new group|User presses create after entering info|/api/createGroup|{user_id: String, group_name: String, member_ids: list(INT)}|`POST`|200 for success, 400 for failure. 400: {error}. 200: {group_id: INT}|N/A
-|4|Delete group|admin presses delete group|/api/deleteGroup|{user_id: INT, group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
+|3|Create a new group|User presses create after entering info|/api/createGroup|{group_name: String, member_ids: list(INT)}|`POST`|200 for success, 400 for failure. 400: {error}. 200: {group_id: INT}|N/A
+|4|Delete group|admin presses delete group|/api/deleteGroup|{group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
