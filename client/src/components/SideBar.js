@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Autocomplete } from '@material-ui/lab'
 import { LogoIcon } from './CustomIcons'
 import { apiInvoker } from '../apiInvoker'
-import { FieldArray, Form, Formik } from 'formik'
+import { FieldArray, Form, Formik, useFormik } from 'formik'
 import * as yup from 'yup';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ChatIcon from '@material-ui/icons/ChatBubble';
@@ -98,15 +98,32 @@ const validationSchemaGroupDialog = yup.object({
   .required('Member(s) required')
 });
 
+const validationSchemaSettings = yup.object({
+  username: yup
+  .string('Enter your username')
+  .min(3, 'Username should be of minimum 3 characters length')
+  .max(30, 'Username should be of maximum 30 characters length')
+  .required('Username is required'),
+  old_password: yup
+  .string("Enter your current password")
+  .min(8, 'Current Password should be of minimum 8 characters length')
+  .max(30, 'Current Password should be of maximum 30 characters length')
+  .required('Current Password is required'),
+  new_password: yup
+  .string("Enter your new password")
+  .min(8, 'New Password should be of minimum 8 characters length')
+  .max(30, 'New Password should be of maximum 30 characters length')
+  .required('New Password is required'),
+});
+
 function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg}) {
   const [openPromoteMember, setOpenPromoteMember] = React.useState(false)
   const [openRemoveMember, setOpenRemoveMember] = React.useState(false)
   const [openAddMember, setOpenAddMember] = React.useState(false)
+  const [openSettings, setOpenSettings] = React.useState(false)
   const [mList, setMList] = React.useState([]) // [{username, fullname, user_id}]
   const [mMap, setMMap] = React.useState({}) // {`${fullname} ${username}`: {username, fullname, user_id}}
   const [sMember, setSMember] = React.useState('')
-
-
 
   const classes = useStyles()
   const navigate = useNavigate()
@@ -126,7 +143,7 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg}) {
           </Grid>
         </Grid>
         <Grid item>
-          <IconButton aria-label="settings" size="small">
+          <IconButton onClick={() => setOpenSettings(true)} aria-label="settings" size="small">
             <SettingsIcon fontSize='inherit'/>
           </IconButton>
         </Grid>
@@ -370,6 +387,112 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg}) {
     )
   }
 
+  function SettingsDialog({openSettings, setOpenSettings}) {
+
+    const formikSettings = useFormik({
+      initialValues: {
+        username: '',
+        old_password: '',
+        new_password: ''
+      },
+      validationSchema: validationSchemaSettings,
+      onSubmit: async (values) => {
+        const [data, err] = await apiInvoker('/api/updatePassword', values)
+        if (err === undefined) {
+          setOpenSettings(false)
+        } else {
+          setSnackbarMsg('Update Password Error: ' + err)
+        }
+      }
+    });
+
+    return (
+      <Dialog classes={{ paper: classes.dialogPaper }} open={openSettings} onClose={() => setOpenSettings(false)} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Edit Information</DialogTitle>
+        <DialogContent>
+        <Grid container direction="column" spacing={2}>
+            <Grid item>
+              <Typography className={classes.textLabel} align='left'>Username</Typography>
+              <TextField
+              fullWidth
+              margin="dense"
+              id="username"
+              name="username"
+              label="Username"
+              value={formikSettings.values.username}
+              placeholder="SaadSultanSheikh00"
+              onChange={formikSettings.handleChange}
+              error={formikSettings.touched.username && Boolean(formikSettings.errors.username)}
+              helperText={formikSettings.touched.username && formikSettings.errors.username}
+              color="background"
+              variant="outlined"
+              InputProps={{style: {fontSize: 12}}}
+              InputLabelProps={{style: {fontSize: 12}}}
+              />
+            </Grid>
+            <Grid item>
+              <Typography className={classes.textLabel} align='left'>Current Password</Typography>
+              <TextField
+              fullWidth
+              margin="dense"
+              id="old_password"
+              name="old_password"
+              label="Current Password"
+              value={formikSettings.values.old_password}
+              placeholder="Qwerty12345"
+              type="password"
+              onChange={formikSettings.handleChange}
+              error={formikSettings.touched.old_password && Boolean(formikSettings.errors.old_password)}
+              helperText={formikSettings.touched.old_password && formikSettings.errors.old_password}
+              color="background"
+              variant="outlined"
+              InputProps={{style: {fontSize: 12}}}
+              InputLabelProps={{style: {fontSize: 12}}}
+              />
+            </Grid>
+            <Grid item>
+              <Typography className={classes.textLabel} align='left'>New Password</Typography>
+              <TextField
+              fullWidth
+              margin="dense"
+              id="new_password"
+              name="new_password"
+              label="New Password"
+              value={formikSettings.values.new_password}
+              placeholder="Qwerty12345"
+              type="password"
+              onChange={formikSettings.handleChange}
+              error={formikSettings.touched.new_password && Boolean(formikSettings.errors.new_password)}
+              helperText={formikSettings.touched.new_password && formikSettings.errors.new_password}
+              color="background"
+              variant="outlined"
+              InputProps={{style: {fontSize: 12}}}
+              InputLabelProps={{style: {fontSize: 12}}}
+              />
+            </Grid>
+          </Grid>
+          <Box pt={1}/>
+          <Divider/>
+          <Box pt={1}/>
+          <DialogActions>
+            <Grid container direction="row" justifyContent="flex-end" alignItems="right" spacing={2}>
+              <Grid item>
+                <Button onClick={() => setOpenSettings(false)} variant='outlined' className={classes.button2}>
+                    Cancel
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button onClick={formikSettings.handleSubmit} className={classes.buttonCreate}>
+                    Update
+                </Button>
+              </Grid>
+            </Grid>
+          </DialogActions>
+        </DialogContent>
+      </Dialog>
+    )
+  }
+
   return (
     <Drawer
       className={classes.drawerRoot}
@@ -393,7 +516,8 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg}) {
       </Toolbar>
       <GroupDialog title='Promote To Admin' openDialog={openPromoteMember} setOpenDialog={setOpenPromoteMember} apiLink={'/api/promoteToAdmin'} mList={mList} mMap={mMap} sMember={sMember}/>
       <GroupDialog title='Remove Participants' openDialog={openRemoveMember} setOpenDialog={setOpenRemoveMember} apiLink={'/api/removeParticipants'} mList={mList} mMap={mMap} sMember={sMember}/>
-      <GroupDialog title='Add Participants' openDialog={openAddMember} setOpenDialog={setOpenAddMember} apiLink={'/api/addParticipants'} mList={mList} mMap={mMap} sMember={sMember}/>      
+      <GroupDialog title='Add Participants' openDialog={openAddMember} setOpenDialog={setOpenAddMember} apiLink={'/api/addParticipants'} mList={mList} mMap={mMap} sMember={sMember}/>
+      <SettingsDialog openSettings={openSettings} setOpenSettings={setOpenSettings}/>
     </Drawer>
   )
 }
