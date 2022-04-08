@@ -13,15 +13,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function GroupSelectorPage({username, setGroup, setSnackbarMsg}) {
-  const [groups, setGroups] = React.useState([])
+function GroupSelectorPage({username, setGroup, setSnackbarMsg, groups, setGroups}) {
 
   const classes = useStyles()
 
   React.useEffect(() => {
     apiInvoker('/api/getAllGroups').then(([data, err]) => {
-      console.log('err:', err)
-      console.log('data:', data)
       if (err === undefined) {
         setGroups(data.groups)
       } else {

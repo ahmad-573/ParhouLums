@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import { apiInvoker } from '../apiInvoker'
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { useNavigate } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   textHash: {
@@ -78,15 +79,41 @@ const validationSchemaCreateGroup = yup.object({
   .required('Member(s) required')
 });
 
-function NavBar({group, setGroup, logout}) {
+function NavBar({navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGroups, groups}) {
   const [openCreateGroup, setOpenCreateGroup] = React.useState(false)
-  const [memberList, setMemberList] = React.useState([])
+  const [memberList, setMemberList] = React.useState([]) // [{username, fullname, user_id}]
+  const [memberMap, setMemberMap] = React.useState({}) // {`${fullname} ${username}`: {username, fullname, user_id}}
   const [selectedMember, setSelectedMember] = React.useState('')
 
   const classes = useStyles()
+  const navigate = useNavigate()
+
+  const handleSelectGroups = () => {
+    setNavTitle('groups')
+    setGroup(undefined)
+    navigate('/', { replace: true })
+  }
 
   const handleOpenCreateGroup = () => {
-    setMemberList(['Saad', 'Taha', 'Moaiz', 'Fahad', 'Ahmad'])
+    // setMemberList(['Saad @saad', 'Taha @taha'])
+    // setMemberMap({'Saad @saad': {username: '@saad', fullname: 'Saad', user_id: 1}, 'Taha @taha': {username: '@taha', fullname: 'Taha', user_id: 2}})
+    apiInvoker('/api/getUsers').then(([data, err]) => {
+      if (err === undefined) {
+        let newMemberMap = {}
+        let newMemberList = []
+        for (let m of data.users) {
+          const key = m.fullname + ' ' + m.username
+          newMemberList.push(key)
+          newMemberMap[key] = m
+        }
+        setMemberMap(newMemberMap)
+        setMemberList(newMemberList)
+      } else {
+        setSnackbarMsg('Create Group Error: ' + err)
+      }
+    })
+
+    setSelectedMember('')
     setOpenCreateGroup(true)
   }
 
@@ -105,15 +132,21 @@ function NavBar({group, setGroup, logout}) {
                     <Typography className={classes.textHash} align='left'>#</Typography>
                   </Grid>
                   <Grid item>  
-                    <Typography className={classes.textLabel} align='left'>groups</Typography>
+                    <Typography className={classes.textLabel} align='left'>
+                      {
+                        navTitle
+                      }
+                    </Typography>
                   </Grid>
               </Grid>
             </Grid>
             <Grid item>
               <Grid container direction="row" justifyContent="right" alignItems="center" spacing={1}>
                   <Grid item>
-                    <Button variant="outlined" className={classes.button2} onClick={handleOpenCreateGroup}>
-                      Create new Group
+                    <Button variant="outlined" className={classes.button2} onClick={() => navTitle == 'groups' ? handleOpenCreateGroup() : handleSelectGroups()}>
+                      {
+                        navTitle === 'groups' ? 'Create new Group' : 'Groups'
+                      }
                     </Button>
                   </Grid>
                   <Grid item>
@@ -135,7 +168,12 @@ function NavBar({group, setGroup, logout}) {
             }}
             validationSchema={validationSchemaCreateGroup}
             onSubmit={async (values) => {
-
+              const [data, err] = await apiInvoker('/api/createGroup', {groupName: values.groupName, member_ids: values.members.map((val) => memberMap[val].user_id)})
+              if (err === undefined) {
+                setGroups([...groups, {name: values.groupName, group_id: data.group_id, status: 1}])
+              } else {
+                setSnackbarMsg('Create Group Error: ' + err)
+              }
             }}
             >
               {({values, touched, errors, handleChange, handleBlur, isValid, handleSubmit}) => {
@@ -169,7 +207,7 @@ function NavBar({group, setGroup, logout}) {
                       options={memberList}
                       value={selectedMember}
                       onChange={(event, newValue) => {
-                        setSelectedMember(newValue);
+                        setSelectedMember(newValue)
                       }}
                       sx={{ width: 300 }}
                       renderInput={(params) => <TextField {...params} label="Add People" />}
