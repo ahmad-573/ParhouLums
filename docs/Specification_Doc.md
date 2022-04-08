@@ -10,7 +10,7 @@
 ### 1. IMPORTANT REQUESTS
 |#|Name|Description|Route|Request Object|Request Type|Response Object|Additional Note
 |-|----|-----------|---------------|------------|----------|---------------|----------|
-|1|Get Admin Status|checks if user is currently an admin in a group|/api/checkAdmin|{group_id: INT}|`POST`|response.status: 200 (success) or 400 (failure), if 400: {error: String} if 200: {status: INT}|two types of error: 1) "Not in group" 2) "Some error". If group has been deleted frontend should make changes accordingly (e.g. remove tile if on dashboard). *This request should also be made when user clicks on a tile and redirection should wait until a response is received*
+|1|Get Status|checks user status in group|/api/checkStatus|{group_id: INT}|`POST`|response.status: 200 (success) or 400 (failure), if 400: {error: String} if 200: {status: INT}|two types of error: 1) "Not in group" 2) "Some error". If group has been deleted frontend should make changes accordingly (e.g. remove tile if on dashboard). *This request should also be made when user clicks on a tile and redirection should wait until a response is received*
 
 ### 2. Sign in, Sign up, Logout
 |#|Name|Description|Route|Request Object|Request Type|Response Object|Additional Note
