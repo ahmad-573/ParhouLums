@@ -98,7 +98,7 @@ function NavBar({navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGro
   const handleOpenCreateGroup = () => {
     // setMemberList(['Saad @saad', 'Taha @taha'])
     // setMemberMap({'Saad @saad': {username: '@saad', fullname: 'Saad', user_id: 1}, 'Taha @taha': {username: '@taha', fullname: 'Taha', user_id: 2}})
-    apiInvoker('/api/getUsers').then(([data, err]) => {
+    apiInvoker('/api/getUsers', {type: 'new'}).then(([data, err]) => {
       if (err === undefined) {
         let newMemberMap = {}
         let newMemberList = []
