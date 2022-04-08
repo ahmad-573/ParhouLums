@@ -1,10 +1,18 @@
 const express = require(`express`)
 const router = express.Router()
-// import authorisation file later
+const { verifyToken } = require(`./auth`)
 
 
 
-// login, sign up and signout routes
-router.use('/api',require('./signup'))
+// Routes without verifyToken
+router.use('/api', require('./loginout'));
+router.use('/api', require('./signup'));
+
+
+router.use(verifyToken);
+
+// Routes with verifyToken
+
+
 
 module.exports = router
