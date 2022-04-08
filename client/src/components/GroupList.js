@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Card, CardContent, CardMedia, Grid, TextField, Button, Divider, Box, List, ListItem } from '@material-ui/core'
+import { Typography, Card, CardContent, CardMedia, Grid, Button, Box, List, ListItem } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import yellow_face from '../resources/yellow_face.jpeg'
 import red_face from '../resources/red_face.jpeg'

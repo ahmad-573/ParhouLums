@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import { Grid } from '@material-ui/core'
 import LoginPage from './components/LoginPage'
 import RegisterPage from './components/RegisterPage'
 import FPassPage from './components/FPassPage'

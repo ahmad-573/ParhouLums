@@ -143,7 +143,7 @@ function NavBar({navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGro
             <Grid item>
               <Grid container direction="row" justifyContent="right" alignItems="center" spacing={1}>
                   <Grid item>
-                    <Button variant="outlined" className={classes.button2} onClick={() => navTitle == 'groups' ? handleOpenCreateGroup() : handleSelectGroups()}>
+                    <Button variant="outlined" className={classes.button2} onClick={() => navTitle === 'groups' ? handleOpenCreateGroup() : handleSelectGroups()}>
                       {
                         navTitle === 'groups' ? 'Create new Group' : 'Groups'
                       }
