@@ -2,19 +2,13 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, Grid, TextField, Button, Dialog, DialogTitle, DialogActions, DialogContent, Box, IconButton, Divider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { Autocomplete } from '@material-ui/lab'
-import { Field, FieldArray, Form, Formik } from 'formik'
+import { FieldArray, Form, Formik } from 'formik'
 import * as yup from 'yup';
 import { apiInvoker } from '../apiInvoker'
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 const useStyles = makeStyles((theme) => ({
-  textBig: {
-    flexGrow: 1,
-    fontWeight: 'normal',
-    fontSize: 48,
-    color: "#737373"
-  },
   textHash: {
     flexGrow: 1,
     fontWeight: 'bold',
@@ -32,12 +26,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     fontSize: 14,
     color: theme.tertiary
-  },
-  textLabel2: {
-    flexGrow: 1,
-    fontWeight: 'bold',
-    fontSize: 14,
-    color: "#737373"
   },
   dialogPaper: {
     maxHeight: '50vh',
@@ -90,7 +78,7 @@ const validationSchemaCreateGroup = yup.object({
   .required('Member(s) required')
 });
 
-function NavBar({navTitle, setNavTitle, logout}) {
+function NavBar({group, setGroup, logout}) {
   const [openCreateGroup, setOpenCreateGroup] = React.useState(false)
   const [memberList, setMemberList] = React.useState([])
   const [selectedMember, setSelectedMember] = React.useState('')

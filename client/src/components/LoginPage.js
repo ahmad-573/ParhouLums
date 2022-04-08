@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Card, CardContent, Grid, TextField, Button, Divider, Box } from '@material-ui/core'
 import { useFormik } from 'formik'
@@ -60,9 +60,10 @@ const validationSchemaLogin = yup.object({
     .required('Password is required'),
 });
 
-function LoginPage({setIsLoggedIn, setSnackbarMsg}) {
+function LoginPage({setIsLoggedIn, setUsername, setSnackbarMsg}) {
 
   const classes = useStyles();
+  const navigate = useNavigate()
 
   const formikLogin = useFormik({
     initialValues: {
@@ -73,7 +74,9 @@ function LoginPage({setIsLoggedIn, setSnackbarMsg}) {
     onSubmit: async (values) => {
       const [data, err] = await apiInvoker('/api/login', values)
       if (err === undefined) {
+        setUsername(values.username)
         setIsLoggedIn(true)
+        navigate('/', { replace: true })
       } else {
         setSnackbarMsg('Login Error: ' + err)
       }

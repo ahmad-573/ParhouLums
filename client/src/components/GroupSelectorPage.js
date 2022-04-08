@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function GroupSelectorPage({username, setGroup, setSnackbarMsg}) {
-  const [groups, setGroups] = React.useState([{name: 'G1', group_id: 1, status: 0}, {name: 'G2', group_id: 2, status: 0}, {name: 'G3', group_id: 3, status: 0}, {name: 'G4', group_id: 4, status: 1}, {name: 'G5', group_id: 5, status: 1}, {name: 'G6', group_id: 6, status: 1}])
+  const [groups, setGroups] = React.useState([])
 
   const classes = useStyles()
 
