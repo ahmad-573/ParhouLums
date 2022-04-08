@@ -33,7 +33,7 @@ function App() {
         <SideBar/>
       }
       <Routes>
-        <Route path="/" element={isLoggedIn && group === undefined ? <div><NavBar setGroup={setGroup} setGroups={setGroups} setSnackbarMsg={setSnackbarMsg} groups={groups} logout={logout}/><GroupSelectorPage username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups}/></div> : <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/>} />
+        <Route path="/" element={isLoggedIn && group === undefined ? <div><NavBar setGroup={setGroup} setGroups={setGroups} setSnackbarMsg={setSnackbarMsg} groups={groups} logout={logout} navTitle={navTitle} setNavTitle={setNavTitle}/><GroupSelectorPage username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups}/></div> : <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/>} />
         <Route path="/register" element={<RegisterPage setSnackbarMsg={setSnackbarMsg}/>} />
         <Route path="/forgot-password" element={<FPassPage setSnackbarMsg={setSnackbarMsg}/>} />
         {/* OLD: Just An Idea for showing components with both NavBar and SideBar */}
