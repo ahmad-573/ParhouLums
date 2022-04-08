@@ -46,7 +46,7 @@ function App() {
         {/* SideBar */}
         {
           isLoggedIn && group !== undefined &&
-          <SideBar username={username} setNavTitle={setNavTitle} group={group} setSnackbarMsg={setSnackbarMsg} unSetGroup={unSetGroup}/>
+          <SideBar username={username} setNavTitle={setNavTitle} group={group} setSnackbarMsg={setSnackbarMsg} unSetGroup={unSetGroup} setGroup={setGroup}/>
         }
         <Box
           component="main"

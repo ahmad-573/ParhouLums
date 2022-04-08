@@ -116,7 +116,7 @@ const validationSchemaSettings = yup.object({
   .required('New Password is required'),
 });
 
-function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg}) {
+function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setGroup}) {
   const [openPromoteMember, setOpenPromoteMember] = React.useState(false)
   const [openRemoveMember, setOpenRemoveMember] = React.useState(false)
   const [openAddMember, setOpenAddMember] = React.useState(false)
@@ -153,19 +153,29 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg}) {
 
   function IconLinkButton({link, icon, buttonName}) {
 
+    const onClickIconLinkButton = async () => {
+      const [data, err] = await apiInvoker('/api/checkStatus', {group_id: group.group_id})
+      if (err === undefined) {
+        let newGroup = {...group}
+        newGroup.status = data.status
+        setGroup(newGroup)
+        navigate(link, { replace: true })
+      } else {
+        navigate('/', { replace: true })
+      }
+    }
+
     return (
-      <Link to={link}>
-        <IconButton onClick={() => setNavTitle(buttonName)}>
-          <Grid container direction='row' justifyContent='flex-start' alignItems='center' spacing={1}>
-            <Grid item> 
-              {icon}
-            </Grid>
-            <Grid item>
-              <Typography className={classes.textLabel} align='left'>{buttonName}</Typography>
-            </Grid>
+      <IconButton onClick={onClickIconLinkButton}>
+        <Grid container direction='row' justifyContent='flex-start' alignItems='center' spacing={1}>
+          <Grid item> 
+            {icon}
           </Grid>
-        </IconButton>
-      </Link>
+          <Grid item>
+            <Typography className={classes.textLabel} align='left'>{buttonName}</Typography>
+          </Grid>
+        </Grid>
+      </IconButton>
     )
   }
 
