@@ -11,9 +11,9 @@ import SideBar from './components/SideBar'
 
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(true)
-  const [username, setUsername] = React.useState('@saad')
-  const [group, setGroup] = React.useState({name: 'G1', group_id: 1, status: 1}) // {name: 'G1', group_id: 1, status: 1}
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false)
+  const [username, setUsername] = React.useState('')
+  const [group, setGroup] = React.useState(undefined) // {name: 'G1', group_id: 1, status: 1}
   const [groups, setGroups] = React.useState([])
   
   const [navTitle, setNavTitle] = React.useState('groups')
@@ -21,11 +21,15 @@ function App() {
   
   const sidebarWidth = 300
 
-  function logout() {
+  function unSetGroup() {
     setGroups([])
     setGroup(undefined)
-    setUsername('')
     setNavTitle('groups')
+  }
+
+  function logout() {
+    unSetGroup()
+    setUsername('')
     setIsLoggedIn(false)
   }
 
@@ -42,7 +46,7 @@ function App() {
         {/* SideBar */}
         {
           isLoggedIn && group !== undefined &&
-          <SideBar username={username} setNavTitle={setNavTitle}/>
+          <SideBar username={username} setNavTitle={setNavTitle} group={group} setSnackbarMsg={setSnackbarMsg} unSetGroup={unSetGroup}/>
         }
         <Box
           component="main"
