@@ -21,7 +21,7 @@ router.post('/login', async (req, res) => {
                     "SELECT group_id FROM group_membership WHERE user_id = $1 AND status = 1", [q1.rows[0].user_id]
                 );
                 const token = createToken(q1.rows[0].user_id, q2.rows);
-                res.cookie('token', token).status(200).json({ user_id: q1.rows[0].user_id });
+                res.cookie('token', token).status(200).json({});
             } else {
                 res.status(400).json({ error: 'Password is not correct.' });
             }

@@ -4,10 +4,14 @@ const { verifyToken } = require(`./auth`)
 
 
 
-// login, sign up and signout routes
+// Routes without verifyToken
 router.use('/api', require('./loginout'));
-router.use(verifyToken);
 router.use('/api', require('./signup'));
+
+
+router.use(verifyToken);
+
+// Routes with verifyToken
 
 
 
