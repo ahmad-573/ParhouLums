@@ -1,6 +1,6 @@
 const jwt = require(`jsonwebtoken`)
-require('dotenv').config()
-const key = "sfsffjdsgbdsjd";     //process.env.SECRET_KEY;         Need to fix (Ahmad)
+require('dotenv').config({path:__dirname+'../.env'})
+const key = process.env.SECRET_KEY; 
 
 
 function createToken(userid, query_res) {
