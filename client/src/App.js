@@ -1,21 +1,25 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { Box, Toolbar } from '@material-ui/core'
 import LoginPage from './components/LoginPage'
 import RegisterPage from './components/RegisterPage'
 import FPassPage from './components/FPassPage'
 import GroupSelectorPage from './components/GroupSelectorPage'
 import ErrorPopup from './components/ErrorPopup'
 import NavBar from './components/NavBar'
-import SideBar from './components/sidebar'
+import SideBar from './components/SideBar'
+
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false)
-  const [username, setUsername] = React.useState('')
-  const [group, setGroup] = React.useState(undefined)
+  const [isLoggedIn, setIsLoggedIn] = React.useState(true)
+  const [username, setUsername] = React.useState('@saad')
+  const [group, setGroup] = React.useState({name: 'G1', group_id: 1, status: 1}) // {name: 'G1', group_id: 1, status: 1}
   const [groups, setGroups] = React.useState([])
-
+  
   const [navTitle, setNavTitle] = React.useState('groups')
   const [snackbarMsg, setSnackbarMsg] = React.useState('')
+  
+  const sidebarWidth = 300
 
   function logout() {
     setGroups([])
@@ -27,18 +31,32 @@ function App() {
 
   return (
     <Router>
-      <ErrorPopup snackbarMsg={snackbarMsg} setSnackbarMsg={setSnackbarMsg}/>
-      {
-        isLoggedIn && group !== undefined &&
-        <SideBar/>
-      }
-      <Routes>
-        <Route path="/" element={isLoggedIn && group === undefined ? <div><NavBar setGroup={setGroup} setGroups={setGroups} setSnackbarMsg={setSnackbarMsg} groups={groups} logout={logout} navTitle={navTitle} setNavTitle={setNavTitle}/><GroupSelectorPage username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups}/></div> : <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/>} />
-        <Route path="/register" element={<RegisterPage setSnackbarMsg={setSnackbarMsg}/>} />
-        <Route path="/forgot-password" element={<FPassPage setSnackbarMsg={setSnackbarMsg}/>} />
-        {/* OLD: Just An Idea for showing components with both NavBar and SideBar */}
-        {/* <Route path='/temp' element={(isLoggedIn && group !== undefined) ? <CompAdjustor comp={(() => <GroupSelectorPage/>)()} navTitle={navTitle} setNavTitle={setNavTitle} logout={logout}/> : <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg}/>} /> */}
-      </Routes>
+      <Box sx={{ display: "flex" }}>
+        {/* NavBar */}
+        {
+          isLoggedIn && 
+          <NavBar setGroup={setGroup} setGroups={setGroups} setSnackbarMsg={setSnackbarMsg} groups={groups} logout={logout} navTitle={navTitle} setNavTitle={setNavTitle} sidebarWidth={group === undefined ? 0 : sidebarWidth}/>
+        }
+        {/* ErrorPopup */}
+        <ErrorPopup snackbarMsg={snackbarMsg} setSnackbarMsg={setSnackbarMsg}/>
+        {/* SideBar */}
+        {
+          isLoggedIn && group !== undefined &&
+          <SideBar username={username} setNavTitle={setNavTitle}/>
+        }
+        <Box
+          component="main"
+          style={{ flexGrow: 1, bgcolor: "background.default"}}
+        >
+          <Toolbar />
+          {/* Routes */}
+          <Routes>
+            <Route path='/' element={(isLoggedIn && group === undefined) ? <GroupSelectorPage username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
+            <Route path='/register' element={<RegisterPage setSnackbarMsg={setSnackbarMsg}/>}/>
+            <Route path='/forgot-password' element={<FPassPage setSnackbarMsg={setSnackbarMsg}/>}/>
+          </Routes>
+        </Box>
+      </Box>
     </Router>
   );
 }

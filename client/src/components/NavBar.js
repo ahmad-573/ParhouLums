@@ -7,7 +7,8 @@ import * as yup from 'yup';
 import { apiInvoker } from '../apiInvoker'
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
   textHash: {
@@ -79,7 +80,7 @@ const validationSchemaCreateGroup = yup.object({
   .required('Member(s) required')
 });
 
-function NavBar({navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGroups, groups}) {
+function NavBar({navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGroups, groups, sidebarWidth}) {
   const [openCreateGroup, setOpenCreateGroup] = React.useState(false)
   const [memberList, setMemberList] = React.useState([]) // [{username, fullname, user_id}]
   const [memberMap, setMemberMap] = React.useState({}) // {`${fullname} ${username}`: {username, fullname, user_id}}
@@ -122,42 +123,40 @@ function NavBar({navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGro
   }
 
   return (
-    <div>
-      <AppBar position="static">
-        <Toolbar className={classes.toolbar}>
-        <Grid container direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-            <Grid item>
-              <Grid container direction="row" justifyContent="left" alignItems="center" spacing={1}>
-                  <Grid item>
-                    <Typography className={classes.textHash} align='left'>#</Typography>
-                  </Grid>
-                  <Grid item>  
-                    <Typography className={classes.textLabel} align='left'>
-                      {
-                        navTitle
-                      }
-                    </Typography>
-                  </Grid>
-              </Grid>
-            </Grid>
-            <Grid item>
-              <Grid container direction="row" justifyContent="right" alignItems="center" spacing={1}>
-                  <Grid item>
-                    <Button variant="outlined" className={classes.button2} onClick={() => navTitle === 'groups' ? handleOpenCreateGroup() : handleSelectGroups()}>
-                      {
-                        navTitle === 'groups' ? 'Create new Group' : 'Groups'
-                      }
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    <Button variant="contained" className={classes.buttonLogout} onClick={logout}>Logout</Button>
-                  </Grid>
-              </Grid>
+    <AppBar position="fixed" style={{ width: `calc(100% - ${sidebarWidth}px)`, ml: `${sidebarWidth}px` }} >
+      {/* className={classes.toolbar} */}
+      <Toolbar  >
+      <Grid container direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+          <Grid item>
+            <Grid container direction="row" justifyContent="left" alignItems="center" spacing={1}>
+                <Grid item>
+                  <Typography className={classes.textHash} align='left'>#</Typography>
+                </Grid>
+                <Grid item>  
+                  <Typography className={classes.textLabel} align='left'>
+                    {
+                      navTitle
+                    }
+                  </Typography>
+                </Grid>
             </Grid>
           </Grid>
-        </Toolbar>
-      </AppBar>
-
+          <Grid item>
+            <Grid container direction="row" justifyContent="right" alignItems="center" spacing={1}>
+                <Grid item>
+                  <Button variant="outlined" className={classes.button2} onClick={() => navTitle === 'groups' ? handleOpenCreateGroup() : handleSelectGroups()}>
+                    {
+                      navTitle === 'groups' ? 'Create new Group' : 'Groups'
+                    }
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button variant="contained" className={classes.buttonLogout} onClick={logout}>Logout</Button>
+                </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Toolbar>
       <Dialog classes={{ paper: classes.dialogPaper }} open={openCreateGroup} onClose={handleCloseCreateGroup} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Create New Group</DialogTitle>
           <DialogContent>
@@ -278,7 +277,7 @@ function NavBar({navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGro
             </Formik>
           </DialogContent>
       </Dialog>
-    </div>
+    </AppBar>
   )
 }
 
