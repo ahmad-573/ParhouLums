@@ -37,7 +37,11 @@
 |4|Promote participants|admin presses promote members to admin|/api/promoteToAdmin|{group_id: INT, members: list(user_id: INT)}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|Backend should check that the user_id's sent do exist?
 |5|Rename group|any member renames group|/api/renameGroup|{group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
 |6|Leave group|any member leaves group|/api/leaveGroup|{group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|If error says "sole admin", ask/alert to first make new admin(s).
-|7|Update User Information|Updates the information of the user|/api/updateInformation|{username: STR, old_password: STR, new_password: STR}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}||
+
+### 5. User management
+|#|Name|Description|Route|Request Object|Request Type|Response Object|Additional Note
+|-|----|-----------|---------------|------------|----------|---------------|----------|
+|1|Update User Information|Updates the information of the user|/api/updateInformation|{username: STR, old_password: STR, new_password: STR}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}||
 
 
 
