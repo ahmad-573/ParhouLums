@@ -21,6 +21,7 @@ function App() {
     setGroups([])
     setGroup(undefined)
     setUsername('')
+    setNavTitle('groups')
     setIsLoggedIn(false)
   }
 
