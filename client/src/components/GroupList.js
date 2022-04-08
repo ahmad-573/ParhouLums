@@ -1,7 +1,9 @@
 import React from 'react';
-import { Typography, Card, CardContent, CardMedia, Grid, TextField, Button, Divider, Box } from '@material-ui/core'
+import { Typography, Card, CardContent, CardMedia, Grid, TextField, Button, Divider, Box, List, ListItem } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import yellow_face from '../resources/yellow_face.jpeg'
+import red_face from '../resources/red_face.jpeg'
+import { useNavigate } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   textBig: {
@@ -28,18 +30,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     color: "#737373"
   },
-  cardRoot: {
-    backgroundColor: theme.primary,
-    width: 520,
-    maxHeight: 500,
-  },
-  button: {
-    backgroundColor: '#015719',
-    color: '#ebebeb',
-    '&:hover': {
-      backgroundColor: '#007821'
-    }
-  },
   media: {
     height: 150,
     width: '100%'
@@ -52,24 +42,31 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function GroupList({type}) {
+function GroupList({type, groups, setGroup}) {
 
   const classes = useStyles()
+  const navigate = useNavigate()
 
-  function GroupTab({imagePath, groupName}) {
+  const onGroupSelect = (group) => {
+    group.status = type === 'Admin' ? 1 : 0
+    setGroup(group)
+    navigate('/chat', { replace: true })
+  }
+
+  function GroupTab({image, group}) {
 
     return (
-      <Card>
+      <Card onClick={() => onGroupSelect(group)}>
         <Box style={{ padding: 10 }}>
           <CardMedia
             component='img'
             className={classes.media}
-            image={imagePath}
+            image={image}
             alt='User Image'
           />
           <CardContent className={classes.cardContent}>
             <Typography className={classes.textHeading} align='center'>
-              {groupName}
+              {group.name}
             </Typography>
           </CardContent>
         </Box>
@@ -77,13 +74,57 @@ function GroupList({type}) {
     )
   }
 
+  function GroupTabTripplet({groupTripplet, image}) {
+
+    return (
+      <ListItem>
+        <Grid container direction='row' justifyContent='flex-start' alignContent='center' spacing={2}>
+          {groupTripplet.map((obj, index) => <Grid item>
+            <GroupTab image={image} group={obj}/>
+          </Grid>)}
+        </Grid>
+      </ListItem>
+    )
+  }
+
+  function GroupScroller({image}) {
+    
+    function generateListItems() {
+      let remainingGroups = [...groups]
+      let currentGroups = []
+      let listItems = []
+      
+      while (remainingGroups.length !== 0) {
+        currentGroups = remainingGroups.slice(0, 3)
+        remainingGroups = remainingGroups.slice(currentGroups.length)
+        listItems.push(
+          <GroupTabTripplet groupTripplet={currentGroups} image={image}/>
+        )
+      }
+
+      return listItems
+    }
+    
+    return (
+      <List style={{ maxHeight: 500, overflow: 'auto' }}>
+        {
+          generateListItems()
+        }
+      </List>
+    )
+  }
+
   return (
-    <Grid container direction='column'>
+    <Grid container direction='column' justifyContent='center' alignItems='center'>
       <Grid item>
-        
+        <Button disabled variant='outlined'>
+          <Typography className={classes.textHeading}>
+            {type} Access
+          </Typography>
+        </Button>
       </Grid>
       <Grid item>
-        
+        <GroupScroller image={type === 'Admin' ? red_face : yellow_face}/>
       </Grid>
     </Grid>
   )

@@ -12,7 +12,6 @@ import SideBar from './components/sidebar'
 function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false)
   const [username, setUsername] = React.useState('')
-  // Username state
   const [group, setGroup] = React.useState(undefined)
   const [snackbarMsg, setSnackbarMsg] = React.useState('')
 
@@ -30,7 +29,7 @@ function App() {
         <SideBar/>
       }
       <Routes>
-        <Route path="/" element={isLoggedIn ? <div><NavBar logout={logout}/><GroupSelectorPage username={username}/></div> : <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg}/>} />
+        <Route path="/" element={isLoggedIn && group === undefined ? <div><NavBar logout={logout}/><GroupSelectorPage username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg}/></div> : <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg}/>} />
         <Route path="/register" element={<RegisterPage setSnackbarMsg={setSnackbarMsg}/>} />
         <Route path="/forgot-password" element={<FPassPage setSnackbarMsg={setSnackbarMsg}/>} />
         {/* OLD: Just An Idea for showing components with both NavBar and SideBar */}
