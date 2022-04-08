@@ -1,9 +1,12 @@
 const jwt = require(`jsonwebtoken`)
 require('dotenv').config()
-const key = process.env.SECRET_KEY;
+const key = "sfsffjdsgbdsjd";     //process.env.SECRET_KEY;         Need to fix (Ahmad)
 
 
-function createToken(userid, admin_list) {
+function createToken(userid, query_res) {
+    const admin_list = [];
+    for (let i = 0; i < query_res.length; i++)
+        admin_list.push(query_res[i].group_id);
     return jwt.sign({ uid: userid, admin: JSON.stringify(admin_list) }, key, { expiresIn: 86400 });
 }
 
