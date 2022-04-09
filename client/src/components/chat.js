@@ -1,9 +1,20 @@
 import React from 'react'
 
-function chat() {
+function Chat() {
   return (
-    <div class="text-8xl ml-[248px]">test: chat</div>
+    <div>
+      <div class="text-8xl ml-[248px] z-20">test: chat</div>
+      <div class="text-8xl ml-[248px] z-20">test: chat</div>
+      <div class="text-8xl ml-[248px] z-20">test: chat</div>
+      <div class="text-8xl ml-[248px] z-20">test: chat</div>
+      <div class="text-8xl ml-[248px] z-20">test: chat</div>
+      <div class="text-8xl ml-[248px] z-20">test: chat</div>
+      <div class="text-8xl ml-[248px] z-20">test: chat</div>
+      <div class="text-8xl ml-[248px] z-20">test: chat</div>
+      <div class="text-8xl ml-[248px] z-20">test: chat</div>
+      <div class="text-8xl ml-[248px] z-20">test: chat</div>
+    </div>
   )
 }
 
-export default chat
+export default Chat

@@ -1,106 +1,135 @@
-import React from 'react'
-import { NavLink } from "react-router-dom";
-import { LogoIcon } from './CustomIcons'
-import { makeStyles } from "@material-ui/core/styles";
-import { AnnotationIcon, HashtagIcon, ClipboardListIcon, DocumentTextIcon, FolderOpenIcon, LogoutIcon, ChevronRightIcon } from '@heroicons/react/outline'
-import { FiSettings } from 'react-icons/fi';
+import React from 'react';
+// import InboxIcon from '@material-ui/icons/InboxIcon';
+// import MailIcon from '@material-ui/icons/MailIcon';
+import ChatBubbleOutlineOutlinedIcon from '@material-ui/icons/ChatBubbleOutlineOutlined';
+import FormatListBulletedOutlinedIcon from '@material-ui/icons/FormatListBulletedOutlined';
+import NoteOutlinedIcon from '@material-ui/icons/NoteOutlined';
+import FolderOpenOutlinedIcon from '@material-ui/icons/FolderOpenOutlined';
+import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
+import InboxIcon from '@material-ui/icons/RemoveCircle';
+import { AppBar, Drawer, Toolbar, List, ListItemText, CssBaseline, ListItem, ListItemIcon, Typography, Box, Divider, Button } from '@material-ui/core'
+import { LogoIcon, LogoBigIcon } from './CustomIcons'
 
-const useStyles = makeStyles((theme) => ({
-  '@global':{
-      body:{
-        backgroundColor:"#FFFFFF"
-    }
-  },
-  otherstyles:{
-    //  other styles ....
-  },
+const drawerWidth = 248;
 
-}));
-
-function Sidebar() {
-    const classes = useStyles();
+function Sidebar(props) {
+    const { href, icon, title, ...others } = props;
     return (
-        <div className={classes.body}>
-            <div class="relative py-3 z-10 w-[248px] h-screen bg-[#F2F3F5]">
-                <div class="relative w-full h-[30px] -mt-1 mb-5 px-3 border-b-2 border-[#E3E5E8]">
-                    <div class="flex pl-1 mb-5">
-                        <LogoIcon/>
-                            <span class="self-center text-[16px] ml-[11px] font-semibold whitespace-nowrap text-[#060607]">Salam Anwar!</span>
-                        <FiSettings class="absolute right-3 h-5 text-[16px]"/>
+    
+    <div>
+            <Drawer
+                PaperProps={{
+                    sx: {
+                      backgroundColor: 'neutral.900',
+                      color: '#FFFFFF',
+                      width: 280
+                    }
+                  }}
+                sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
+                variant="permanent"
+                anchor="left"
+            >
+                <Box
+                    sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%'
+                    }}
+                >
+                    <div>
+                        {/* <Box sx={{ p: 0 }}>
+                        </Box> */}
+                        <Box sx={{ mx: 0 }}>
+                            <Box
+                            sx={{
+                                alignItems: 'center',
+                                backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                // px: 1,
+                                py: '7px',
+                                borderRadius: 1
+                            }}
+                            >
+                                <div>
+                                    <List>
+                                        <ListItem button key="toolbar">
+                                            <ListItemIcon >
+                                                <LogoIcon />
+                                            </ListItemIcon>
+                                            <Typography
+                                            color="inherit"
+                                            variant="subtitle1"
+                                            >
+                                            Salam Anwar!
+                                            </Typography>
+                                            <FormatListBulletedOutlinedIcon
+                                                sx={{
+                                                color: 'neutral.500',
+                                                width: 14,
+                                                height: 14
+                                                }}
+                                            />
+                                        </ListItem>
+                                    </List>
+                                </div>
+                            </Box>
+                        </Box>
                     </div>
-                </div>
-                <ul class="space-y-2 px-2">
-                    <div className='w-[232px] h-[23px] -mb-2'>
-                        <div class="flex items-center text-gray-900">
-                            <ChevronRightIcon className='text-[#4F5659] h-3 w-3'/>
-                            <span className="text-[#4F5659] flex-1 ml-1 text-sm font-semibold">
-                                text channels
-                            </span >
-                        </div>
-                    </div>
-                    <li className='w-[232px] bg-[#E5E5E5] rounded h-[38px]'>
-                        <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-[#D3D7DB] hover:font-semibold">
-                        <AnnotationIcon className='text-[#4F5659] h-5 w-5'/>
-                        <NavLink className="nav-link text-[#060607] flex-1 ml-3 whitespace-nowrap" to="/chat">
-                            chat
-                        </NavLink>
-                        </a>
-                    </li>
-                    <div className='w-[232px] h-[23px]'>
-                        <div class="flex items-center text-gray-900 mt-6">
-                            <ChevronRightIcon className='text-[#4F5659] h-3 w-3'/>
-                            <span className="text-[#4F5659] flex-1 ml-1 text-sm font-semibold">
-                                tools
-                            </span >
-                        </div>
-                    </div>
-                    <li className='w-[232px] bg-[#E5E5E5] rounded h-[38px]'>
-                        <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-[#D3D7DB] -mt-2 hover:font-semibold">
-                        <ClipboardListIcon className='text-[#4F5659] h-5 w-5'/>
-                        <NavLink className="nav-link text-[#060607] flex-1 ml-3 whitespace-nowrap" to="/about">
-                            task-list
-                        </NavLink>
-                        </a>
-                    </li>
-                    <li className='w-[232px] bg-[#E5E5E5] rounded h-[38px]'>
-                        <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-[#D3D7DB] hover:font-semibold">
-                        <DocumentTextIcon className='text-[#4F5659] h-5 w-5'/>
-                        <NavLink className="nav-link text-[#060607] flex-1 ml-3 whitespace-nowrap" to="/contact">
-                            notes
-                        </NavLink>
-                        </a>
-                    </li>
-                    <li className='w-[232px] bg-[#E5E5E5] rounded h-[38px]'>
-                        <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-[#D3D7DB] hover:font-semibold">
-                       <FolderOpenIcon className='text-[#4F5659] h-5 w-5'/>
-                        <NavLink className="nav-link text-[#060607] flex-1 ml-3 whitespace-nowrap" to="/blog">
-                            resources
-                        </NavLink>
-                        </a>
-                    </li>
-                    <li className='w-[232px] rounded h-[38px]'>
-                        <a href="#" class="absolute flex justify-center items-center h-screen w-full h-[52px] bottom-0 left-0 self-center text-[16px] bg-[#D3D7DB] hover:font-semibold">
-                            <LogoutIcon className='text-[#F05454] h-5 w-5 mr-2 hover:text-red-600 hover:font-semibold'/>
-                            <NavLink className="text-[#F05454] inline-block align-middle whitespace-nowrap hover:font-semibold" to="/blog">
-                                Leave Group
-                            </NavLink>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            {/* Navbar */}
-            <div class="absolute flex items-stretch w-screen z-0 h-[38px] bg-white top-0 border-b-2 border-[#E3E5E8]">
-                <div class="flex self-center pl-1 ml-[248px]">
-                    <HashtagIcon class="text-[#4F5659] h-5 w-4" />
-                        <span class="self-center text-[#4F5659] text-[15px] ml-[2px] font-semibold whitespace-nowrap">[page]</span>
-                </div>
-                <div class="flex self-center absolute right-3 w-1/12 h-3/4 grid grid-cols-2 gap-2">
-                    <button type="button" class="text-[#4F5659] ring-[#4F5659] ring-opacity-80 bg-white rounded ring-1 hover:font-semibold font-medium text-sm">Groups</button>
-                    <button type="button" class="text-white ring-1 ring-[#E01E5A] bg-[#E01E5A] rounded hover:font-semibold font-medium text-sm">Logout</button>
-                </div>
-            </div>
-        </div>
-    )
+                    <Divider
+                    sx={{
+                        borderColor: '#2D3748',
+                        my: 3
+                    }}
+                    />
+                    <Box sx={{ flexGrow: 1 }}>
+                        <List>
+                            <ListItem button key="chat">
+                                <ListItemIcon >
+                                    <ChatBubbleOutlineOutlinedIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="chat" />
+                            </ListItem>
+                            <ListItem button key="task-list">
+                                <ListItemIcon>
+                                    <FormatListBulletedOutlinedIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="task-list" />
+                            </ListItem>
+                            <ListItem button key="notes">
+                                <ListItemIcon>
+                                    <NoteOutlinedIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="notes" />
+                            </ListItem>
+                            <ListItem button key="resources">
+                                <ListItemIcon>
+                                    <FolderOpenOutlinedIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="resources" />
+                            </ListItem>
+                        </List>
+                    </Box>
+                    <Box position="absolute" bottom="0px" sx={{flexGrow: 1}}>
+                        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                            <ListItem button key="bottom" disablePadding>
+                                <ListItemIcon >
+                                 <ExitToAppOutlinedIcon/>
+                                </ListItemIcon>
+                                <Typography
+                                color="inherit"
+                                variant="subtitle1"
+                                >
+                                Salam Anwar!
+                                </Typography>
+                            </ListItem>
+                        </List>
+                    </Box>
+                </Box>
+            </Drawer>
+    </div>
+  );
 }
 
-export default Sidebar
+export default Sidebar;
