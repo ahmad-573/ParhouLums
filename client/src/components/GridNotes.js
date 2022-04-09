@@ -80,7 +80,7 @@ function GridNotes(){
     // )
     return(
         <div>
-            <div class="grid grid-rows-2 grid-cols-2 gap-2">
+            <div class="grid grid-rows-2 grid-cols-2 gap-2 ">
                 {flashcards.map(flashcard => {
                     let index1 = flashcards.indexOf(flashcard) 
                     if(index1 >= index && index1 <= (index + 3)){
