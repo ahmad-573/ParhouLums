@@ -79,21 +79,19 @@ function GridNotes(){
     //     </div>        
     // )
     return(
-        <div>
-            <div class="grid grid-rows-2 grid-cols-2 gap-2 ">
+            <div class="wrapper">
                 {flashcards.map(flashcard => {
                     let index1 = flashcards.indexOf(flashcard) 
                     if(index1 >= index && index1 <= (index + 3)){
-                        return <Note flashcard = {flashcard} key = {flashcard.id}/>
+                        return <div><Note flashcard = {flashcard} key = {flashcard.id}/></div>
                     }
                 })}
             </div>
-            <Button variant = "outlined" disabled = {(index2*4) >= flashcards.length} onClick = {e => {setIndex(index + 4); setIndex2(index2 + 1)}}> Next</Button>
-            <Button variant = "outlined" disabled = {index == 0} onClick = {e => {setIndex(index - 4); setIndex2(index2 - 1)}}> Previous</Button>
-        </div>
     )
 }
 
+{/* <Button variant = "outlined" disabled = {(index2*4) >= flashcards.length} onClick = {e => {setIndex(index + 4); setIndex2(index2 + 1)}}> Next</Button>
+            <Button variant = "outlined" disabled = {index == 0} onClick = {e => {setIndex(index - 4); setIndex2(index2 - 1)}}> Previous</Button> */}
 
 // {flashcards.map(flashcard => {
 

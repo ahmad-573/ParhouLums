@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 function Note({flashcard}, {key}){
-    const classes = useStyles();
+    // const classes = useStyles();
     const [flip, setFlip] = useState(false)
     return(
         <div class= {`note ${flip ? 'cardflip' : ''}`}>
