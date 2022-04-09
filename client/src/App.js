@@ -37,7 +37,7 @@ function App() {
         {/* <Route path = "/frontcard" element = {<FrontSideNote/>}/> */}
         {/* <Route path = "/backcard" element = {<BackSideNote/>}/> */}
         {/* <Route path = "/card" element = {<Note/>}/> */}
-        {/* <Route path = "/gridcard" element = {<GridNotes/>}/> */}
+        <Route path = "/gridcard" element = {<GridNotes/>}/>
         {/* OLD: Just An Idea for showing components with both NavBar and SideBar */}
         {/* <Route path='/temp' element={(isLoggedIn && group !== undefined) ? <CompAdjustor comp={(() => <GroupSelectorPage/>)()} navTitle={navTitle} setNavTitle={setNavTitle} logout={logout}/> : <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg}/>} /> */}
       </Routes>

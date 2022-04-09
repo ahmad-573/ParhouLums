@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import './notestyle.css'
 
-function FrontSideNote({frontside}){
+function FrontSideNote({title}){
     return(
         <div class="frontside">
-            This is the frontside
+            {title}
         </div>
     )
 }

@@ -4,13 +4,14 @@ import BackSideNote from "./BackSideNote";
 import './notestyle.css'
 
 
-function Note(){
+function Note({flashcard}, {key}){
     const [flip, setFlip] = useState(false)
     return(
         <div class={`note ${flip ? 'cardflip' : ''}`}
             onClick={() => setFlip(!flip)}>
-        <FrontSideNote/>
-        <BackSideNote/>
+                
+        <FrontSideNote title={flashcard.title} fkey = {key}/>
+        <BackSideNote description={flashcard.description} bkey = {key}/>
         </div>
     )
 }

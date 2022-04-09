@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import './notestyle.css'
 
-function BackSideNote({backside}){
+function BackSideNote({description}){
     return(
         <div class="backside">
-            This is the backside
+            {description}
         </div>
     )
 }

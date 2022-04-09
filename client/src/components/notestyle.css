@@ -11,24 +11,36 @@
     width: 100%; 
     height: 100%;
     backface-visibility: hidden;
-    background: #ffc728;
+    display: flex;
+    justify-content: center;
+    /* align-content: center; */
+    /* background: #ffc728; */
     color: #333;
 }
+
+.star{
+    justify-content: center;
+}
+
 
 .backside{
     position: absolute;
     width: 100%; 
     height: 100%; 
     backface-visibility: hidden; 
-    background: #ffc728;
+    display: flex;
+    justify-content: center;
+    /* background: #ffc728; */
     color: #333;
     transform: rotateY(180deg);
 }
 
 .note{
     position: relative;
-    width: 250px;
-    height: 320px; 
+    width: 300px;
+    height: 200px; 
+    /* display: flex; */
+    /* justify-content: center; */
     transform-style: preserve-3d; 
     transition: all 0.5s ease; 
     background: yellow;
