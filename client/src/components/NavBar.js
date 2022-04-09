@@ -2,19 +2,15 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, Grid, TextField, Button, Dialog, DialogTitle, DialogActions, DialogContent, Box, IconButton, Divider } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { Autocomplete } from '@material-ui/lab'
-import { Field, FieldArray, Form, Formik } from 'formik'
+import { FieldArray, Form, Formik } from 'formik'
 import * as yup from 'yup';
 import { apiInvoker } from '../apiInvoker'
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { useNavigate } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
-  textBig: {
-    flexGrow: 1,
-    fontWeight: 'normal',
-    fontSize: 48,
-    color: "#737373"
-  },
   textHash: {
     flexGrow: 1,
     fontWeight: 'bold',
@@ -32,12 +28,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     fontSize: 14,
     color: theme.tertiary
-  },
-  textLabel2: {
-    flexGrow: 1,
-    fontWeight: 'bold',
-    fontSize: 14,
-    color: "#737373"
   },
   dialogPaper: {
     maxHeight: '50vh',
@@ -90,15 +80,41 @@ const validationSchemaCreateGroup = yup.object({
   .required('Member(s) required')
 });
 
-function NavBar({navTitle, setNavTitle, logout}) {
+function NavBar({navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGroups, groups, sidebarWidth}) {
   const [openCreateGroup, setOpenCreateGroup] = React.useState(false)
-  const [memberList, setMemberList] = React.useState([])
+  const [memberList, setMemberList] = React.useState([]) // [{username, fullname, user_id}]
+  const [memberMap, setMemberMap] = React.useState({}) // {`${fullname} ${username}`: {username, fullname, user_id}}
   const [selectedMember, setSelectedMember] = React.useState('')
 
   const classes = useStyles()
+  const navigate = useNavigate()
+
+  const handleSelectGroups = () => {
+    setNavTitle('groups')
+    setGroup(undefined)
+    navigate('/', { replace: true })
+  }
 
   const handleOpenCreateGroup = () => {
-    setMemberList(['Saad', 'Taha', 'Moaiz', 'Fahad', 'Ahmad'])
+    // setMemberList(['Saad @saad', 'Taha @taha'])
+    // setMemberMap({'Saad @saad': {username: '@saad', fullname: 'Saad', user_id: 1}, 'Taha @taha': {username: '@taha', fullname: 'Taha', user_id: 2}})
+    apiInvoker('/api/getUsers', {type: 'new'}).then(([data, err]) => {
+      if (err === undefined) {
+        let newMemberMap = {}
+        let newMemberList = []
+        for (let m of data.users) {
+          const key = m.fullname + ' ' + m.username
+          newMemberList.push(key)
+          newMemberMap[key] = m
+        }
+        setMemberMap(newMemberMap)
+        setMemberList(newMemberList)
+      } else {
+        setSnackbarMsg('Create Group Error: ' + err)
+      }
+    })
+
+    setSelectedMember('')
     setOpenCreateGroup(true)
   }
 
@@ -107,36 +123,40 @@ function NavBar({navTitle, setNavTitle, logout}) {
   }
 
   return (
-    <div>
-      <AppBar position="static">
-        <Toolbar className={classes.toolbar}>
-        <Grid container direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-            <Grid item>
-              <Grid container direction="row" justifyContent="left" alignItems="center" spacing={1}>
-                  <Grid item>
-                    <Typography className={classes.textHash} align='left'>#</Typography>
-                  </Grid>
-                  <Grid item>  
-                    <Typography className={classes.textLabel} align='left'>groups</Typography>
-                  </Grid>
-              </Grid>
-            </Grid>
-            <Grid item>
-              <Grid container direction="row" justifyContent="right" alignItems="center" spacing={1}>
-                  <Grid item>
-                    <Button variant="outlined" className={classes.button2} onClick={handleOpenCreateGroup}>
-                      Create new Group
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    <Button variant="contained" className={classes.buttonLogout} onClick={logout}>Logout</Button>
-                  </Grid>
-              </Grid>
+    <AppBar position="fixed" style={{ width: `calc(100% - ${sidebarWidth}px)`, ml: `${sidebarWidth}px` }} >
+      {/* className={classes.toolbar} */}
+      <Toolbar  >
+      <Grid container direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+          <Grid item>
+            <Grid container direction="row" justifyContent="left" alignItems="center" spacing={1}>
+                <Grid item>
+                  <Typography className={classes.textHash} align='left'>#</Typography>
+                </Grid>
+                <Grid item>  
+                  <Typography className={classes.textLabel} align='left'>
+                    {
+                      navTitle
+                    }
+                  </Typography>
+                </Grid>
             </Grid>
           </Grid>
-        </Toolbar>
-      </AppBar>
-
+          <Grid item>
+            <Grid container direction="row" justifyContent="right" alignItems="center" spacing={1}>
+                <Grid item>
+                  <Button variant="outlined" className={classes.button2} onClick={() => navTitle === 'groups' ? handleOpenCreateGroup() : handleSelectGroups()}>
+                    {
+                      navTitle === 'groups' ? 'Create new Group' : 'Groups'
+                    }
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button variant="contained" className={classes.buttonLogout} onClick={logout}>Logout</Button>
+                </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Toolbar>
       <Dialog classes={{ paper: classes.dialogPaper }} open={openCreateGroup} onClose={handleCloseCreateGroup} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Create New Group</DialogTitle>
           <DialogContent>
@@ -147,7 +167,12 @@ function NavBar({navTitle, setNavTitle, logout}) {
             }}
             validationSchema={validationSchemaCreateGroup}
             onSubmit={async (values) => {
-
+              const [data, err] = await apiInvoker('/api/createGroup', {groupName: values.groupName, member_ids: values.members.map((val) => memberMap[val].user_id)})
+              if (err === undefined) {
+                setGroups([...groups, {name: values.groupName, group_id: data.group_id, status: 1}])
+              } else {
+                setSnackbarMsg('Create Group Error: ' + err)
+              }
             }}
             >
               {({values, touched, errors, handleChange, handleBlur, isValid, handleSubmit}) => {
@@ -181,7 +206,7 @@ function NavBar({navTitle, setNavTitle, logout}) {
                       options={memberList}
                       value={selectedMember}
                       onChange={(event, newValue) => {
-                        setSelectedMember(newValue);
+                        setSelectedMember(newValue)
                       }}
                       sx={{ width: 300 }}
                       renderInput={(params) => <TextField {...params} label="Add People" />}
@@ -252,7 +277,7 @@ function NavBar({navTitle, setNavTitle, logout}) {
             </Formik>
           </DialogContent>
       </Dialog>
-    </div>
+    </AppBar>
   )
 }
 
