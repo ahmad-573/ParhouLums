@@ -1,0 +1,40 @@
+
+/* .notecontainer{
+    position: relative; 
+    width: 250px; 
+    height: 320px; 
+    background: green;
+} */
+
+.frontside{
+    position: absolute; 
+    width: 100%; 
+    height: 100%;
+    backface-visibility: hidden;
+    background: #ffc728;
+    color: #333;
+}
+
+.backside{
+    position: absolute;
+    width: 100%; 
+    height: 100%; 
+    backface-visibility: hidden; 
+    background: #ffc728;
+    color: #333;
+    transform: rotateY(180deg);
+}
+
+.note{
+    position: relative;
+    width: 250px;
+    height: 320px; 
+    transform-style: preserve-3d; 
+    transition: all 0.5s ease; 
+    background: yellow;
+    transform: rotateY(var(--rotate-y, 0));
+}
+
+.note.cardflip{
+   --rotate-y: 180deg;
+}
