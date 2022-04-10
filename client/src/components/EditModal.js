@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import { Typography, Modal, Button, Box, TextField } from '@material-ui/core'
+import { Typography, Modal, Button, Box, TextField, IconButton } from '@material-ui/core'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
 import { FiAlignCenter, FiVolumeX } from 'react-icons/fi';
 
@@ -62,11 +63,11 @@ const useStyles = makeStyles((theme) => ({
     toptypo2:{
         position: 'absolute',
         width: '520px',
-        height: '279px',
+        height: '362px',
         top: '70px',
         left: '0px',
         right: '0px',
-        bottom: '83px',
+        bottom: '313px',
     },
 
     typo2:{
@@ -96,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
     text1:{
         top: '8px',
         bottom: '204px',
-        left: '0px',
+        left: '28px',
         right: '28px',
         width: '464px',
         height: '36px',
@@ -133,9 +134,9 @@ const useStyles = makeStyles((theme) => ({
     },
 
     text2:{
-        top: '8px',
+        top: '70px',
         bottom: '28px',
-        left: '0',
+        left: '28px',
         right: '28px',
         width: '464px',
         height: '124px',
@@ -144,26 +145,49 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: '400',
         fontSize: '15px',
         lineHeight: '22px',
-    }
+    },
 
+    submitEButton:{
+        top: '140px',
+        // bottom: '0px',
+        left: '430px'
+    },
+
+    submitCButton:{
+        top: '140px',
+        left: '260px'
+    },
+
+    iconButton:{
+        left: '450px',
+        top: '8px',
+        color: '#a73a38'
+    }
   }));
 
-export default function BasicModal() {
-  const [open, setOpen] = React.useState(true);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+export default function EditModal({opmodal, setOpmodal}) {  
+  const [open, setOpen] = useState(false);
+//   console.log(open, 'in modal')  
+  const handleOpen = () => setOpen(opmodal);
+  const handleClose = () => {setOpen(false); setOpmodal(false)}
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const [ititle, setiTitle] = useState('')
+  const [idescription, setiDescription] = useState('')
+//   console.log('hereee maybe')
+  handleOpen(opmodal)
   const classes = useStyles();
   const handleSubmit = (e) =>{
       e.preventDefault()
+      handleClose()
+    //   console.log(e)
   }
   return (
     <div>
       {/* <Button onClick={handleOpen}>Open modal</Button> */}
       <Modal
         open={open}
-        // onClose={handleClose}
+        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -172,40 +196,56 @@ export default function BasicModal() {
                 <CheckBoxOutlineBlankIcon className = {classes.bicon}/> 
                 <Typography className = {classes.typo1} style = {{display: 'inline-block'}}>
                     Edit Flashcard
-                </Typography>  
+                </Typography>
+
+                <IconButton className = {classes.iconButton} aria-label="close modal" onClick={() => handleClose()}>
+                    <CloseIcon />
+                </IconButton>   
             </Typography>
 
             <Typography className = {classes.toptypo2}>
-                <Typography className = {classes.typo2}>
-                    <form noValidate autoComplete='off'>
-                        <TextField 
-                            onChange={(e) => setTitle(e.target.value)}
-                            className = {classes.text1} 
-                            id="question" 
-                            label="Question" 
-                            value = {title}
-                            multiline = {true} 
-                            variant="outlined"
-                            color = "secondary"
-                        />
-                    </form>
-                </Typography>
+                <form noValidate autoComplete='off' onSubmit={handleSubmit}>
+                    <TextField 
+                        onChange={(e) => setTitle(e.target.value)}
+                        className = {classes.text1} 
+                        id="question" 
+                        label="Question" 
+                        value = {title}
+                        multiline = {true} 
+                        variant="outlined"
+                        color = "secondary"
+                    />
                 
-                <Typography className = {classes.typo4}>
-                    <form noValidate autoComplete='off' onSubmit = {handleSubmit}>
-                        <TextField 
-                            onChange={(e) => setDescription(e.target.value)}
-                            className = {classes.text2} 
-                            id="answer"
-                            value={description}
-                            multiline={true} 
-                            label = "Answer"
-                            rows = {6}
-                            variant="outlined"
-                            color = "secondary"
-                        />
-                    </form>
-                </Typography>
+                    <TextField 
+                        onChange={(e) => setDescription(e.target.value)}
+                        className = {classes.text2} 
+                        id="answer"
+                        value={description}
+                        multiline={true} 
+                        label = "Answer"
+                        rows = {6}
+                        variant="outlined"
+                        color = "secondary"
+                    />
+                    <Button
+                        className  = {classes.submitEButton}
+                        type="submit"
+                        color="secondary"
+                        variant="contained"
+                    >
+                        Edit
+                    </Button>
+                    
+                    <Button
+                        onClick={(e) => {setTitle(ititle); setDescription(idescription); handleClose()} }
+                        className  = {classes.submitCButton}
+                        // type="reset"
+                        color="secondary"
+                        variant="outlined"
+                    >
+                        Cancel
+                    </Button>
+                </form>
             </Typography>
         </Box>
       </Modal>

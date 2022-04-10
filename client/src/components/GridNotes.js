@@ -81,9 +81,11 @@ function GridNotes(){
             <div>
                 <div class="wrapper">
                     {flashcards.map(flashcard => {
+                        // console.log(flashcard.id)
                         let index1 = flashcards.indexOf(flashcard) 
                         if(index1 >= index && index1 <= (index + 3)){
-                            return <div><Note flashcard = {flashcard} key = {flashcard.id}/></div>
+                            console.log(flashcard.id)
+                            return <Note flashcard = {flashcard} key = {flashcard.id}/>
                         }
                     })}
                 </div>

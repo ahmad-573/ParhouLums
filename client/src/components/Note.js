@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import FrontSideNote from "./FrontSideNote";
 import BackSideNote from "./BackSideNote";
+import EditModal from './EditModal';
 import { IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import FlipCameraAndroidIcon from '@material-ui/icons/FlipCameraAndroid';
@@ -18,9 +19,11 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-function Note({flashcard}, {key}){
+function Note({flashcard}){
+    // console.log(key)
     // const classes = useStyles();
     const [flip, setFlip] = useState(false)
+    const [opmodal, setOpmodal] = useState(false)
     return(
         <div class= {`note ${flip ? 'cardflip' : ''}`}>
         
@@ -28,12 +31,17 @@ function Note({flashcard}, {key}){
             <FlipCameraAndroidIcon />
         </IconButton> 
 
-        <IconButton color="secondary" aria-label="edit the card"  onClick={() => setFlip(!flip)}>
+        <IconButton 
+            color="secondary" 
+            aria-label="edit the card"  
+            onClick={() => {console.log(opmodal, 'before'); setOpmodal(true); console.log(opmodal, 'after')}}
+        >
             <EditIcon />
         </IconButton>
 
-        <FrontSideNote title={flashcard.title} fflip = {flip} fsetFlip = {setFlip} fkey = {key}/>
-        <BackSideNote description={flashcard.description} bflip = {flip} bsetFlip = {setFlip} bkey = {key}/>
+        <FrontSideNote title={flashcard.title} fflip = {flip} fsetFlip = {setFlip} key = {flashcard.id}/>
+        {/* <BackSideNote description={flashcard.description} bflip = {flip} bsetFlip = {setFlip} key = {flashcard.id}/> */}
+        <EditModal opmodal={opmodal} setOpmodal = {setOpmodal} key = {flashcard.id}/>
         </div>
     )
 }

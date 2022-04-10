@@ -12,7 +12,7 @@ import FrontSideNote from "./components/FrontSideNote";
 import BackSideNote from "./components/BackSideNote";
 import Note from "./components/Note";
 import GridNotes from "./components/GridNotes";
-import EditFlashCard from "./components/EditFlashCard";
+import EditModal from "./components/EditModal";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false)
@@ -36,7 +36,7 @@ function App() {
         <Route path="/register" element={<RegisterPage setSnackbarMsg={setSnackbarMsg}/>} />
         <Route path="/forgot-password" element={<FPassPage setSnackbarMsg={setSnackbarMsg}/>} />
         <Route path = "/gridcard" element = {<GridNotes/>}/>
-        <Route path = "/emodalcard" element = {<EditFlashCard/>}/>
+        {/* <Route path = "/emodalcard" element = {<EditModal/>}/> */}
         {/* OLD: Just An Idea for showing components with both NavBar and SideBar */}
         {/* <Route path='/temp' element={(isLoggedIn && group !== undefined) ? <CompAdjustor comp={(() => <GroupSelectorPage/>)()} navTitle={navTitle} setNavTitle={setNavTitle} logout={logout}/> : <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg}/>} /> */}
       </Routes>
