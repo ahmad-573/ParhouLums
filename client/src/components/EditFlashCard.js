@@ -61,8 +61,8 @@ const useStyles = makeStyles((theme) => ({
 
     toptypo2:{
         position: 'absolute',
-        width: '36px',
-        height: '36px',
+        width: '520px',
+        height: '279px',
         top: '70px',
         left: '0px',
         right: '0px',
@@ -93,6 +93,21 @@ const useStyles = makeStyles((theme) => ({
         height: '36px',
     },
 
+    text1:{
+        top: '8px',
+        bottom: '204px',
+        left: '0px',
+        right: '28px',
+        width: '464px',
+        height: '36px',
+        fontFamily: 'Lato',
+        fontStyle: 'normal',
+        fontWeight: '400',
+        fontSize: '15px',
+        lineHeight: '22px',
+        // boxShadow: 10,
+    },
+
     typo4:{
         position: 'absolute',
         height: '22px',
@@ -106,8 +121,30 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: '700',
         fontSize: '15px',
         lineHeight: '22px'
-    }
+    },
 
+    typo5:{
+        top: '127px',
+        bottom: '28px',
+        right: '28px',
+        left: '28px',
+        width: '464px',
+        height: '124px'
+    },
+
+    text2:{
+        top: '8px',
+        bottom: '28px',
+        left: '0',
+        right: '28px',
+        width: '464px',
+        height: '124px',
+        fontFamily: 'Lato',
+        fontStyle: 'normal',
+        fontWeight: '400',
+        fontSize: '15px',
+        lineHeight: '22px',
+    }
 
   }));
 
@@ -115,7 +152,12 @@ export default function BasicModal() {
   const [open, setOpen] = React.useState(true);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
   const classes = useStyles();
+  const handleSubmit = (e) =>{
+      e.preventDefault()
+  }
   return (
     <div>
       {/* <Button onClick={handleOpen}>Open modal</Button> */}
@@ -135,14 +177,35 @@ export default function BasicModal() {
 
             <Typography className = {classes.toptypo2}>
                 <Typography className = {classes.typo2}>
-                    Question
+                    <form noValidate autoComplete='off'>
+                        <TextField 
+                            onChange={(e) => setTitle(e.target.value)}
+                            className = {classes.text1} 
+                            id="question" 
+                            label="Question" 
+                            value = {title}
+                            multiline = {true} 
+                            variant="outlined"
+                            color = "secondary"
+                        />
+                    </form>
                 </Typography>
-                <TextField className = {classes.typo3} id="question" label="What is Epigenetics?" variant="outlined"/>
-
+                
                 <Typography className = {classes.typo4}>
-                    Answer
-                </Typography>    
-
+                    <form noValidate autoComplete='off' onSubmit = {handleSubmit}>
+                        <TextField 
+                            onChange={(e) => setDescription(e.target.value)}
+                            className = {classes.text2} 
+                            id="answer"
+                            value={description}
+                            multiline={true} 
+                            label = "Answer"
+                            rows = {6}
+                            variant="outlined"
+                            color = "secondary"
+                        />
+                    </form>
+                </Typography>
             </Typography>
         </Box>
       </Modal>
