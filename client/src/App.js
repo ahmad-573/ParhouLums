@@ -9,7 +9,6 @@ import ErrorPopup from './components/ErrorPopup'
 import NavBar from './components/NavBar'
 import SideBar from './components/SideBar'
 import TaskList from './components/TaskList'
-import ModalCreateTask from './components/ModalCreateTask'
 
 
 function App() {
@@ -61,7 +60,6 @@ function App() {
             <Route path='/register' element={<RegisterPage setSnackbarMsg={setSnackbarMsg}/>}/>
             <Route path='/forgot-password' element={<FPassPage setSnackbarMsg={setSnackbarMsg}/>}/>
             <Route path='/task-list' element={<TaskList/>}/>
-            <Route path='/modal' element = {<ModalCreateTask/>}/>
           </Routes>
         </Box>
       </Box>
