@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import FrontSideNote from "./FrontSideNote";
 import BackSideNote from "./BackSideNote";
 import EditModal from './EditModal';
@@ -24,9 +24,15 @@ function Note({flashcard}){
     // const classes = useStyles();
     const [flip, setFlip] = useState(false)
     const [opmodal, setOpmodal] = useState(false)
+    const handleClose = useCallback(() => setOpmodal(false), [])
+    const handleOpen = () => setOpmodal(true)
     return(
         <div class= {`note ${flip ? 'cardflip' : ''}`}>
-        
+        <EditModal 
+            open={opmodal}
+            modalClose={handleClose} 
+            key = {flashcard.id}
+        />
         <IconButton color="secondary" aria-label="flip the card" onClick={() => setFlip(!flip)}>
             <FlipCameraAndroidIcon />
         </IconButton> 
@@ -34,14 +40,13 @@ function Note({flashcard}){
         <IconButton 
             color="secondary" 
             aria-label="edit the card"  
-            onClick={() => {console.log(opmodal, 'before'); setOpmodal(true); console.log(opmodal, 'after')}}
+            onClick={handleOpen}
         >
             <EditIcon />
         </IconButton>
 
         <FrontSideNote title={flashcard.title} fflip = {flip} fsetFlip = {setFlip} key = {flashcard.id}/>
-        {/* <BackSideNote description={flashcard.description} bflip = {flip} bsetFlip = {setFlip} key = {flashcard.id}/> */}
-        <EditModal opmodal={opmodal} setOpmodal = {setOpmodal} key = {flashcard.id}/>
+        <BackSideNote description={flashcard.description} bflip = {flip} bsetFlip = {setFlip} key = {flashcard.id}/>
         </div>
     )
 }

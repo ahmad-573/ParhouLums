@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, memo} from 'react';
 import { Typography, Modal, Button, Box, TextField, IconButton } from '@material-ui/core'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CloseIcon from '@material-ui/icons/Close';
@@ -164,30 +164,40 @@ const useStyles = makeStyles((theme) => ({
         color: '#a73a38'
     }
   }));
+  
 
-export default function EditModal({opmodal, setOpmodal}) {  
-  const [open, setOpen] = useState(false);
+
+
+
+function EditModal({open, modalClose}) {  
+//   const [open, setOpen] = useState(false);
 //   console.log(open, 'in modal')  
-  const handleOpen = () => setOpen(opmodal);
-  const handleClose = () => {setOpen(false); setOpmodal(false)}
+//   const handleOpen = () => setOpen(modalop);
+//   const handleClose = () => setOpen(false)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [ititle, setiTitle] = useState('')
   const [idescription, setiDescription] = useState('')
-//   console.log('hereee maybe')
-  handleOpen(opmodal)
-  const classes = useStyles();
-  const handleSubmit = (e) =>{
-      e.preventDefault()
-      handleClose()
-    //   console.log(e)
+
+  function handleSubmit(e){
+    e.preventDefault()
+    modalClose()
+  };
+
+  function handleButton(){
+    setTitle(ititle)
+    setDescription(idescription)
+    modalClose()
   }
+//   console.log('hereee maybe')
+//   handleOpen()
+  const classes = useStyles();
   return (
     <div>
       {/* <Button onClick={handleOpen}>Open modal</Button> */}
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={modalClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -198,7 +208,7 @@ export default function EditModal({opmodal, setOpmodal}) {
                     Edit Flashcard
                 </Typography>
 
-                <IconButton className = {classes.iconButton} aria-label="close modal" onClick={() => handleClose()}>
+                <IconButton className = {classes.iconButton} aria-label="close modal" onClick={modalClose}>
                     <CloseIcon />
                 </IconButton>   
             </Typography>
@@ -237,7 +247,7 @@ export default function EditModal({opmodal, setOpmodal}) {
                     </Button>
                     
                     <Button
-                        onClick={(e) => {setTitle(ititle); setDescription(idescription); handleClose()} }
+                        onClick={handleButton}
                         className  = {classes.submitCButton}
                         // type="reset"
                         color="secondary"
@@ -252,3 +262,5 @@ export default function EditModal({opmodal, setOpmodal}) {
     </div>
   );
 }
+
+export default memo(EditModal)
