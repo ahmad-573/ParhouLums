@@ -90,5 +90,45 @@ router.post('/getUsers', async (req,res) => {
     }
 });
 
+// Create a new group
+router.post('/createGroup', async (req,res) => {
+    let name = req.body.group_name;
+    let ids = req.body.member_ids;
+    let my_id = req.body.userid;
+    try {
+        const result = await pool.query(
+            "INSERT INTO groups(group_name) VALUES ($1) RETURNING group_id", [name]
+        );
+        let newgroup_id = result.rows[0].group_id;
+        try {
+            const result2 = await pool.query(
+                "INSERT INTO group_membership VALUES($1,$2,$3) ", [newgroup_id, my_id,1]
+            );
+        } catch (err) {
+            console.log(err);
+            const result3 = await pool.query(
+                "DELETE FROM groups WHERE group_id = $1", [newgroup_id]
+            );
+            res.status(400).json({error: `Trouble Creating a new group. Try again.`})
+        }
+        for (let id of ids){
+            try {
+                const result4 = await pool.query(
+                    "INSERT INTO group_membership VALUES($1,$2,0) ", [newgroup_id, id]
+                );
+            } catch (err) {
+                console.log(err);
+                res.status(400).json({error: `Group was created but there was trouble adding all the members into the new group.`});
+            }
+        }
+        res.status(200).json({group_id: newgroup_id});
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({error: `Trouble Creating a new group. Try again.`})
+    }
+    
+
+});
+
 
 module.exports = router;
