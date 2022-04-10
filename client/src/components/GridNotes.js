@@ -74,24 +74,26 @@ function GridNotes(){
     //             <div><Note flashcard = {flashcards[index + 1]}/></div>
     //         </div>
 
-    //         <Button variant = "outlined" onClick = {e => setIndex(index + 1)}> Next</Button>
-    //         <Button variant = "outlined" onClick = {e => setIndex(index - 1)}> Previous</Button>    
+    //         
     //     </div>        
     // )
     return(
-            <div class="wrapper">
-                {flashcards.map(flashcard => {
-                    let index1 = flashcards.indexOf(flashcard) 
-                    if(index1 >= index && index1 <= (index + 3)){
-                        return <div><Note flashcard = {flashcard} key = {flashcard.id}/></div>
-                    }
-                })}
+            <div>
+                <div class="wrapper">
+                    {flashcards.map(flashcard => {
+                        let index1 = flashcards.indexOf(flashcard) 
+                        if(index1 >= index && index1 <= (index + 3)){
+                            return <div><Note flashcard = {flashcard} key = {flashcard.id}/></div>
+                        }
+                    })}
+                </div>
+                <Button variant = "outlined" disabled = {(index2*4) >= flashcards.length} onClick = {e => {setIndex(index + 4); setIndex2(index2 + 1)}}> Next</Button>
+                <Button variant = "outlined" disabled = {index == 0} onClick = {e => {setIndex(index - 4); setIndex2(index2 - 1)}}> Previous</Button>        
             </div>
     )
 }
 
-{/* <Button variant = "outlined" disabled = {(index2*4) >= flashcards.length} onClick = {e => {setIndex(index + 4); setIndex2(index2 + 1)}}> Next</Button>
-            <Button variant = "outlined" disabled = {index == 0} onClick = {e => {setIndex(index - 4); setIndex2(index2 - 1)}}> Previous</Button> */}
+
 
 // {flashcards.map(flashcard => {
 
