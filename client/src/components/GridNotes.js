@@ -71,12 +71,14 @@ function GridNotes(){
 
 
     const getCards = async () =>{
-        const [data, err] = await apiInvoker('/api/getcards', {})
+        const [data, err] = await apiInvoker('/api/getCards', {})
+        setFlashCards(data.cards)
     }
 
     useEffect(() => {
         getCards();
     });
+
 
     // return(  
     //     <div>

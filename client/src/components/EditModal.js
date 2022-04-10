@@ -170,7 +170,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function EditModal({open, modalClose, mtitle, mdescription}) {  
+function EditModal({open, modalClose, mtitle, mdescription, card_id}) {  
 //   const [open, setOpen] = useState(false);
 //   console.log(open, 'in modal')  
 //   const handleOpen = () => setOpen(modalop);
@@ -184,7 +184,7 @@ function EditModal({open, modalClose, mtitle, mdescription}) {
     e.preventDefault()
     setiTitle(title)
     setiDescription(description)
-    const [data, err] = await apiInvoker('/api/editcard', {title:title, description:description})
+    const [data, err] = await apiInvoker('/api/editCard', {new_title:title, new_description:description, card_id:card_id})
     modalClose()
   };
 
@@ -201,7 +201,7 @@ function EditModal({open, modalClose, mtitle, mdescription}) {
       {/* <Button onClick={handleOpen}>Open modal</Button> */}
       <Modal
         open={open}
-        onClose={modalClose}
+        onClose={handleButton}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -212,7 +212,7 @@ function EditModal({open, modalClose, mtitle, mdescription}) {
                     Edit Flashcard
                 </Typography>
 
-                <IconButton className = {classes.iconButton} aria-label="close modal" onClick={modalClose}>
+                <IconButton className = {classes.iconButton} aria-label="close modal" onClick={handleButton}>
                     <CloseIcon />
                 </IconButton>   
             </Typography>

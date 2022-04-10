@@ -7,11 +7,12 @@ import FPassPage from './components/FPassPage'
 import GroupSelectorPage from './components/GroupSelectorPage'
 import ErrorPopup from './components/ErrorPopup'
 import NavBar from './components/NavBar'
-import SideBar from './components/sidebar'
+import SideBar from './components/SideBar'
 import FrontSideNote from "./components/FrontSideNote";
 import BackSideNote from "./components/BackSideNote";
 import Note from "./components/Note";
 import GridNotes from "./components/GridNotes";
+import CreateModal from "./components/CreateModal";
 import EditModal from "./components/EditModal";
 
 function App() {
@@ -62,6 +63,8 @@ function App() {
             <Route path='/' element={(isLoggedIn && group === undefined) ? <GroupSelectorPage username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
             <Route path='/register' element={<RegisterPage setSnackbarMsg={setSnackbarMsg}/>}/>
             <Route path='/forgot-password' element={<FPassPage setSnackbarMsg={setSnackbarMsg}/>}/>
+            <Route path='/gridcard' element={<GridNotes/>}/>
+            <Route path='/create-modal' element={<CreateModal/>}/>
           </Routes>
         </Box>
       </Box>

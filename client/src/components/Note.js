@@ -6,6 +6,8 @@ import { IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import FlipCameraAndroidIcon from '@material-ui/icons/FlipCameraAndroid';
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import { apiInvoker } from '../apiInvoker'
 import './notestyle.css'
 
 
@@ -26,16 +28,26 @@ function Note({flashcard}){
     const [opmodal, setOpmodal] = useState(false)
     const handleClose = useCallback(() => setOpmodal(false), [])
     const handleOpen = () => setOpmodal(true)
+
+    const onDelClick = async e =>{
+        const [data, err] = await apiInvoker('/api/deleteCard', {card_id:flashcard.id})            
+    };
+
     return(
         <div class= {`note ${flip ? 'cardflip' : ''}`}>
         <EditModal 
             open={opmodal}
             modalClose={handleClose}
             mtitle = {flashcard.title}
-            mdescription = {flashcard.description} 
+            mdescription = {flashcard.description}
+            card_id = {flashcard.id} 
             key = {flashcard.id}
         />
-        <IconButton color="secondary" aria-label="flip the card" onClick={() => setFlip(!flip)}>
+        <IconButton 
+            color="secondary" 
+            aria-label="flip the card" 
+            onClick={() => setFlip(!flip)}
+        >
             <FlipCameraAndroidIcon />
         </IconButton> 
 
@@ -45,6 +57,14 @@ function Note({flashcard}){
             onClick={handleOpen}
         >
             <EditIcon />
+        </IconButton>
+
+        <IconButton 
+            color="secondary" 
+            aria-label="delete the card"  
+            onClick={onDelClick}
+        >
+            <DeleteOutlineIcon />
         </IconButton>
 
         <FrontSideNote title={flashcard.title} fflip = {flip} fsetFlip = {setFlip} key = {flashcard.id}/>
