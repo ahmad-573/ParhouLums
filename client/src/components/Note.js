@@ -30,7 +30,9 @@ function Note({flashcard}){
         <div class= {`note ${flip ? 'cardflip' : ''}`}>
         <EditModal 
             open={opmodal}
-            modalClose={handleClose} 
+            modalClose={handleClose}
+            mtitle = {flashcard.title}
+            mdescription = {flashcard.description} 
             key = {flashcard.id}
         />
         <IconButton color="secondary" aria-label="flip the card" onClick={() => setFlip(!flip)}>

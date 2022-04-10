@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Note from "./Note";
 import './notestyle.css'
 import { Button } from '@material-ui/core'
+import { apiInvoker } from '../apiInvoker'
 
 const SAMPLE_FLASHCARDS = [
     {
@@ -67,6 +68,16 @@ function GridNotes(){
     const [flashcards, setFlashCards] = useState(SAMPLE_FLASHCARDS)
     const [index, setIndex] = useState(0)
     const [index2, setIndex2] = useState(1)
+
+
+    const getCards = async () =>{
+        const [data, err] = await apiInvoker('/api/getcards', {})
+    }
+
+    useEffect(() => {
+        getCards();
+    });
+
     // return(  
     //     <div>
     //         <div class="grid grid-rows-2 grid-cols-2 gap-2">

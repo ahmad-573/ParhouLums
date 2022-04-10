@@ -4,6 +4,7 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
 import { FiAlignCenter, FiVolumeX } from 'react-icons/fi';
+import { apiInvoker } from '../apiInvoker'
 
 const style = {
   position: 'absolute',
@@ -169,18 +170,21 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function EditModal({open, modalClose}) {  
+function EditModal({open, modalClose, mtitle, mdescription}) {  
 //   const [open, setOpen] = useState(false);
 //   console.log(open, 'in modal')  
 //   const handleOpen = () => setOpen(modalop);
 //   const handleClose = () => setOpen(false)
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [ititle, setiTitle] = useState('')
-  const [idescription, setiDescription] = useState('')
+  const [title, setTitle] = useState(mtitle)
+  const [description, setDescription] = useState(mdescription)
+  const [ititle, setiTitle] = useState(mtitle)
+  const [idescription, setiDescription] = useState(mdescription)
 
-  function handleSubmit(e){
+  const handleSubmit = async e =>{
     e.preventDefault()
+    setiTitle(title)
+    setiDescription(description)
+    const [data, err] = await apiInvoker('/api/editcard', {title:title, description:description})
     modalClose()
   };
 
