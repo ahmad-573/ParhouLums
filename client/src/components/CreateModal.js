@@ -3,7 +3,6 @@ import { Typography, Modal, Button, Box, TextField, IconButton } from '@material
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
-import { FiAlignCenter, FiVolumeX } from 'react-icons/fi';
 import { apiInvoker } from '../apiInvoker'
 
 const style = {

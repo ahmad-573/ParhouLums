@@ -14,6 +14,7 @@ import Note from "./components/Note";
 import GridNotes from "./components/GridNotes";
 import CreateModal from "./components/CreateModal";
 import EditModal from "./components/EditModal";
+import CardsFront from "./components/CardsFront";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false)
@@ -65,6 +66,9 @@ function App() {
             <Route path='/forgot-password' element={<FPassPage setSnackbarMsg={setSnackbarMsg}/>}/>
             <Route path='/gridcard' element={<GridNotes/>}/>
             <Route path='/create-modal' element={<CreateModal/>}/>
+            <Route path='/group-select' element={<GroupSelectorPage/>}/>
+            <Route path='/sidebar' element={<SideBar/>}/>
+            <Route path = '/cards-front' element={<CardsFront/>}/>
           </Routes>
         </Box>
       </Box>
