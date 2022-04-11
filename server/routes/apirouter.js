@@ -16,5 +16,6 @@ router.use(verifyToken);
 router.use('/api', require('./groupDashboard'));
 router.use('/api', require('./addParticipants'));
 router.use('/api', require('./removeParticipants'));
+router.use('/api', require('./promoteToAdmin'));
 
 module.exports = router;
