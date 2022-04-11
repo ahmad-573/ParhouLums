@@ -18,5 +18,6 @@ router.use('/api', require('./addParticipants'));
 router.use('/api', require('./removeParticipants'));
 router.use('/api', require('./promoteToAdmin'));
 router.use('/api', require('./renameGroup'));
+router.use('/api', require('./leaveGroup'));
 
 module.exports = router;
