@@ -18,5 +18,20 @@ router.post('/createCard', async (req,res) => {
     }
 });
 
+// get all cards in group
+router.post('/getCards', async (req,res) => {
+    if (await helpers.isUserInGroup(res,req.body.userid, req.body.group_id)){
+        try {
+            const result = await pool.query(
+                "SELECT card_id AS id, title, description FROM flashcards WHERE group_id = $1", [req.body.group_id]
+            );
+            res.status(200).json({cards: result.rows})
+        } catch (err) {
+            console.log(err);
+            res.status(400).json({error: `Request failed. Try again.`})
+        }
+    }
+}); 
+
 
 module.exports = router;
