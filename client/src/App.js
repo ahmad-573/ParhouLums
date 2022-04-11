@@ -8,18 +8,12 @@ import GroupSelectorPage from './components/GroupSelectorPage'
 import ErrorPopup from './components/ErrorPopup'
 import NavBar from './components/NavBar'
 import SideBar from './components/SideBar'
-import FrontSideNote from "./components/FrontSideNote";
-import BackSideNote from "./components/BackSideNote";
-import Note from "./components/Note";
-import GridNotes from "./components/GridNotes";
-import CreateModal from "./components/CreateModal";
-import EditModal from "./components/EditModal";
 import CardsFront from "./components/CardsFront";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false)
-  const [username, setUsername] = React.useState('')
-  const [group, setGroup] = React.useState(undefined) // {name: 'G1', group_id: 1, status: 1}
+  const [isLoggedIn, setIsLoggedIn] = React.useState(true)
+  const [username, setUsername] = React.useState('Moaiz')
+  const [group, setGroup] = React.useState({name: 'G1', group_id: 1, status: 1}) // {name: 'G1', group_id: 1, status: 1}
   const [groups, setGroups] = React.useState([])
   
   const [navTitle, setNavTitle] = React.useState('groups')
@@ -64,12 +58,9 @@ function App() {
             <Route path='/' element={(isLoggedIn && group === undefined) ? <GroupSelectorPage username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
             <Route path='/register' element={<RegisterPage setSnackbarMsg={setSnackbarMsg}/>}/>
             <Route path='/forgot-password' element={<FPassPage setSnackbarMsg={setSnackbarMsg}/>}/>
-            {/* <Route path='/gridcard' element={<GridNotes/>}/> */}
-            {/* <Route path='/create-modal' element={<CreateModal/>}/> */}
-            {/* <Route path='/group-select' element={<GroupSelectorPage/>}/> */}
-            {/* <Route path='/sidebar' element={<SideBar/>}/> */}
-            <Route path = '/cards-front' element={<CardsFront/>}/>
-            {/* <Route path = '/navbar' element={<NavBar/>}/> */}
+            {/* <Route path='/cards-front' element={<CardsFront/>}/> */}
+            <Route path='/cards-front' element={(isLoggedIn && group != undefined) ? <CardsFront username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
+          
           </Routes>
         </Box>
       </Box>
