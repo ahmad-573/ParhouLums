@@ -1,8 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import Note from "./Note";
 import './notestyle.css'
-import { Button } from '@material-ui/core'
+import { Button, IconButton } from '@material-ui/core'
 import { apiInvoker } from '../apiInvoker'
+import { makeStyles } from '@material-ui/core/styles';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+
 
 const SAMPLE_FLASHCARDS = [
     {
@@ -48,8 +52,23 @@ const SAMPLE_FLASHCARDS = [
     }
 ]
 
+const useStyles = makeStyles((theme) => ({
+    nextButton:{
+        position: 'absolute',
+        // width: '100%',
+        // height: '50%',
+        top: '40%',
+        // bottom: '5%',
+        left:'96%',
+    },
 
+    prevButton:{
+        position: 'absolute',
+        top: '55%',
+        left: '96%'
+    },
 
+  }));
 
 
 // function checkFunc(item){
@@ -61,6 +80,9 @@ const SAMPLE_FLASHCARDS = [
 //         return false
 //     }
 // }
+
+
+
 
 
 
@@ -90,6 +112,7 @@ function GridNotes(){
     //         
     //     </div>        
     // )
+    const classes = useStyles();
     return(
             <div>
                 <div class="wrapper">
@@ -102,8 +125,9 @@ function GridNotes(){
                         }
                     })}
                 </div>
-                <Button variant = "outlined" disabled = {(index2*4) >= flashcards.length} onClick = {e => {setIndex(index + 4); setIndex2(index2 + 1)}}> Next</Button>
-                <Button variant = "outlined" disabled = {index == 0} onClick = {e => {setIndex(index - 4); setIndex2(index2 - 1)}}> Previous</Button>        
+                <IconButton className={classes.nextButton} disabled = {(index2*4) >= flashcards.length} onClick = {e => {setIndex(index + 4); setIndex2(index2 + 1)}}><NavigateNextIcon/></IconButton>
+                <IconButton className={classes.prevButton} disabled = {index == 0} onClick = {e => {setIndex(index - 4); setIndex2(index2 - 1)}}><NavigateBeforeIcon/></IconButton>  
+                {/* <Button>Hello</Button>       */}
             </div>
     )
 }

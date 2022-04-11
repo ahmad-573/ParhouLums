@@ -7,8 +7,8 @@ import { apiInvoker } from '../apiInvoker'
 
 const style = {
     position: 'absolute',
-    top: '237px',
-    left: '532px',
+    top: '340px',
+    left: '665px',
     bottom: '313px',
     right: '460px',
     width: '520px',
@@ -170,10 +170,6 @@ const style = {
   
   
   function CreateModal({open, modalClose}) {  
-  //   const [open, setOpen] = useState(false);
-  //   console.log(open, 'in modal')  
-  //   const handleOpen = () => setOpen(modalop);
-  //   const handleClose = () => setOpen(false)
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
   
@@ -193,9 +189,8 @@ const style = {
     const classes = useStyles();
     return (
       <div>
-        {/* <Button onClick={handleOpen}>Open modal</Button> */}
         <Modal
-          open={true}
+          open={open}
           onClose={handleButton}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"

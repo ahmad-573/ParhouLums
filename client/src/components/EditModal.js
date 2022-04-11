@@ -8,8 +8,8 @@ import { apiInvoker } from '../apiInvoker'
 
 const style = {
   position: 'absolute',
-  top: '237px',
-  left: '532px',
+  top: '340px',
+  left: '665px',
   bottom: '313px',
   right: '460px',
   width: '520px',

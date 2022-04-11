@@ -1,4 +1,4 @@
-import React, {useEffect, useState, memo} from 'react';
+import React, {useState, useCallback} from 'react';
 import { Typography, Modal, Button, Box, TextField, IconButton, Card } from '@material-ui/core'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CloseIcon from '@material-ui/icons/Close';
@@ -9,6 +9,7 @@ import Divider from '@material-ui/core/Divider';
 import Note from "./Note";
 import './notestyle.css'
 import GridNotes from './GridNotes';
+import CreateModal from './CreateModal';
 
 const useStyles = makeStyles((theme) => ({
   
@@ -60,17 +61,27 @@ const useStyles = makeStyles((theme) => ({
         right: '1%',
         bottom: '12.5%',
     },
-
   }));
 
 function CardsFront(){
     const classes = useStyles();
+    const [opmodal, setOpmodal] = useState(false)
+    const handleClose = useCallback(() => setOpmodal(false), [])
+    const handleOpen = () => setOpmodal(true)
     return(
         <Card className={classes.mainBox}>
+            <CreateModal
+                open={opmodal}
+                modalClose={handleClose}
+            />
             <Card className={classes.subBox}>
                 <Typography className={classes.topo1}>
                     Flashcards
-                    <IconButton className={classes.addicon}>
+                    <IconButton 
+                        className={classes.addicon}
+                        aria-label="create card"
+                        onClick={handleOpen}
+                    >
                         <AddIcon/>
                     </IconButton>
                     <Divider/>
