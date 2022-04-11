@@ -7,12 +7,13 @@ const { verifyToken } = require(`./auth`)
 // Routes without verifyToken
 router.use('/api', require('./loginout'));
 router.use('/api', require('./signup'));
-router.use('/api',require('./forgot-password'));
+router.use('/api', require('./forgot-password'));
 
 // Verify token
 router.use(verifyToken);
 
 // Routes with verifyToken
 router.use('/api', require('./groupDashboard'));
+router.use('/api', require('./addParticipants'));
 
 module.exports = router;
