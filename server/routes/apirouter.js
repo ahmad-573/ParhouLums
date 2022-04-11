@@ -16,5 +16,6 @@ router.use(verifyToken);
 router.use('/api', require('./groupDashboard'));
 router.use('/api', require('./important_routes'));
 router.use('/api', require('./deleteGroup'));
+router.use('/api', require('./flashCard'));
 
 module.exports = router;
