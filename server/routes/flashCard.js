@@ -33,5 +33,35 @@ router.post('/getCards', async (req,res) => {
     }
 }); 
 
+// edit a flashcard
+router.post('/editCard', async (req,res) => {
+    if (await helpers.isUserInGroup(res,req.body.userid, req.body.group_id)){
+        try {
+            const result = await pool.query(
+                "UPDATE flashcards SET title = $1, description = $2 WHERE card_id = $3", [req.body.new_title, req.body.new_description, req.body.card_id]
+            );
+            res.status(200).json({})
+        } catch (err) {
+            console.log(err);
+            res.status(400).json({error: `Request failed. Try again.`})
+        }
+    }
+});
+
+// delete a flashcard
+router.post('/deleteCard', async (req,res) => {
+    if (await helpers.isUserInGroup(res,req.body.userid, req.body.group_id)){
+        try {
+            const result = await pool.query(
+                "DELETE FROM flashcards WHERE card_id = $1 AND group_id = $2", [req.body.card_id, req.body.group_id]
+            );
+            res.status(200).json({})
+        } catch (err) {
+            console.log(err);
+            res.status(400).json({error: `Request failed. Try again.`})
+        }
+    }
+});
+
 
 module.exports = router;
