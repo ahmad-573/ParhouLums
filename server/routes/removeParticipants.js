@@ -23,8 +23,8 @@ router.post('/removeParticipants', async (req, res) => {
         }
         if (str != "") {
             const q_str1 = "SELECT * FROM group_membership WHERE status = 0 AND group_id = " + String(req.body.group_id) + " AND user_id IN (" + str.slice(0, -1) + ");";
-            const res = await pool.query(q_str1);
-            if (res.rowCount != req.body.members.length) {
+            const result = await pool.query(q_str1);
+            if (result.rowCount != req.body.members.length) {
                 res.status(400).json({ error: `Request failed. Try again.` });
                 return
             }
