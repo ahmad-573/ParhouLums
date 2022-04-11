@@ -42,7 +42,7 @@
 |#|Name|Description|Route|Request Object|Request Type|Response Object|Additional Note
 |-|----|-----------|---------------|------------|----------|---------------|----------|
 |1|Update Username|Updates the username of the user|/api/updateUsername|{username: STR}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|Update username state on frontend|
-|2|Update Password|Updates password of user|/api/updatePassword|{old_password: STR, new_password: STR}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
+|2|Update Password|Updates password of user|/api/updatePassword|{new_password: STR}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
 
 ### 6. Flashcard
 |#|Name|Description|Route|Request Object|Request Type|Response Object|Additional Note
