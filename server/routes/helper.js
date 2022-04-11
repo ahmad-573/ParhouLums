@@ -7,15 +7,16 @@ async function encrypt(password) {
     return hashedPassword;
 };
 
-async function isUserInGroup(userid, groupid){
+async function isUserInGroup(res,userid, groupid){
     try {
         const result = await pool.query(
-            "SELECT * FROM group_membership WHERE userid = $1 AND groupid = $2", [userid, groupid]
+            "SELECT * FROM group_membership WHERE user_id = $1 AND group_id = $2", [userid, groupid]
         ); 
-        if (result.rowCount === 0) return "no"
-        else return "yes"
+        if (result.rowCount === 0) res.status(400).json({error: `Request failed. Try again.`})
+        else return true
     } catch (err) {
-        return err
+        console.log(err)
+        res.status(400).json({error: `Request failed. Try again.`})
     }
 }
 
