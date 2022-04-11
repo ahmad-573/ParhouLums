@@ -10,6 +10,7 @@ import Note from "./Note";
 import './notestyle.css'
 import GridNotes from './GridNotes';
 import CreateModal from './CreateModal';
+import NavBar from './NavBar';
 
 const useStyles = makeStyles((theme) => ({
   
@@ -70,6 +71,7 @@ function CardsFront(){
     const handleOpen = () => setOpmodal(true)
     return(
         <Card className={classes.mainBox}>
+            {/* <NavBar/> */}
             <CreateModal
                 open={opmodal}
                 modalClose={handleClose}

@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 
     prevButton:{
         position: 'absolute',
-        top: '55%',
+        top: '50%',
         left: '96%'
     },
 

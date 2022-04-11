@@ -64,11 +64,12 @@ function App() {
             <Route path='/' element={(isLoggedIn && group === undefined) ? <GroupSelectorPage username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
             <Route path='/register' element={<RegisterPage setSnackbarMsg={setSnackbarMsg}/>}/>
             <Route path='/forgot-password' element={<FPassPage setSnackbarMsg={setSnackbarMsg}/>}/>
-            <Route path='/gridcard' element={<GridNotes/>}/>
-            <Route path='/create-modal' element={<CreateModal/>}/>
-            <Route path='/group-select' element={<GroupSelectorPage/>}/>
-            <Route path='/sidebar' element={<SideBar/>}/>
+            {/* <Route path='/gridcard' element={<GridNotes/>}/> */}
+            {/* <Route path='/create-modal' element={<CreateModal/>}/> */}
+            {/* <Route path='/group-select' element={<GroupSelectorPage/>}/> */}
+            {/* <Route path='/sidebar' element={<SideBar/>}/> */}
             <Route path = '/cards-front' element={<CardsFront/>}/>
+            {/* <Route path = '/navbar' element={<NavBar/>}/> */}
           </Routes>
         </Box>
       </Box>

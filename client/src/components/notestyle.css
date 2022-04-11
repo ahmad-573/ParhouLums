@@ -13,8 +13,10 @@
     backface-visibility: hidden;
     display: flex;
     justify-content: center;
-    /* margin-top: 50px; */
+    margin-top: 75px;
+    /* word-break: normal; */
     /* align-content: center; */
+    /* text-align: center; */
     /* background: #ffc728; */
     color: #333;
 }
@@ -36,10 +38,12 @@
     backface-visibility: hidden; 
     display: flex;
     justify-content: center;
-    /* margin-top: 50px; */
+    margin-top: 75px;
+    /* text-align: center; */
     /* background: #ffc728; */
     color: #333;
     transform: rotateY(180deg);
+    word-wrap: break-word;
 }
 
 .note{
@@ -54,6 +58,7 @@
     border: 1px solid lightgray;
     border-radius: 20px;
     transform: rotateY(var(--rotate-y, 0));
+    /* text-align: center; */
 }
 
 .note.cardflip{

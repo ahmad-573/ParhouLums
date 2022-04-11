@@ -175,8 +175,16 @@ const style = {
   
     const handleSubmit = async e =>{
       e.preventDefault()
-      const [data, err] = await apiInvoker('/api/createCard', {title:title, description:description})
-      modalClose()
+      console.log(title)
+      console.log(description)
+      if(title == '' || description == ''){
+            alert('error all the required fields were not filled')
+      }
+      else{
+            // const [data, err] = await apiInvoker('/api/createCard', {title:title, description:description})
+            modalClose() 
+      }
+
     };
   
     function handleButton(){
