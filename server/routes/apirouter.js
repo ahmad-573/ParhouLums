@@ -15,5 +15,6 @@ router.use(verifyToken);
 // Routes with verifyToken
 router.use('/api', require('./groupDashboard'));
 router.use('/api', require('./addParticipants'));
+router.use('/api', require('./removeParticipants'));
 
 module.exports = router;

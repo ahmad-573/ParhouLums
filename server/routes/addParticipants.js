@@ -24,7 +24,7 @@ router.post('/addParticipants', async (req, res) => {
             str = str + `(${a},${b},${c}),`;
         }
         if (str != "") {
-            q_str = "INSERT INTO group_membership(group_id, user_id, status) VALUES" + str.slice(0, -1) + ";";
+            const q_str = "INSERT INTO group_membership(group_id, user_id, status) VALUES" + str.slice(0, -1) + ";";
             await pool.query(q_str);
         }
         res.status(200).json({})
