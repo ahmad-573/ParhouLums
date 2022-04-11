@@ -48,7 +48,7 @@
 |-|----|-----------|---------------|------------|----------|---------------|----------|
 |1|Create a flashcard|users presses create after entering details|/api/createCard|{title: String, description: String, group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
 |2|Get all cards|For displaying all cards|/api/getCards|{group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {cards: list({id: INT, title: String, description: String})}
-|3|Edit a flashcard|User presses edit after entering details|/api/editCard|{new_title: String, new_description: String, card_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
+|3|Edit a flashcard|User presses edit after entering details|/api/editCard|{new_title: String, new_description: String, card_id: INT, group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
 |4|Delete flashcard|User presses delete on a flashcard|/api/deleteCard|{card_id: INT, group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
 
 
