@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     //border: '2px solid #000',
   };
 
-function Topic({topic,groupid,logout}){
+function Topic({topic,groupid,logout, setSnackbarMsg}){
     // console.log(key)
     const classes = useStyles();
     const [opmodal, setOpmodal] = useState(false)
@@ -41,7 +41,7 @@ function Topic({topic,groupid,logout}){
         const [data, err] = await apiInvoker('/api/deleteTopic', {topic_id:topic.topic_id,group_id: groupid})
         if (data !== undefined) ;
         else if (err === 'Token error') logout()
-        else alert(err)          
+        else setSnackbarMsg('Error: ' + err)          
     };
 
     return(
@@ -54,6 +54,7 @@ function Topic({topic,groupid,logout}){
             key = {topic.topic_id}
             logout={logout}
             group_id={groupid}
+            setSnackbarMsg={setSnackbarMsg}
             />
             <Grid display='flex' flexGrow={1}>
                 {/* whatever is on the left side */}

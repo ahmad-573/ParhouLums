@@ -93,6 +93,7 @@ function Resources({username, setGroup, setSnackbarMsg, groups, setGroups, group
                 modalClose={handleClose}
                 groupid={group.group_id}
                 logout={logout}
+                setSnackbarMsg={setSnackbarMsg}
             />
             <Grid className={classes.subBox} >
                 <ThemeProvider theme={theme}>
@@ -108,7 +109,7 @@ function Resources({username, setGroup, setSnackbarMsg, groups, setGroups, group
                         <Divider className={classes.line}/>
                     </Typography>
                 </ThemeProvider>
-                <Topics groupid={group.group_id} logout={logout}/>
+                <Topics groupid={group.group_id} logout={logout} setSnackbarMsg={setSnackbarMsg}/>
             </Grid>
         </Grid>
     )

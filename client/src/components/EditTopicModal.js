@@ -170,7 +170,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function EditTopicModal({open, modalClose, mtitle, topic_id, logout, group_id}) {  
+function EditTopicModal({open, modalClose, mtitle, topic_id, logout, group_id, setSnackbarMsg}) {  
 //   const [open, setOpen] = useState(false);
 //   console.log(open, 'in modal')  
 //   const handleOpen = () => setOpen(modalop);
@@ -184,7 +184,7 @@ function EditTopicModal({open, modalClose, mtitle, topic_id, logout, group_id}) 
     const [data, err] = await apiInvoker('/api/editTopic', {new_title:title, topic_id:topic_id, group_id: group_id})
     if (data !== undefined) ;
     else if (err === 'Token error') logout()
-    else alert(err)
+    else setSnackbarMsg('Error: ' + err)
     modalClose()
   };
 

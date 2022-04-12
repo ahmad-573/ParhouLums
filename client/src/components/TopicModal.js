@@ -170,20 +170,20 @@ const style = {
   
   
   
-  function TopicModal({open, modalClose,groupid, logout}) {  
+  function TopicModal({open, modalClose,groupid, logout, setSnackbarMsg}) {  
     const [title, setTitle] = useState('')
   
     const handleSubmit = async e =>{
       e.preventDefault()
       console.log(title)
       if(title == ''){
-            alert('error all the required fields were not filled')
+        setSnackbarMsg('Error: all the required fields were not filled')
       }
       else{
             const [data, err] = await apiInvoker('/api/addTopic', {title:title, group_id:groupid})
             if (data !== undefined) ;
             else if (err === 'Token error') logout()
-            else alert(err)
+            else setSnackbarMsg('Error: ' + err)
             modalClose() 
       }
 
