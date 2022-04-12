@@ -17,5 +17,7 @@ router.use('/api', require('./groupDashboard'));
 router.use('/api', require('./important_routes'));
 router.use('/api', require('./deleteGroup'));
 router.use('/api', require('./flashCard'));
+router.use('/api', require('./topic'));
+router.use('/api', require('./link'));
 
 module.exports = router;
