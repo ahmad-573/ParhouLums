@@ -8,7 +8,7 @@ router.post('/getTopics', async (req,res) => {
     if (await helpers.isUserInGroup(res,req.body.userid, req.body.group_id)){
         try {
             const result = await pool.query(
-                "SELECT topic_id, title FROM topics WHERE group_id = $1", [req.body.group_id]
+                "SELECT topic_id, title FROM topic WHERE group_id = $1", [req.body.group_id]
             );
             res.status(200).json({topics: result.rows})
         } catch (err) {
@@ -23,7 +23,7 @@ router.post('/addTopic', async (req,res) => {
     if (await helpers.isUserInGroup(res,req.body.userid, req.body.group_id)){
         try {
             const result = await pool.query(
-                "INSERT INTO topics(group_id,title) VALUES ($1,$2) ", [req.body.group_id, req.body.title]
+                "INSERT INTO topic(group_id,title) VALUES ($1,$2) ", [req.body.group_id, req.body.title]
             );
             res.status(200).json({})
         } catch (err) {
@@ -38,7 +38,7 @@ router.post('/deleteTopic', async (req,res) => {
     if (await helpers.isUserInGroup(res,req.body.userid, req.body.group_id)){
         try {
             const result = await pool.query(
-                "DELETE FROM topics WHERE topic_id = $1 AND group_id = $2", [req.body.topic_id, req.body.group_id]
+                "DELETE FROM topic WHERE topic_id = $1 AND group_id = $2", [req.body.topic_id, req.body.group_id]
             );
             res.status(200).json({})
         } catch (err) {
@@ -53,7 +53,7 @@ router.post('/editTopic', async (req,res) => {
     if (await helpers.isUserInGroup(res,req.body.userid, req.body.group_id)){
         try {
             const result = await pool.query(
-                "UPDATE topics SET title = $1 WHERE topic_id = $2 AND group_id = $3", [req.body.new_title, req.body.topic_id, req.body.group_id]
+                "UPDATE topic SET title = $1 WHERE topic_id = $2 AND group_id = $3", [req.body.new_title, req.body.topic_id, req.body.group_id]
             );
             res.status(200).json({})
         } catch (err) {
