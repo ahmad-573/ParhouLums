@@ -54,7 +54,12 @@ function GroupList({type, groups, setGroup}) {
       setGroup(group)
       navigate('/chat', { replace: true })
     } else {
-      navigate('/', { replace: true })
+      if (err === 'Token error') {
+        logout()
+        navigate('/', { replace: true })
+      } else {
+        navigate('/', { replace: true })
+      }
     }
   }
 
