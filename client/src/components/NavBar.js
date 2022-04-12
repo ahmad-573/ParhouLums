@@ -110,7 +110,12 @@ function NavBar({navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGro
         setMemberMap(newMemberMap)
         setMemberList(newMemberList)
       } else {
-        setSnackbarMsg('Create Group Error: ' + err)
+        if (err === 'Token error') {
+          logout()
+          navigate('/', { replace: true })
+        } else {
+          setSnackbarMsg('Create Group Error: ' + err)
+        }
       }
     })
 
@@ -171,7 +176,12 @@ function NavBar({navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGro
               if (err === undefined) {
                 setGroups([...groups, {name: values.groupName, group_id: data.group_id, status: 1}])
               } else {
-                setSnackbarMsg('Create Group Error: ' + err)
+                if (err === 'Token error') {
+                  logout()
+                  navigate('/', { replace: true })
+                } else {
+                  setSnackbarMsg('Create Group Error: ' + err)
+                }
               }
             }}
             >
