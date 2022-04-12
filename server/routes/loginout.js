@@ -9,6 +9,7 @@ const { createToken } = require(`./auth`)
 
 // Log in
 router.post('/login', async (req, res) => {
+    console.log("in login api")
     try {
         const q1 = await pool.query(
             "SELECT user_id, password FROM users WHERE username = $1", [req.body.username]

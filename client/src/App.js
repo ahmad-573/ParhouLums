@@ -9,6 +9,7 @@ import ErrorPopup from './components/ErrorPopup'
 import NavBar from './components/NavBar'
 import SideBar from './components/SideBar'
 import CardsFront from "./components/CardsFront";
+import Resources from "./components/Resources";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(true)
@@ -60,6 +61,7 @@ function App() {
             <Route path='/forgot-password' element={<FPassPage setSnackbarMsg={setSnackbarMsg}/>}/>
             {/* <Route path='/cards-front' element={<CardsFront/>}/> */}
             <Route path='/cards-front' element={(isLoggedIn && group != undefined) ? <CardsFront username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
+            <Route path='/resources' element={(isLoggedIn && group != undefined) ? <Resources username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
           
           </Routes>
         </Box>

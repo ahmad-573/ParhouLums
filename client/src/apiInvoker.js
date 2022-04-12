@@ -1,4 +1,4 @@
-const base_url = 'http://localhost:8080'
+const base_url = 'http://localhost:4000'
 
 export async function apiInvoker(api, body = {}) {
   try {
@@ -15,7 +15,6 @@ export async function apiInvoker(api, body = {}) {
     if (body !== {}) {
       reqHeader['body'] = JSON.stringify(body)
     }
-
     const res = await fetch(base_url + api, reqHeader)
     if (res.ok) {
       const data = await res.json()
