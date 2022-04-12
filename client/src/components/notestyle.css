@@ -72,14 +72,13 @@
     backface-visibility: hidden;
     display: flex;
     justify-content: center;
-    margin-top: 55px;
+    margin-top: 75px;
     /* word-break: normal; */
     /* align-content: center; */
     /* text-align: center; */
     /* background: #ffc728; */
     color: #333;
 }
-
 
 .body{
     color: light;
@@ -98,7 +97,7 @@
     backface-visibility: hidden; 
     display: flex;
     justify-content: center;
-    margin-top: 55px;
+    margin-top: 75px;
     /* text-align: center; */
     /* background: #ffc728; */
     color: #333;
@@ -109,7 +108,7 @@
 .note{
     position: relative;
     width: 450px;
-    height: 220px; 
+    height: 250px; 
     /* display: flex; */
     justify-content: center;
     transform-style: preserve-3d; 
@@ -121,17 +120,17 @@
     /* text-align: center; */
 }
 
-
 .note.cardflip{
    --rotate-y: 180deg;
 }
 
 .wrapper{
+    display: grid;
     /* grid-area: span; */
     /* grid-auto-columns: 200px; */
     /* grid-auto-rows: 200px; */
-    grid-template-rows: 240px 240px;
-    grid-template-columns: 515px 515px ;
+    grid-template-rows: 260px 260px;
+    grid-template-columns: 500px 500px ;
     /* justify-content: space-evenly; */
     /* align-content: space-evenly; */
     /* justify-content: center; */
@@ -139,12 +138,12 @@
     align-items: center;
     justify-items: center;
     /* border: 3px solid red; */
-    width: 100%;
+    width: 990px;
     height: 540px;
     position: relative;
-    margin-left: 1%;
+    margin-left: auto;
     margin-right: auto;
-    margin-top: 6%;
+    margin-top: 4%;
     /* margin-block-start: auto; */
     /* margin-top: auto; */
     /* margin-bottom: auto; */
