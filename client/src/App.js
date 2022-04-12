@@ -33,7 +33,7 @@ function App() {
     unSetGroup()
     setUsername('')
     setIsLoggedIn(false)
-    window.location.replace('/')
+    //window.location.replace('/')
   }
 
   return (
