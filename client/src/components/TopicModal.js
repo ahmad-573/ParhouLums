@@ -170,7 +170,7 @@ const style = {
   
   
   
-  function TopicModal({open, modalClose}) {  
+  function TopicModal({open, modalClose,groupid, logout}) {  
     const [title, setTitle] = useState('')
   
     const handleSubmit = async e =>{
@@ -180,7 +180,10 @@ const style = {
             alert('error all the required fields were not filled')
       }
       else{
-            // const [data, err] = await apiInvoker('/api/createCard', {title:title, description:description})
+            const [data, err] = await apiInvoker('/api/addTopic', {title:title, group_id:groupid})
+            if (data !== undefined) ;
+            else if (err === 'Token error') logout()
+            else alert(err)
             modalClose() 
       }
 

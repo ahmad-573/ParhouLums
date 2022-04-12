@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react';
-import { Typography, Modal, Button, Box, TextField, IconButton, Card,createTheme , ThemeProvider} from '@material-ui/core'
+import { Typography, Modal, Button, Box, TextField, IconButton, Card,createTheme , ThemeProvider, Grid} from '@material-ui/core'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CloseIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add';
@@ -15,26 +15,27 @@ import NavBar from './NavBar';
 const useStyles = makeStyles((theme) => ({
   
     mainBox:{
-        position: 'absolute',
-        right: '0px',
-        top: '0px',
-        bottom: '0px',
-        width: '80%',
+        position: 'relative',
+        //right: '0px',
+        // top: '0px',
+        // bottom: '0px',
+        width: '100%',
         height: '100%',
         backgroundColor: theme.primary,
         textAlign: 'center',
     },
     subBox:{
-        position: 'absolute',
+        position: 'relative',
         width: '96%',
-        height: '85%',   
-        top: '13%',
-        bottom: '100px',
+        height: '90%',   
+        top: '5%',
+        //bottom: '100px',
         right: '4.5%',
         left: '3%',
         backgroundColor: theme.primary,
         border: '1px solid #d3d3d3',
         borderRadius: '20px',
+        //overflow: 'auto'
         // display: 'flex',
         // justifyContent: 'center'
     },
@@ -80,18 +81,20 @@ const useStyles = makeStyles((theme) => ({
     },
   });
 
-function Resources({group}){
+function Resources({username, setGroup, setSnackbarMsg, groups, setGroups, group, logout}){
     const classes = useStyles();
     const [opmodal, setOpmodal] = useState(false)
     const handleClose = useCallback(() => setOpmodal(false), [])
     const handleOpen = () => setOpmodal(true)
     return(
-        <Card className={classes.mainBox}>
+        <Grid item xs="auto" className={classes.mainBox} flexGrow={1}>
             <TopicModal
                 open={opmodal}
                 modalClose={handleClose}
+                groupid={group.group_id}
+                logout={logout}
             />
-            <Card className={classes.subBox}>
+            <Grid className={classes.subBox} >
                 <ThemeProvider theme={theme}>
                     <Typography>
                         Resources
@@ -105,9 +108,9 @@ function Resources({group}){
                         <Divider className={classes.line}/>
                     </Typography>
                 </ThemeProvider>
-                <Topics groupid={group.group_id}/>
-            </Card>
-        </Card>
+                <Topics groupid={group.group_id} logout={logout}/>
+            </Grid>
+        </Grid>
     )
 }
 

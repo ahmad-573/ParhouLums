@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function Topics({groupid}){    
+function Topics({groupid, logout}){    
     const [topics, setTopics] = useState(SAMPLE_TOPICS)
     const [index, setIndex] = useState(0)
     const [index2, setIndex2] = useState(1)
@@ -88,7 +88,8 @@ function Topics({groupid}){
     const getTopics = async () =>{
         const [data, err] = await apiInvoker('/api/getTopics', {group_id:groupid})
         if (data !== undefined) setTopics(data.topics)
-        //else alert(err)
+        else if (err === 'Token error') logout()
+        else alert(err)
     }
 
     useEffect(() => {
@@ -112,7 +113,7 @@ function Topics({groupid}){
                 <div class="wrapper3">
                     {topics.map(topic => {
                         // console.log(flashcard.id)
-                        return <Topic topic = {topic} key = {topic.topic_id}/>
+                        return <Topic topic = {topic} key = {topic.topic_id} logout={logout} groupid={groupid}/>
                     })}
                 </div> 
                 {/* <Button>Hello</Button>       */}

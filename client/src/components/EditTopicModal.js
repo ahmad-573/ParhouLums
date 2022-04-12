@@ -13,7 +13,7 @@ const style = {
   bottom: '313px',
   right: '460px',
   width: '520px',
-  height: '432px',
+  height: '232px',
   transform: 'translate(-50%, -50%)',
   bgcolor: 'background.paper',
   border: '2px solid #000',
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     typo1:{
         position: 'absolute',
         fontWeight: '900',
-        fontFamily: 'Lato',
+        fontFamily: 'Helvetica Bold, sans-serif',
         fontStyle: 'normal',
         lineHeight: '30px',
         fontSize: '22px',
@@ -149,13 +149,13 @@ const useStyles = makeStyles((theme) => ({
     },
 
     submitEButton:{
-        top: '140px',
+        top: '70px',
         // bottom: '0px',
         left: '430px'
     },
 
     submitCButton:{
-        top: '140px',
+        top: '70px',
         left: '260px'
     },
 
@@ -170,27 +170,26 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function EditTopicModal({open, modalClose, mtitle, mdescription, card_id}) {  
+function EditTopicModal({open, modalClose, mtitle, topic_id, logout, group_id}) {  
 //   const [open, setOpen] = useState(false);
 //   console.log(open, 'in modal')  
 //   const handleOpen = () => setOpen(modalop);
 //   const handleClose = () => setOpen(false)
   const [title, setTitle] = useState(mtitle)
-  const [description, setDescription] = useState(mdescription)
   const [ititle, setiTitle] = useState(mtitle)
-  const [idescription, setiDescription] = useState(mdescription)
 
   const handleSubmit = async e =>{
     e.preventDefault()
     setiTitle(title)
-    setiDescription(description)
-    const [data, err] = await apiInvoker('/api/editTopic', {new_title:title, card_id:card_id})
+    const [data, err] = await apiInvoker('/api/editTopic', {new_title:title, topic_id:topic_id, group_id: group_id})
+    if (data !== undefined) ;
+    else if (err === 'Token error') logout()
+    else alert(err)
     modalClose()
   };
 
   function handleButton(){
     setTitle(ititle)
-    setDescription(idescription)
     modalClose()
   }
 //   console.log('hereee maybe')
@@ -209,7 +208,7 @@ function EditTopicModal({open, modalClose, mtitle, mdescription, card_id}) {
             <Typography className = {classes.toptypo}>
                 <CheckBoxOutlineBlankIcon className = {classes.bicon}/> 
                 <Typography className = {classes.typo1} style = {{display: 'inline-block'}}>
-                    Edit Flashcard
+                    Edit Topic
                 </Typography>
 
                 <IconButton className = {classes.iconButton} aria-label="close modal" onClick={handleButton}>
@@ -223,24 +222,13 @@ function EditTopicModal({open, modalClose, mtitle, mdescription, card_id}) {
                         onChange={(e) => setTitle(e.target.value)}
                         className = {classes.text1} 
                         id="question" 
-                        label="Question" 
+                        label="Enter new title" 
                         value = {title}
                         multiline = {true} 
                         variant="outlined"
                         color = "secondary"
                     />
                 
-                    <TextField 
-                        onChange={(e) => setDescription(e.target.value)}
-                        className = {classes.text2} 
-                        id="answer"
-                        value={description}
-                        multiline={true} 
-                        label = "Answer"
-                        rows = {6}
-                        variant="outlined"
-                        color = "secondary"
-                    />
                     <Button
                         className  = {classes.submitEButton}
                         type="submit"
