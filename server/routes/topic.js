@@ -34,6 +34,20 @@ router.post('/addTopic', async (req,res) => {
 });
 
 // Delete a topic 
+router.post('/deleteTopic', async (req,res) => {
+    if (await helpers.isUserInGroup(res,req.body.userid, req.body.group_id)){
+        try {
+            const result = await pool.query(
+                "DELETE FROM topics WHERE topic_id = $1 AND group_id = $2", [req.body.topic_id, req.body.group_id]
+            );
+            res.status(200).json({})
+        } catch (err) {
+            console.log(err);
+            res.status(400).json({error: `Request failed. Try again.`})
+        }
+    }
+});
+
 
 
 
