@@ -8,7 +8,7 @@ import { apiInvoker } from '../apiInvoker'
 import Divider from '@material-ui/core/Divider';
 import Note from "./Note";
 import './notestyle.css'
-import GridNotes from './GridNotes';
+import Topics from './Topics';
 import TopicModal from './TopicModal';
 import NavBar from './NavBar';
 
@@ -73,14 +73,14 @@ const useStyles = makeStyles((theme) => ({
   const theme = createTheme({
     typography: {
       fontFamily: [
-        'Helvetica World Bold',
+        'Helvetica Bold',
         "sans-serif"
       ].join(','),
-      fontSize: 20,
+      fontSize: 15,
     },
   });
 
-function Resources(){
+function Resources({group}){
     const classes = useStyles();
     const [opmodal, setOpmodal] = useState(false)
     const handleClose = useCallback(() => setOpmodal(false), [])
@@ -93,7 +93,7 @@ function Resources(){
             />
             <Card className={classes.subBox}>
                 <ThemeProvider theme={theme}>
-                    <Typography className={classes.textHeading}>
+                    <Typography>
                         Resources
                         <IconButton 
                         className={classes.addicon}
@@ -105,7 +105,7 @@ function Resources(){
                         <Divider className={classes.line}/>
                     </Typography>
                 </ThemeProvider>
-
+                <Topics groupid={group.group_id}/>
             </Card>
         </Card>
     )
