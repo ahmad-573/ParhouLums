@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function GroupList({type, groups, setGroup}) {
+function GroupList({type, groups, setGroup, logout}) {
 
   const classes = useStyles()
   const navigate = useNavigate()
