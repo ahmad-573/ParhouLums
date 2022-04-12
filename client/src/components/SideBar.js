@@ -116,7 +116,7 @@ const validationSchemaSettings = yup.object({
   .required('New Password is required'),
 });
 
-function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setGroup}) {
+function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setGroup, logout}) {
   const [openPromoteMember, setOpenPromoteMember] = React.useState(false)
   const [openRemoveMember, setOpenRemoveMember] = React.useState(false)
   const [openAddMember, setOpenAddMember] = React.useState(false)
@@ -161,7 +161,12 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
         setGroup(newGroup)
         navigate(link, { replace: true })
       } else {
-        navigate('/', { replace: true })
+        if (err === 'Token error') {
+          logout()
+          navigate('/', { replace: true })
+        } else {
+          navigate('/', { replace: true })
+        }
       }
     }
 
@@ -210,7 +215,12 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
       setMMap(newMemberMap)
       setMList(newMemberList)
     } else {
-      setSnackbarMsg(errorText + ' Error: ' + err)
+      if (err === 'Token error') {
+        logout()
+        navigate('/', { replace: true })
+      } else {
+        setSnackbarMsg(errorText + ' Error: ' + err)
+      }
     }
   }
 
@@ -221,7 +231,12 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
       unSetGroup()
       navigate('/', { replace: true })
     } else {
-      setSnackbarMsg('Delete Group Error: ' + err)
+      if (err === 'Token error') {
+        logout()
+        navigate('/', { replace: true })
+      } else {
+        setSnackbarMsg('Delete Group Error: ' + err)
+      }
     }
   }
 
@@ -253,7 +268,12 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
       unSetGroup()
       navigate('/', { replace: true })
     } else {
-      setSnackbarMsg('Leave Group Error: ' + err)
+      if (err === 'Token error') {
+        logout()
+        navigate('/', { replace: true })
+      } else {
+        setSnackbarMsg('Leave Group Error: ' + err)
+      }
     }
   }
 
@@ -307,7 +327,12 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
             if (err === undefined) {
               setOpenDialog(false)
             } else {
-              setSnackbarMsg(title + ' Error: ' + err)
+              if (err === 'Token error') {
+                logout()
+                navigate('/', { replace: true })
+              } else {
+                setSnackbarMsg(title + ' Error: ' + err)
+              }
             }
           }}
           >
@@ -411,7 +436,12 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
         if (err === undefined) {
           setOpenSettings(false)
         } else {
-          setSnackbarMsg('Update Password Error: ' + err)
+          if (err === 'Token error') {
+            logout()
+            navigate('/', { replace: true })
+          } else {
+            setSnackbarMsg('Update Password Error: ' + err)
+          }
         }
       }
     });
