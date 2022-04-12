@@ -59,7 +59,7 @@
 |2|Create a topic|A member/admin creates a topic in resources tab|/api/addTopic|{title: String, group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
 |3|Delete a topic|A member/admin deletes a topic in resources tab|/api/deleteTopic|{topic_id, group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
 |4|Edit a topic|A member/admin edits a topic title in resources tab|/api/editTopic|{topic_id, new_title: String, group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
-|5|Get all links|For displaying. Gets all links under a specific topic|/api/getLinks|{group_id: INT, topic_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {topics: list({link_id: INT, link: String})}|N/A
+|5|Get all links|For displaying. Gets all links under a specific topic|/api/getLinks|{group_id: INT, topic_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {links: list({link_id: INT, link: String})}|N/A
 |6|Add link|Member/admin can add link under a specific topic|/api/addLink|{group_id: INT, topic_id: INT, link: String}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
 |7|Delete link|Anyone can delete link in a topic|/api/deleteLink|{link_id: INT, group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
 
