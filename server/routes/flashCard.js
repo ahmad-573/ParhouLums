@@ -38,7 +38,7 @@ router.post('/editCard', async (req,res) => {
     if (await helpers.isUserInGroup(res,req.body.userid, req.body.group_id)){
         try {
             const result = await pool.query(
-                "UPDATE flashcards SET title = $1, description = $2 WHERE card_id = $3", [req.body.new_title, req.body.new_description, req.body.card_id]
+                "UPDATE flashcards SET title = $1, description = $2 WHERE card_id = $3 AND group_id = $4", [req.body.new_title, req.body.new_description, req.body.card_id, req.body.group_id]
             );
             res.status(200).json({})
         } catch (err) {

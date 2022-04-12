@@ -48,6 +48,21 @@ router.post('/deleteTopic', async (req,res) => {
     }
 });
 
+// edit a topic
+router.post('/editTopic', async (req,res) => {
+    if (await helpers.isUserInGroup(res,req.body.userid, req.body.group_id)){
+        try {
+            const result = await pool.query(
+                "UPDATE topics SET title = $1 WHERE topic_id = $2 AND group_id = $3", [req.body.new_title, req.body.topic_id, req.body.group_id]
+            );
+            res.status(200).json({})
+        } catch (err) {
+            console.log(err);
+            res.status(400).json({error: `Request failed. Try again.`})
+        }
+    }
+});
+
 
 
 
