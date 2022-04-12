@@ -52,6 +52,16 @@
 |3|Edit a flashcard|User presses edit after entering details|/api/editCard|{new_title: String, new_description: String, card_id: INT, group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
 |4|Delete flashcard|User presses delete on a flashcard|/api/deleteCard|{card_id: INT, group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
 
+### 7. Resources
+|#|Name|Description|Route|Request Object|Request Type|Response Object|Additional Note
+|-|----|-----------|---------------|------------|----------|---------------|----------|
+|1|Get all topics|For displaying topics|/api/getTopics|{group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {topics: list({topic_id: INT, title: String})}|N/A
+|2|Create a topic|A member/admin creates a topic in resources tab|/api/addTopic|{title: String, group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
+|3|Delete a topic|A member/admin deletes a topic in resources tab|/api/deleteTopic|{topic_id, group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
+|4|Edit a topic|A member/admin edits a topic title in resources tab|/api/editTopic|{topic_id, new_title: String, group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
+|5|Get all links|For displaying. Gets all links under a specific topic|{group_id: INT, topic_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {topics: list({link_id: INT, link: String})}|N/A
+|6|Add link|Member/admin can add link under a specific topic|{group_id: INT, topic_id: INT, link: String}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
+|7|Delete link|Anyone can delete link in a topic|{link_id: INT, group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
 
 
 
