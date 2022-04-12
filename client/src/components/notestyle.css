@@ -72,7 +72,7 @@
     backface-visibility: hidden;
     display: flex;
     justify-content: center;
-    margin-top: 75px;
+    margin-top: 55px;
     /* word-break: normal; */
     /* align-content: center; */
     /* text-align: center; */
@@ -97,7 +97,7 @@
     backface-visibility: hidden; 
     display: flex;
     justify-content: center;
-    margin-top: 75px;
+    margin-top: 55px;
     /* text-align: center; */
     /* background: #ffc728; */
     color: #333;
@@ -108,7 +108,7 @@
 .note{
     position: relative;
     width: 450px;
-    height: 250px; 
+    height: 220px; 
     /* display: flex; */
     justify-content: center;
     transform-style: preserve-3d; 
@@ -129,8 +129,8 @@
     /* grid-area: span; */
     /* grid-auto-columns: 200px; */
     /* grid-auto-rows: 200px; */
-    grid-template-rows: 260px 260px;
-    grid-template-columns: 500px 500px ;
+    grid-template-rows: 240px 240px;
+    grid-template-columns: 515px 515px ;
     /* justify-content: space-evenly; */
     /* align-content: space-evenly; */
     /* justify-content: center; */
@@ -141,9 +141,9 @@
     width: 990px;
     height: 540px;
     position: relative;
-    margin-left: auto;
+    margin-left: 1%;
     margin-right: auto;
-    margin-top: 4%;
+    margin-top: 6%;
     /* margin-block-start: auto; */
     /* margin-top: auto; */
     /* margin-bottom: auto; */
