@@ -10,6 +10,11 @@ router.post('/editTask', async (req, res) => {
             res.status(400).json({ error: `Not a group member.` });
             return
         }
+        const check_taskid = await pool.query("SELECT task_id FROM task_list WHERE task_id = $1 AND group_id = $2", [req.body.task_id, req.body.group_id]);
+        if (check_taskid.rowCount == 0) {
+            res.status(400).json({ error: `Task (ID) does not exist in this group.` });
+            return
+        }
 
         let q_str = `UPDATE task_list SET title = '${req.body.title}'`;
         if (req.body.assign_to) {
