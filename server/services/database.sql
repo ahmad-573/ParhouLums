@@ -32,7 +32,7 @@ CREATE TABLE task_list(
     title TEXT NOT NULL,
     description TEXT,
     category INT NOT NULL,
-    deadline DATE,
+    deadline TEXT,
     assign_to INT DEFAULT NULL REFERENCES users(user_id) ON DELETE SET DEFAULT
 );
 
