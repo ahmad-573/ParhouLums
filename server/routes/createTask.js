@@ -13,13 +13,13 @@ router.post('/createTask', async (req, res) => {
         let q_str1 = "INSERT INTO task_list(group_id,title,category";
         let q_str2 = `(${req.body.group_id},'${req.body.title}',${req.body.category}`
         if (req.body.assign_to) {
-            q_str1 = q_str1 + ",assign_to";
-            q_str2 = q_str2 + `,${req.body.assign_to}`
             const check = await pool.query("SELECT * FROM group_membership WHERE user_id = $1 AND group_id = $2", [req.body.assign_to, req.body.group_id]);
             if (check.rowCount == 0) {
                 res.status(400).json({ error: `Task can only be assigned to a group member.` });
                 return
             }
+            q_str1 = q_str1 + ",assign_to";
+            q_str2 = q_str2 + `,${req.body.assign_to}`
         }
         if (req.body.description) {
             q_str1 = q_str1 + ",description";
