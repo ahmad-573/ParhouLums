@@ -18,7 +18,7 @@ const ChatFeed = (props) => {
                     backgroundImage: `url(${person?.person?.avatar})`,
                 }}
                 
-           > <a>{person?.person?.userName}</a></div> 
+           ></div> 
         ))
     }
 
@@ -37,7 +37,7 @@ const ChatFeed = (props) => {
                             isMyMessage ? <MyMessage message={message}/> : <TheirMessage message={message} lastMessage={messages[lastMessageKey]}/>
                         }
                     </div>
-                    <div className="read-receipts" style={{ marginRight: isMyMessage ? '18px' : '0px', marginLeft: isMyMessage ? '0px' : '68px' }}>
+                    <div className="read-receipts" style={{ marginRight: isMyMessage ? '120px' : '0px', marginLeft: isMyMessage ? '0px' : '68px' }}>
                         {renderReadReceipts(message, isMyMessage)}
                     </div>
                 </div>
