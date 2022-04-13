@@ -76,7 +76,7 @@ const validationSchemaCreateGroup = yup.object({
   members: yup
   .array('Select members')
   .of(yup.string('Member name should be a string').min(3, 'Member should be of minimum 3 characters length'))
-  .min(1, 'Please select atleast 1 member')
+  .min(0, 'Please select atleast 1 member')
   .required('Member(s) required')
 });
 
