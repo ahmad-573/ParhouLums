@@ -157,6 +157,7 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
         let newGroup = {...group}
         newGroup.status = data.status
         setGroup(newGroup)
+        setNavTitle(buttonName)
         navigate(link, { replace: true })
       } else {
         if (err === 'Token error') {
