@@ -7,8 +7,9 @@ import FPassPage from './components/FPassPage'
 import GroupSelectorPage from './components/GroupSelectorPage'
 import ErrorPopup from './components/ErrorPopup'
 import NavBar from './components/NavBar'
-import SideBar from './components/SidebarNew'
+import SideBar from './components/sidebar'
 import TaskList from './components/TaskList'
+import Modal from './components/ModalCreateTask'
 
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
             <Route path='/register' element={<RegisterPage setSnackbarMsg={setSnackbarMsg}/>}/>
             <Route path='/forgot-password' element={<FPassPage setSnackbarMsg={setSnackbarMsg}/>}/>
             <Route path='/task-list' element={<TaskList/>}/>
+            <Route path='/modal' element={<Modal/>}/>
           </Routes>
         </Box>
       </Box>
