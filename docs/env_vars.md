@@ -11,4 +11,6 @@ DB_PASSWORD
 
 DB_HOST
 
+SECRET_KEY
+
 ## For Client -- Add .env file inside client folder then run `npm i dotenv` inside the folder
