@@ -11,23 +11,21 @@ router.post('/createTask', async (req, res) => {
             return
         }
         let q_str1 = "INSERT INTO task_list(group_id,title,category";
-        let q_str2 = `(${req.body.group_id},${req.body.title},${req.body.category}`
+        let q_str2 = `(${req.body.group_id},'${req.body.title}',${req.body.category}`
         if (req.body.description) {
             q_str1 = q_str1 + ",description";
-            q_str2 = q_str2 + `,${req.body.description}`
+            q_str2 = q_str2 + `,'${req.body.description}'`
         }
         if (req.body.deadline) {
             q_str1 = q_str1 + ",deadline";
-            q_str2 = q_str2 + `,${req.body.deadline}`
+            q_str2 = q_str2 + `,'${req.body.deadline}'`
         }
         if (req.body.assign_to) {
             q_str1 = q_str1 + ",assign_to";
             q_str2 = q_str2 + `,${req.body.assign_to}`
         }
-
-        const query_output = await pool.query(
-            q_str1 + ") VALUES" + q_str2 + ") RETURNING task_id"
-        );
+        const query_string = q_str1 + ") VALUES" + q_str2 + ") RETURNING task_id";
+        const query_output = await pool.query(query_string);
         res.status(200).json({ task_id: query_output.rows[0].task_id })
     } catch (err) {
         res.status(400).json({ error: `Request failed. Try again.` })

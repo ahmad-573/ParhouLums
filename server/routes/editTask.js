@@ -11,13 +11,13 @@ router.post('/editTask', async (req, res) => {
             return
         }
 
-        let q_str = `UPDATE task_list SET title = ${req.body.title}`;
+        let q_str = `UPDATE task_list SET title = '${req.body.title}'`;
         if (req.body.description)
-            q_str = q_str + `, description = ${req.body.description}`;
+            q_str = q_str + `, description = '${req.body.description}'`;
         else
             q_str = q_str + `, description = NULL`;
         if (req.body.deadline)
-            q_str = q_str + `, deadline = ${req.body.deadline}`;
+            q_str = q_str + `, deadline = '${req.body.deadline}'`;
         else
             q_str = q_str + `, deadline = NULL`;
         if (req.body.assign_to)
