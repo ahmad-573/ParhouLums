@@ -12,18 +12,26 @@ router.post('/editTask', async (req, res) => {
         }
 
         let q_str = `UPDATE task_list SET title = '${req.body.title}'`;
+        if (req.body.assign_to) {
+            const check = await pool.query("SELECT * FROM group_membership WHERE user_id = $1 AND group_id = $2", [req.body.assign_to, req.body.group_id]);
+            if (check.rowCount == 0) {
+                res.status(400).json({ error: `Task can only be assigned to a group member.` });
+                return
+            }
+            q_str = q_str + `, assign_to = ${req.body.assign_to}`;
+        }
+        else
+            q_str = q_str + `, assign_to = NULL`;
+
         if (req.body.description)
             q_str = q_str + `, description = '${req.body.description}'`;
         else
             q_str = q_str + `, description = NULL`;
         if (req.body.deadline)
-            q_str = q_str + `, deadline = '${req.body.deadline}'`;
+            q_str = q_str + `, deadline = '${req.body.deadline}' `;
         else
-            q_str = q_str + `, deadline = NULL`;
-        if (req.body.assign_to)
-            q_str = q_str + `, assign_to = ${req.body.assign_to} `;
-        else
-            q_str = q_str + `, assign_to = NULL `;
+            q_str = q_str + `, deadline = NULL `;
+
 
         await pool.query(
             q_str + `WHERE task_id = ${req.body.task_id};`
