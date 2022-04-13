@@ -11,6 +11,7 @@ import SideBar from './components/SideBar'
 import CardsFront from "./components/CardsFront";
 import Resources from "./components/Resources";
 import { Link, useNavigate } from 'react-router-dom';
+import Chat from './components/Chat/Chat';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false)
@@ -64,7 +65,7 @@ function App() {
             {/* <Route path='/cards-front' element={<CardsFront/>}/> */}
             <Route path='/notes' element={(isLoggedIn && group != undefined) ? <CardsFront username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
             <Route path='/resources' element={(isLoggedIn && group != undefined) ? <Resources username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups} group={group} logout={logout}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
-          
+            <Route path='/chat' element={(isLoggedIn && group != undefined) ? <Chat/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
           </Routes>
         </Box>
       </Box>
