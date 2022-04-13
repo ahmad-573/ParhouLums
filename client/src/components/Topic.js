@@ -1,8 +1,8 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import FrontSideNote from "./FrontSideNote";
 import BackSideNote from "./BackSideNote";
 import EditModal from './EditModal';
-import { IconButton,Box, Grid } from '@material-ui/core';
+import { IconButton,Box, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import FlipCameraAndroidIcon from '@material-ui/icons/FlipCameraAndroid';
 import EditIcon from '@material-ui/icons/Edit';
@@ -11,6 +11,8 @@ import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { apiInvoker } from '../apiInvoker'
 import EditTopicModal from './EditTopicModal';
+import AddLinkModal from './AddLinkModal';
+import Link from './Link'
 import './notestyle.css'
 
 
@@ -21,6 +23,22 @@ const useStyles = makeStyles((theme) => ({
         //top: 0,
         left: '40%',
         width: '5%',
+    },
+    arrowDown:{
+        position: "relative",
+        //top: 0,
+        left: '40%',
+        width: '5%',
+        transform: 'rotate(0deg)',
+        transition: 'transform 0.2s linear',
+    },
+    arrowUp:{
+        position: "relative",
+        //top: 0,
+        left: '40%',
+        width: '5%',
+        transform: 'rotate(180deg)',
+        transition: 'transform 0.2s linear',
     }
   }));
   const style = {
@@ -36,6 +54,11 @@ function Topic({topic,groupid,logout, setSnackbarMsg}){
     const [opmodal, setOpmodal] = useState(false)
     const handleClose = useCallback(() => setOpmodal(false), [])
     const handleOpen = () => setOpmodal(true)
+    const [isDown, setisDown] = useState(true)
+    const [links,setLinks] = useState([])
+    const [addmodal, setAddmodal] = useState(false)
+    const onAddLink = () => setAddmodal(true)
+    const onCloseAddModal = useCallback(() => setAddmodal(false), [])
 
     const onDelClick = async e =>{
         const [data, err] = await apiInvoker('/api/deleteTopic', {topic_id:topic.topic_id,group_id: groupid})
@@ -44,7 +67,25 @@ function Topic({topic,groupid,logout, setSnackbarMsg}){
         else setSnackbarMsg('Error: ' + err)          
     };
 
-    return(
+
+    const getLinks = async () =>{
+        const [data, err] = await apiInvoker('/api/getLinks', {group_id:groupid, topic_id:topic.topic_id})
+        if (data !== undefined) setLinks(data.links)
+        else if (err === 'Token error') logout()
+        else setSnackbarMsg('Error: ' + err)
+    }
+
+    useEffect(() => {
+        getLinks();
+    });
+
+    const onArrowClick = async e => {
+        if (isDown) setisDown(false);
+        else setisDown(true)
+    };
+
+
+    const toRender = 
         <div class="topic">
             <EditTopicModal 
             open={opmodal}
@@ -56,6 +97,14 @@ function Topic({topic,groupid,logout, setSnackbarMsg}){
             group_id={groupid}
             setSnackbarMsg={setSnackbarMsg}
             />
+            <AddLinkModal 
+            open={addmodal}
+            modalClose={onCloseAddModal}
+            logout={logout}
+            groupid={groupid}
+            setSnackbarMsg={setSnackbarMsg}
+            topicid={topic.topic_id}
+            />
             <Grid display='flex' flexGrow={1}>
                 {/* whatever is on the left side */}
                 <div class='topic-content'>
@@ -64,17 +113,30 @@ function Topic({topic,groupid,logout, setSnackbarMsg}){
 
             </Grid>
                 {/* whatever is on the right side */}
+
                 <IconButton 
                 color="secondary" 
-                aria-label="edit the card"  
+                aria-label="delete the topic"  
+                onClick={onDelClick}
                 className={classes.iconButton}
                 >
-                    <ArrowDropDownCircleIcon />
+                    <DeleteOutlineIcon />
                 </IconButton>
 
                 <IconButton 
                 color="secondary" 
-                aria-label="edit the card"  
+                aria-label="edit the topic"  
+                onClick={handleOpen}
+                className={classes.iconButton}
+                >
+                    <EditIcon />
+                </IconButton>
+                
+
+                <IconButton 
+                color="secondary" 
+                aria-label="add a link"
+                onClick={onAddLink}
                 className={classes.iconButton}
                 >
                     <AddCircleIcon />
@@ -82,25 +144,35 @@ function Topic({topic,groupid,logout, setSnackbarMsg}){
 
                 <IconButton 
                 color="secondary" 
-                aria-label="edit the card"  
-                onClick={handleOpen}
-                className={classes.iconButton}
+                aria-label="view the links" 
+                onClick={onArrowClick} 
+                className={isDown ? classes.arrowDown : classes.arrowUp}
                 >
-                    <EditIcon />
-                </IconButton>
-
-                <IconButton 
-                color="secondary" 
-                aria-label="delete the card"  
-                onClick={onDelClick}
-                className={classes.iconButton}
-                >
-                    <DeleteOutlineIcon />
+                    <ArrowDropDownCircleIcon />
                 </IconButton>
 
 
         </div>
-    )
+        ;
+
+    if (isDown){
+        return (<div>{toRender}</div>)
+    }
+    else{
+        return(
+            <div>
+                {toRender}
+                <Paper className='links-wrapper'>
+                    {links.map(link => {
+                        // console.log(flashcard.id)
+                        return (
+                            <Link link={link} setSnackbarMsg={setSnackbarMsg} topicid={topic.topic_id} groupid={groupid} logout={logout}/>
+                        );
+                    })}
+                </Paper>
+            </div>
+        )
+    }
 }
 
 
