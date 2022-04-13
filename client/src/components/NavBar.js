@@ -172,7 +172,7 @@ function NavBar({navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGro
             }}
             validationSchema={validationSchemaCreateGroup}
             onSubmit={async (values) => {
-              const [data, err] = await apiInvoker('/api/createGroup', {groupName: values.groupName, member_ids: values.members.map((val) => memberMap[val].user_id)})
+              const [data, err] = await apiInvoker('/api/createGroup', {group_name: values.groupName, member_ids: values.members.map((val) => memberMap[val].user_id)})
               if (err === undefined) {
                 setGroups([...groups, {name: values.groupName, group_id: data.group_id, status: 1}])
               } else {
