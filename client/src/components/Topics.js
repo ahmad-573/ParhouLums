@@ -81,22 +81,24 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function Topics({groupid, logout, setSnackbarMsg}){    
-    const [topics, setTopics] = useState([])
+function Topics({groupid, logout, setSnackbarMsg,topics}){    
+    //const [topics, setTopics] = useState([])
     const [index, setIndex] = useState(0)
     const [index2, setIndex2] = useState(1)
 
 
-    const getTopics = async () =>{
-        const [data, err] = await apiInvoker('/api/getTopics', {group_id:groupid})
-        if (data !== undefined) setTopics(data.topics)
-        else if (err === 'Token error') logout()
-        else setSnackbarMsg('Error: ' + err)
-    }
+    // const getTopics = async () =>{
+    //     const [data, err] = await apiInvoker('/api/getTopics', {group_id:groupid})
+    //     if (data !== undefined) { if (data.topics !== topics) setTopics(data.topics)}
+    //     else if (err === 'Token error') logout()
+    //     else setSnackbarMsg('Error: ' + err)
+    // }
 
-    useEffect(() => {
-        getTopics();
-    });
+    // useEffect(() => {
+    //     getTopics();
+    // }, []);
+
+   
 
 
     // return(  

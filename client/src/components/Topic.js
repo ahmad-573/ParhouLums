@@ -59,6 +59,7 @@ function Topic({topic,groupid,logout, setSnackbarMsg}){
     const [addmodal, setAddmodal] = useState(false)
     const onAddLink = () => setAddmodal(true)
     const onCloseAddModal = useCallback(() => setAddmodal(false), [])
+    const [deleted, setDeleted] = useState(false)
 
     const onDelClick = async e =>{
         const [data, err] = await apiInvoker('/api/deleteTopic', {topic_id:topic.topic_id,group_id: groupid})
@@ -75,12 +76,8 @@ function Topic({topic,groupid,logout, setSnackbarMsg}){
         else setSnackbarMsg('Error: ' + err)
     }
 
-    useEffect(() => {
-        getLinks();
-    });
-
     const onArrowClick = async e => {
-        if (isDown) setisDown(false);
+        if (isDown) {setisDown(false); getLinks()}
         else setisDown(true)
     };
 
@@ -104,6 +101,7 @@ function Topic({topic,groupid,logout, setSnackbarMsg}){
             groupid={groupid}
             setSnackbarMsg={setSnackbarMsg}
             topicid={topic.topic_id}
+            setDeleted={setDeleted}
             />
             <Grid display='flex' flexGrow={1}>
                 {/* whatever is on the left side */}
@@ -155,6 +153,11 @@ function Topic({topic,groupid,logout, setSnackbarMsg}){
         </div>
         ;
 
+    if (deleted){
+        getLinks();
+        setDeleted(false)
+    }
+
     if (isDown){
         return (<div>{toRender}</div>)
     }
@@ -166,7 +169,7 @@ function Topic({topic,groupid,logout, setSnackbarMsg}){
                     {links.map(link => {
                         // console.log(flashcard.id)
                         return (
-                            <Link link={link} setSnackbarMsg={setSnackbarMsg} topicid={topic.topic_id} groupid={groupid} logout={logout}/>
+                            <Link setDeleted={setDeleted} link={link} setSnackbarMsg={setSnackbarMsg} topicid={topic.topic_id} groupid={groupid} logout={logout}/>
                         );
                     })}
                 </Paper>

@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     //border: '2px solid #000',
   };
 
-function Link({link, setSnackbarMsg, logout, groupid, topicid}){
+function Link({setDeleted, link, setSnackbarMsg, logout, groupid, topicid}){
     
     const classes = useStyles();
 
@@ -55,7 +55,8 @@ function Link({link, setSnackbarMsg, logout, groupid, topicid}){
         const [data, err] = await apiInvoker('/api/deleteLink', {link_id: link.link_id, topic_id:topicid,group_id: groupid})
         if (data !== undefined) ;
         else if (err === 'Token error') logout()
-        else setSnackbarMsg('Error: ' + err)          
+        else setSnackbarMsg('Error: ' + err)  
+        setDeleted(true)        
     };
 
     return(

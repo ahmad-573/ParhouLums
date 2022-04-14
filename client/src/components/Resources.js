@@ -86,6 +86,21 @@ function Resources({username, setGroup, setSnackbarMsg, groups, setGroups, group
     const [opmodal, setOpmodal] = useState(false)
     const handleClose = useCallback(() => setOpmodal(false), [])
     const handleOpen = () => setOpmodal(true)
+    const [topics, setTopics] = useState([])
+
+    React.useEffect(() => {
+        apiInvoker('/api/getTopics', {group_id:group.group_id}).then(([data, err]) => {
+          if (err === undefined) {
+            setTopics(data.topics)
+          } else if (err === 'Token error'){
+            logout()
+          }
+          else{
+            setSnackbarMsg('Error: ' + err)
+          }
+        })
+      }, [topics])
+
     return(
         <Grid item xs="auto" className={classes.mainBox} flexGrow={1}>
             <TopicModal
@@ -109,7 +124,7 @@ function Resources({username, setGroup, setSnackbarMsg, groups, setGroups, group
                         <Divider className={classes.line}/>
                     </Typography>
                 </ThemeProvider>
-                <Topics groupid={group.group_id} logout={logout} setSnackbarMsg={setSnackbarMsg}/>
+                <Topics topics={topics} groupid={group.group_id} logout={logout} setSnackbarMsg={setSnackbarMsg}/>
             </Grid>
         </Grid>
     )

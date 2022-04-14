@@ -170,7 +170,7 @@ const style = {
   
   
   
-  function AddLinkModal({open, modalClose,groupid, logout, setSnackbarMsg, topicid}) {  
+  function AddLinkModal({setDeleted, open, modalClose,groupid, logout, setSnackbarMsg, topicid}) {  
     const [title, setTitle] = useState('')
     const [mylink, setLink] = useState('')
   
@@ -185,7 +185,8 @@ const style = {
             if (data !== undefined) ;
             else if (err === 'Token error') logout()
             else setSnackbarMsg('Error: ' + err)
-            modalClose() 
+            modalClose()
+            setDeleted(true) 
       }
 
     };

@@ -1,10 +1,35 @@
 import React, {useState, memo} from 'react';
-import { Typography, Modal, Button, Box, TextField, IconButton } from '@material-ui/core'
+import { Typography, Modal, Button, Box, TextField, IconButton, ThemeProvider } from '@material-ui/core'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CloseIcon from '@material-ui/icons/Close';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, createTheme } from '@material-ui/core/styles';
 import { FiAlignCenter, FiVolumeX } from 'react-icons/fi';
 import { apiInvoker } from '../apiInvoker'
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      // light: will be calculated from palette.primary.main,
+      main: '#015719',
+      // dark: will be calculated from palette.primary.main,
+      // contrastText: will be calculated to contrast with palette.primary.main
+    },
+    secondary: {
+      light: '#0066ff',
+      main: '#0044ff',
+      // dark: will be calculated from palette.secondary.main,
+      contrastText: '#ffcc00',
+    },
+    // Used by `getContrastText()` to maximize the contrast between
+    // the background and the text.
+    contrastThreshold: 3,
+    // Used by the functions below to shift a color's luminance by approximately
+    // two indexes within its tonal palette.
+    // E.g., shift from Red 500 to Red 300 or Red 700.
+    tonalOffset: 0.2,
+  },
+});
+
 
 const style = {
   position: 'absolute',
@@ -151,12 +176,13 @@ const useStyles = makeStyles((theme) => ({
     submitEButton:{
         top: '70px',
         // bottom: '0px',
-        left: '430px'
+        left: '430px',
     },
 
     submitCButton:{
         top: '70px',
-        left: '260px'
+        left: '260px',
+        color: '#0A0A0A'
     },
 
     iconButton:{
@@ -228,22 +254,23 @@ function EditTopicModal({open, modalClose, mtitle, topic_id, logout, group_id, s
                         variant="outlined"
                         color = "secondary"
                     />
-                
+                    <ThemeProvider theme={theme}>
                     <Button
                         className  = {classes.submitEButton}
                         type="submit"
-                        color="secondary"
+                        color="primary"
                         variant="contained"
                     >
                         Edit
                     </Button>
+                    </ThemeProvider>
                     
                     <Button
                         onClick={handleButton}
                         className  = {classes.submitCButton}
                         // type="reset"
                         color="secondary"
-                        variant="outlined"
+                        //variant="outlined"
                     >
                         Cancel
                     </Button>
