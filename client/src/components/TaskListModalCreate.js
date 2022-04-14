@@ -24,6 +24,18 @@ function ModalCreateTask (props) {
     const [description, setDescription] = useState('')
     const [users, setUsers] = useState([])
 
+    const getTasks = async (e) => {
+        const [data,err] = await apiInvoker('/api/getTasks', {group_id:props.groupid})
+        if (err === undefined) {
+            props.setTasks(data.tasks)
+        } else if (err === 'Token error'){
+            props.logout()
+        }
+        else{
+            props.setSnackbarMsg('Error: ' + err)
+        }
+    }
+
     const addTodo = async (e) => {
         e.preventDefault();
         props.onClose()
@@ -31,7 +43,7 @@ function ModalCreateTask (props) {
         console.log("In modal: ", props.category);
         const [data, err] = await apiInvoker('/api/createTask', x)
         console.log(data, err)
-        if (data !== undefined);
+        if (data !== undefined) getTasks();
         else if (err === 'Token error') props.logout()
         else props.setSnackbarMsg('Error: ' + err)
     }
