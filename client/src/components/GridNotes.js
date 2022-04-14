@@ -99,7 +99,7 @@ function GridNotes(){
 
     useEffect(() => {
         getCards();
-    });
+    }, [flashcards]);
 
 
     // return(  
