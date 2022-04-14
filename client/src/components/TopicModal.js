@@ -15,7 +15,7 @@ const theme = createTheme({
       },
       secondary: {
         //light: '#0066ff',
-        main: '#FFFFFF',
+        main: '#d3d7db',
         // dark: will be calculated from palette.secondary.main,
         contrastText: '#ffcc00',
       },
@@ -266,9 +266,9 @@ const style = {
                       <Button
                           onClick={handleButton}
                           className  = {classes.submitCButton}
-                          // type="reset"
+                          type="submit"
                           color="secondary"
-                          //variant="outlined"
+                          variant="outlined"
                       >
                           Cancel
                       </Button>

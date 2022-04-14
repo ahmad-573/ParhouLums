@@ -15,8 +15,7 @@ const theme = createTheme({
       // contrastText: will be calculated to contrast with palette.primary.main
     },
     secondary: {
-      light: '#0066ff',
-      main: '#0044ff',
+      main: '#d3d7db',
       // dark: will be calculated from palette.secondary.main,
       contrastText: '#ffcc00',
     },
@@ -263,17 +262,18 @@ function EditTopicModal({open, modalClose, mtitle, topic_id, logout, group_id, s
                     >
                         Edit
                     </Button>
-                    </ThemeProvider>
+                    
                     
                     <Button
                         onClick={handleButton}
                         className  = {classes.submitCButton}
-                        // type="reset"
+                        type="submit"
                         color="secondary"
-                        //variant="outlined"
+                        variant="outlined"
                     >
                         Cancel
                     </Button>
+                    </ThemeProvider>
                 </form>
             </Typography>
         </Box>
