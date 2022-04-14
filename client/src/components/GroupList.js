@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import yellow_face from '../resources/yellow_face.jpeg'
 import red_face from '../resources/red_face.jpeg'
 import { useNavigate } from 'react-router-dom';
+import { apiInvoker } from '../apiInvoker'
 
 const useStyles = makeStyles((theme) => ({
   textBig: {
@@ -42,15 +43,25 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function GroupList({type, groups, setGroup}) {
+function GroupList({type, groups, setGroup, logout}) {
 
   const classes = useStyles()
   const navigate = useNavigate()
 
-  const onGroupSelect = (group) => {
-    group.status = type === 'Admin' ? 1 : 0
-    setGroup(group)
-    navigate('/chat', { replace: true })
+  const onGroupSelect = async (group) => {
+    const [data, err] = await apiInvoker('/api/checkStatus', {group_id: group.group_id})
+    if (err === undefined) {
+      group.status = type === 'Admin' ? 1 : 0
+      setGroup(group)
+      navigate('/chat', { replace: true })
+    } else {
+      if (err === 'Token error') {
+        logout()
+        navigate('/', { replace: true })
+      } else {
+        navigate('/', { replace: true })
+      }
+    }
   }
 
   function GroupTab({image, group}) {

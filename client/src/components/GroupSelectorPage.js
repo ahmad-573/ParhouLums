@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Grid, Divider, Box } from '@material-ui/core'
 import GroupList from './GroupList'
@@ -13,16 +14,22 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function GroupSelectorPage({username, setGroup, setSnackbarMsg, groups, setGroups}) {
+function GroupSelectorPage({username, setGroup, setSnackbarMsg, groups, setGroups, logout}) {
 
   const classes = useStyles()
+  const navigate = useNavigate()
 
   React.useEffect(() => {
     apiInvoker('/api/getAllGroups').then(([data, err]) => {
       if (err === undefined) {
         setGroups(data.groups)
       } else {
-        setSnackbarMsg('Group Selector Error: ' + err)
+        if (err === 'Token error') {
+          logout()
+          navigate('/', { replace: true })
+        } else {
+          setSnackbarMsg('Group Selector Error: ' + err)
+        }
       }
     })
   }, [])
@@ -37,7 +44,7 @@ function GroupSelectorPage({username, setGroup, setSnackbarMsg, groups, setGroup
         <Grid item>
           <Grid container direction='row' justifyContent='center' alignItems='center'>
             <Grid item>
-              <GroupList type={'Admin'} setGroup={setGroup} groups={groups.filter((obj) => obj.status ? true : false)}/>
+              <GroupList logout={logout} type={'Admin'} setGroup={setGroup} groups={groups.filter((obj) => obj.status ? true : false)}/>
             </Grid>
             <Divider
               orientation='vertical'
@@ -45,7 +52,7 @@ function GroupSelectorPage({username, setGroup, setSnackbarMsg, groups, setGroup
               flexItem
             />
             <Grid item>
-            <GroupList type={'Member'} setGroup={setGroup} groups={groups.filter((obj) => obj.status ? false : true)}/>
+            <GroupList logout={logout} type={'Member'} setGroup={setGroup} groups={groups.filter((obj) => obj.status ? false : true)}/>
             </Grid>
           </Grid>
         </Grid>
