@@ -1,4 +1,5 @@
 import './chat.css'
+import { Divider } from '@material-ui/core';
 
 const TheirMessage = ({ lastMessage, message }) => {
     const isFirstMessageByUser = !lastMessage || lastMessage.sender.username !== message.sender.username;
@@ -31,7 +32,9 @@ const TheirMessage = ({ lastMessage, message }) => {
                             style={{ marginLeft: isFirstMessageByUser ? '4px' : '48px' }}
                         />
                     ) : (
-                        <div className="message" style={{ float: 'left', backgroundColor: '#CABCDC', marginLeft: isFirstMessageByUser ? '4px' : '48px' }}>
+                        <div className="message" style={{ float: 'left', backgroundColor: '#32C022', marginLeft: isFirstMessageByUser ? '4px' : '48px' }}>
+                        <div className='sender-name'>{message.sender.username}</div>
+                        <Divider className={{width: '100%'}}/>
                         {message.text.replace(/(<p[^>]+?>|<p>|<\/p>)/img, "")}
                         </div>
                     )

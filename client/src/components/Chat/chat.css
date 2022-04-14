@@ -84,13 +84,13 @@
   }
   
   .chat-title {
-    color: #7554a0;
+    color: #2a7420;
     font-weight: 800;
     font-size: 24px;
   }
   
   .chat-subtitle {
-    color: #7554a0;
+    color: #2a7420;
     font-weight: 600;
     font-size: 12px;
     padding-top: 4px;
@@ -176,6 +176,15 @@
     padding: 0px 18px;
     outline: none;
     font-size: 15px;
+  }
+
+  .sender-name {
+    padding: 0px;
+    font-size: 12px;
+    border-radius: 6px;
+    max-width: 60%;
+    color: black;
+    text-decoration: underline;
   }
   
   .image-button {
