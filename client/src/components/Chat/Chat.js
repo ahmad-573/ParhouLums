@@ -9,7 +9,7 @@ function Chat({username, group}) {
             height="90vh"
             projectID="984bd544-267a-4407-a75e-a55ecb80c946"
             userName={username}
-            userSecret={'ahmad9nov'}
+            userSecret={'genericPassword'}
             renderChatFeed={(chatAppProps) => <ChatFeed {...chatAppProps} />}
             renderChatList={(chatAppState) => {}}
             renderChatSettings={(chatAppState) => {}}
