@@ -63,6 +63,7 @@ CREATE TABLE files(
 CREATE TABLE links(
     link_id SERIAL PRIMARY KEY, 
     topic_id INT NOT NULL REFERENCES topic(topic_id) ON DELETE CASCADE,
+    title TEXT NOT NULL,
     link TEXT NOT NULL -- to review
 );
 

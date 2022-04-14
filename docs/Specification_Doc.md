@@ -35,13 +35,26 @@
 |2|Add participants|admin presses add participants|/api/addParticipants|{group_id: INT, members: list(user_id: INT)}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|Backend should check that the user_id's sent do exist?
 |3|Remove participants|admin presses remove participants|/api/removeParticipants|{group_id: INT, members: list(user_id: INT)}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|Backend should check that the user_id's sent do exist?
 |4|Promote participants|admin presses promote members to admin|/api/promoteToAdmin|{group_id: INT, members: list(user_id: INT)}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|Backend should check that the user_id's sent do exist?
+<<<<<<< HEAD
+|5|Rename group|any member renames group|/api/renameGroup|{group_id: INT, name: String}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|Change group state in frontend as well
+=======
 |5|Rename group|any member renames group|/api/renameGroup|{group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
+>>>>>>> 350303d4bf36f0d45a181a23b6ea86ec980cf37c
 |6|Leave group|any member leaves group|/api/leaveGroup|{group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|If error says "sole admin", ask/alert to first make new admin(s).
 
 ### 5. User management
 |#|Name|Description|Route|Request Object|Request Type|Response Object|Additional Note
 |-|----|-----------|---------------|------------|----------|---------------|----------|
-|1|Update User Information|Updates the information of the user|/api/updateInformation|{username: STR, old_password: STR, new_password: STR}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}||
+|1|Update Username|Updates the username of the user|/api/updateUsername|{username: STR}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|Update username state on frontend|
+|2|Update Password|Updates password of user|/api/updatePassword|{new_password: STR}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
+
+### 6. Flashcard
+|#|Name|Description|Route|Request Object|Request Type|Response Object|Additional Note
+|-|----|-----------|---------------|------------|----------|---------------|----------|
+|1|Create a flashcard|users presses create after entering details|/api/createCard|{title: String, description: String, group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
+|2|Get all cards|For displaying all cards|/api/getCards|{group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {cards: list({id: INT, title: String, description: String})}
+|3|Edit a flashcard|User presses edit after entering details|/api/editCard|{new_title: String, new_description: String, card_id: INT, group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
+|4|Delete flashcard|User presses delete on a flashcard|/api/deleteCard|{card_id: INT, group_id: INT}|`POST`|200 for success, 400 for failure. 400: {error}, 200: {}|N/A
 
 
 

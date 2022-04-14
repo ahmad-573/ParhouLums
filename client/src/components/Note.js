@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-function Note({flashcard}){
+function Note({flashcard, group, setSnackbarMsg, logout}){
     // console.log(key)
     // const classes = useStyles();
     const [flip, setFlip] = useState(false)
@@ -29,8 +29,17 @@ function Note({flashcard}){
     const handleClose = useCallback(() => setOpmodal(false), [])
     const handleOpen = () => setOpmodal(true)
 
-    const onDelClick = async e =>{
-        const [data, err] = await apiInvoker('/api/deleteCard', {card_id:flashcard.id})            
+    const onDelClick = e =>{
+        apiInvoker('/api/deleteCard', {card_id:flashcard.id, group_id:group.group_id}).then(([data, err]) => {
+            if (err === undefined) {
+                // 
+            } else if (err === 'Token error'){
+              logout()
+            }
+            else{
+              setSnackbarMsg('Error: ' + err)
+            }
+          })            
     };
 
     return(
@@ -41,7 +50,10 @@ function Note({flashcard}){
             mtitle = {flashcard.title}
             mdescription = {flashcard.description}
             card_id = {flashcard.id} 
+            group={group}
             key = {flashcard.id}
+            setSnackbarMsg={setSnackbarMsg}
+            logout={logout}
         />
         <IconButton 
             color="secondary" 

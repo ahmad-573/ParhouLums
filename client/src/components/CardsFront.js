@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
     topo1:{
         position: 'absolute',
-        fontFamily: 'Lato',
+        fontFamily: 'Helvetica Bold, sans-serif',
         fontStyle: 'normal',
         fontWeight: '900',
         fontSize: '22px',
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-function CardsFront(){
+function CardsFront({username, setGroup, setSnackbarMsg, groups, setGroups, group, logout}){
     const classes = useStyles();
     const [opmodal, setOpmodal] = useState(false)
     const handleClose = useCallback(() => setOpmodal(false), [])
@@ -81,6 +81,8 @@ function CardsFront(){
             <CreateModal
                 open={opmodal}
                 modalClose={handleClose}
+                group={group}
+                logout={logout}
             />
             <Card className={classes.subBox}>
                 <Typography className={classes.topo1}>
@@ -95,7 +97,11 @@ function CardsFront(){
                     <Divider className={classes.line}/>
                 </Typography>
 
-                <GridNotes/>
+                <GridNotes
+                    setSnackbarMsg={setSnackbarMsg}
+                    group={group}
+                    logout={logout}
+                />
             </Card>
         </Card>
     )

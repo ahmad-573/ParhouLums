@@ -86,15 +86,23 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function GridNotes(){    
-    const [flashcards, setFlashCards] = useState(SAMPLE_FLASHCARDS)
+function GridNotes({setSnackbarMsg, group, logout}){    
+    const [flashcards, setFlashCards] = useState([])
     const [index, setIndex] = useState(0)
     const [index2, setIndex2] = useState(1)
 
 
-    const getCards = async () =>{
-        const [data, err] = await apiInvoker('/api/getCards', {})
-        setFlashCards(data.cards)
+    const getCards = () =>{
+        apiInvoker('/api/getCards', {group_id:group.group_id}).then(([data, err]) => {
+            if (err === undefined) {
+                setFlashCards(data.cards) 
+            } else if (err === 'Token error'){
+              logout()
+            }
+            else{
+              setSnackbarMsg('Error: ' + err)
+            }
+          })
     }
 
     useEffect(() => {
@@ -120,8 +128,13 @@ function GridNotes(){
                         // console.log(flashcard.id)
                         let index1 = flashcards.indexOf(flashcard) 
                         if(index1 >= index && index1 <= (index + 3)){
-                            console.log(flashcard.id)
-                            return <Note flashcard = {flashcard} key = {flashcard.id}/>
+                            // console.log(flashcard.id)
+                            return <Note 
+                                        flashcard={flashcard} 
+                                        key={flashcard.id}
+                                        group={group}
+                                        setSnackbarMsg={setSnackbarMsg}
+                                    />
                         }
                     })}
                 </div>

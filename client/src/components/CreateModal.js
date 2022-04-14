@@ -169,11 +169,11 @@ const style = {
   
   
   
-  function CreateModal({open, modalClose}) {  
+  function CreateModal({open, modalClose, group, logout, setSnackbarMsg}) {  
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
   
-    const handleSubmit = async e =>{
+    const handleSubmit = e =>{
       e.preventDefault()
       console.log(title)
       console.log(description)
@@ -181,8 +181,16 @@ const style = {
             alert('error all the required fields were not filled')
       }
       else{
-            // const [data, err] = await apiInvoker('/api/createCard', {title:title, description:description})
-            modalClose() 
+            apiInvoker('/api/createCard', {title:title, description:description, group_id:group.group_id}).then(([data, err]) => {
+                if (err === undefined) {
+                    modalClose() 
+                } else if (err === 'Token error'){
+                  logout()
+                }
+                else{
+                  setSnackbarMsg('Error: ' + err)
+                }
+              })
       }
 
     };
