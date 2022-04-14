@@ -22,17 +22,16 @@ function ModalCreateTask (props) {
     const [date, setDate] = useState('')
     const [assigned, setAssigned] = useState('')
     const [description, setDescription] = useState('')
-    const [category, setCategory] = useState('')
     const [users, setUsers] = useState([])
 
     const addTodo = async (e) => {
         e.preventDefault();
         props.onClose()
         let x = {category: props.category, title: title, description: description, group_id: props.groupid, deadline: date, assign_to: assigned}
-        console.log(x);
+        console.log("In modal: ", props.category);
         const [data, err] = await apiInvoker('/api/createTask', x)
         console.log(data, err)
-        if (data !== undefined) ;//props.setTasks(data.tasks)
+        if (data !== undefined);
         else if (err === 'Token error') props.logout()
         else props.setSnackbarMsg('Error: ' + err)
     }

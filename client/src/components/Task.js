@@ -16,11 +16,7 @@ function Task({task, groupid, logout, setSnackbarMsg}){
         else setSnackbarMsg('Error: ' + err)          
     };
 
-    
- 
-
     return(
-        
         <div className='flex items-center h-[44px] px-[20px]'>
             <div className="w-3/4">
                 {task.title}
@@ -30,7 +26,6 @@ function Task({task, groupid, logout, setSnackbarMsg}){
                 <button onClick={handleOpen}><PencilIcon className='w-5 h-5'/></button>
                 <ModalEditTask onClose={useCallback(() => setEditmodal(false), [])} editmodal={editmodal} task={task} setSnackbarMsg={setSnackbarMsg} groupid={groupid} key={task.task_id}/>
                 <ChevronRightIcon className='w-5 h-5' />
-                
             </div>
         </div>
     );
