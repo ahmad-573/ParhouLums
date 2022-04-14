@@ -23,7 +23,7 @@ router.post('/getCards', async (req,res) => {
     if (await helpers.isUserInGroup(res,req.body.userid, req.body.group_id)){
         try {
             const result = await pool.query(
-                "SELECT card_id AS id, title, description FROM flashcards WHERE group_id = $1", [req.body.group_id]
+                "SELECT card_id AS id, title, description FROM flashcards WHERE group_id = $1 ORDER BY id ASC", [req.body.group_id]
             );
             res.status(200).json({cards: result.rows})
         } catch (err) {
