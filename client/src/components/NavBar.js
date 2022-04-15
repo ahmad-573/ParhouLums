@@ -8,6 +8,7 @@ import { apiInvoker } from '../apiInvoker'
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -80,7 +81,7 @@ const validationSchemaCreateGroup = yup.object({
   .required('Member(s) required')
 });
 
-function NavBar({navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGroups, groups, sidebarWidth}) {
+function NavBar({username,navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGroups, groups, sidebarWidth}) {
   const [openCreateGroup, setOpenCreateGroup] = React.useState(false)
   const [memberList, setMemberList] = React.useState([]) // [{username, fullname, user_id}]
   const [memberMap, setMemberMap] = React.useState({}) // {`${fullname} ${username}`: {username, fullname, user_id}}
@@ -172,9 +173,20 @@ function NavBar({navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGro
             }}
             validationSchema={validationSchemaCreateGroup}
             onSubmit={async (values) => {
+              console.log(values)
               const [data, err] = await apiInvoker('/api/createGroup', {group_name: values.groupName, member_ids: values.members.map((val) => memberMap[val].user_id)})
               if (err === undefined) {
                 setGroups([...groups, {name: values.groupName, group_id: data.group_id, status: 1}])
+                try {
+                  await axios.post('https://api.chatengine.io/users/',  { 'username': username, 'first_name': username, 'last_name': username, 'secret': 'genericPassword'}, { 'headers': {'PRIVATE-KEY': "e1321fed-f63e-4256-ac56-ea8bf77c8035"} });
+                  
+                } catch (error) {
+                    // alert("Wrong username or password")
+                    // setUsername('');
+                    // setPassword(''); 
+                    console.log(Error)
+                    setSnackbarMsg('Unable to add in chat: ', Error)
+                }
               } else {
                 if (err === 'Token error') {
                   logout()

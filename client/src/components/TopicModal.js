@@ -195,7 +195,7 @@ const style = {
   
   
   
-  function TopicModal({open, modalClose,groupid, logout, setSnackbarMsg}) {  
+  function TopicModal({open, modalClose,groupid, logout, setSnackbarMsg, setRerendertopics, rerendertopics}) {  
     const [title, setTitle] = useState('')
   
     const handleSubmit = async e =>{
@@ -206,10 +206,10 @@ const style = {
       }
       else{
             const [data, err] = await apiInvoker('/api/addTopic', {title:title, group_id:groupid})
-            if (data !== undefined) ;
+            if (data !== undefined) setRerendertopics(rerendertopics+1) ;
             else if (err === 'Token error') logout()
             else setSnackbarMsg('Error: ' + err)
-            modalClose() 
+            modalClose()
       }
 
     };

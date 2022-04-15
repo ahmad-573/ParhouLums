@@ -82,16 +82,18 @@ const useStyles = makeStyles((theme) => ({
   });
 
 function Resources({username, setGroup, setSnackbarMsg, groups, setGroups, group, logout}){
+    //console.log("rendering resources")
     const classes = useStyles();
     const [opmodal, setOpmodal] = useState(false)
     const handleClose = useCallback(() => setOpmodal(false), [])
     const handleOpen = () => setOpmodal(true)
     const [topics, setTopics] = useState([])
+    const [rerendertopics, setRerendertopics] = useState(0);
 
     React.useEffect(() => {
         apiInvoker('/api/getTopics', {group_id:group.group_id}).then(([data, err]) => {
           if (err === undefined) {
-            setTopics(data.topics)
+            { console.log("here");setTopics(data.topics)}
           } else if (err === 'Token error'){
             logout()
           }
@@ -99,7 +101,7 @@ function Resources({username, setGroup, setSnackbarMsg, groups, setGroups, group
             setSnackbarMsg('Error: ' + err)
           }
         })
-      }, [topics])
+      }, [rerendertopics])
 
     return(
         <Grid item xs="auto" className={classes.mainBox} flexGrow={1}>
@@ -109,6 +111,8 @@ function Resources({username, setGroup, setSnackbarMsg, groups, setGroups, group
                 groupid={group.group_id}
                 logout={logout}
                 setSnackbarMsg={setSnackbarMsg}
+                setRerendertopics={setRerendertopics}
+                rerendertopics={rerendertopics}
             />
             <Grid className={classes.subBox} >
                 <ThemeProvider theme={theme}>
@@ -124,7 +128,7 @@ function Resources({username, setGroup, setSnackbarMsg, groups, setGroups, group
                         <Divider className={classes.line}/>
                     </Typography>
                 </ThemeProvider>
-                <Topics topics={topics} groupid={group.group_id} logout={logout} setSnackbarMsg={setSnackbarMsg}/>
+                <Topics topics={topics} groupid={group.group_id} logout={logout} setSnackbarMsg={setSnackbarMsg} setRerendertopics={setRerendertopics} rerendertopics={rerendertopics}/>
             </Grid>
         </Grid>
     )
