@@ -206,7 +206,7 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
     if (err === undefined) {
       let newMemberMap = {}
       let newMemberList = []
-      for (let m of data.users1) {
+      for (let m of data.users) {
         const key = m.fullname + ' ' + m.username
         newMemberList.push(key)
         newMemberMap[key] = m
