@@ -1,4 +1,4 @@
-const base_url = process.env.BASE_URL;
+const base_url = 'https://parhou-lums-93vpm.ondigitalocean.app';
 console.log(base_url);
 
 export async function apiInvoker(api, body = {}) {
