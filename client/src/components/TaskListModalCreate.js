@@ -49,9 +49,9 @@ function ModalCreateTask (props) {
     }
 
     const getUsers = async (e) => {
-        let x = {type: "remove", group_id:props.groupid}
-        const [data, err] = await apiInvoker('/api/getUsers', x)
-        if (data !== undefined) setUsers(data.users1);
+        let x = {group_id:props.groupid}
+        const [data, err] = await apiInvoker('/api/getGroupUsers', x)
+        if (data !== undefined) setUsers(data.users);
         else if (err === 'Token error') props.logout()
         else props.setSnackbarMsg('Error: ' + err)
     }
