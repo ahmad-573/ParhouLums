@@ -2,6 +2,7 @@ venv/
 env/
 .ipynb_checkpoints
 .env
+node_modules/
 
 ### VisualStudioCode ###
 .vscode
