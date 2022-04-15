@@ -89,19 +89,33 @@ function Resources({username, setGroup, setSnackbarMsg, groups, setGroups, group
     const handleOpen = () => setOpmodal(true)
     const [topics, setTopics] = useState([])
     const [rerendertopics, setRerendertopics] = useState(0);
+    const [time, setTime] = useState(0);
+
+    function generateTime() {
+        return(
+            new Promise((resolve,reject) => {
+                setTimeout(resolve,2000);
+            }).then(() => {
+                if (time%2) setTime(time + 1)
+                else setTime(time - 1)
+            })
+        );
+        
+    }
 
     React.useEffect(() => {
         apiInvoker('/api/getTopics', {group_id:group.group_id}).then(([data, err]) => {
           if (err === undefined) {
-            { console.log("here");setTopics(data.topics)}
+            {setTopics(data.topics)}
           } else if (err === 'Token error'){
             logout()
           }
           else{
             setSnackbarMsg('Error: ' + err)
           }
+          generateTime();
         })
-      }, [rerendertopics])
+      }, [time])
 
     return(
         <Grid item xs="auto" className={classes.mainBox} flexGrow={1}>
