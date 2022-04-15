@@ -11,6 +11,7 @@
 |#|Name|Description|Route|Request Object|Request Type|Response Object|Additional Note
 |-|----|-----------|---------------|------------|----------|---------------|----------|
 |1|Get Status|checks user status in group|/api/checkStatus|{group_id: INT}|`POST`|response.status: 200 (success) or 400 (failure), if 400: {error: String} if 200: {status: INT}|two types of errors: 1) "Not in group" 2) "Some error occurred". If "Not in group", frontend should make changes accordingly (e.g. reload if on dashboard). If "Some error occurred", just raise alert. *This request should also be made when user clicks on a tile and redirection should wait until a response is received*
+|2|Get users in a group|Get all users in a group|/api/getGroupsUsers|{group_id:INT}|`POST`|200 for success, 400 for failure. 400: {error},                         200: {users : list({username: String, fullname: String, user_id: INT})N/A
 
 ### 2. Sign in, Sign up, Logout
 |#|Name|Description|Route|Request Object|Request Type|Response Object|Additional Note
