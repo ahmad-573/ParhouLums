@@ -6,6 +6,7 @@ import Task from './Task'
 
 
 function TaskList({username, setGroup, setSnackbarMsg, groups, setGroups, group, logout}) {
+  console.log("here")
   const [showZero, setShowZero] = useState(false);
   const [showOne, setShowOne] = useState(false);
   const [showTwo, setShowTwo] = useState(false);

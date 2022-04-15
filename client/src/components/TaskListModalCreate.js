@@ -57,8 +57,9 @@ function ModalCreateTask (props) {
     }
 
     React.useEffect(() => {
+        console.log("here")
         getUsers();
-      }, [users])
+      }, [])
 
     return(
         <CSSTransition

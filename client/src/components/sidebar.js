@@ -98,17 +98,15 @@ const validationSchemaGroupDialog = yup.object({
   .required('Member(s) required')
 });
 
-const validationSchemaSettings = yup.object({
+const validationSchemaSettingsUsername = yup.object({
   username: yup
   .string('Enter your username')
   .min(3, 'Username should be of minimum 3 characters length')
   .max(30, 'Username should be of maximum 30 characters length')
-  .required('Username is required'),
-  old_password: yup
-  .string("Enter your current password")
-  .min(8, 'Current Password should be of minimum 8 characters length')
-  .max(30, 'Current Password should be of maximum 30 characters length')
-  .required('Current Password is required'),
+  .required('Username is required')
+});
+
+const validationSchemaSettingsPassword = yup.object({
   new_password: yup
   .string("Enter your new password")
   .min(8, 'New Password should be of minimum 8 characters length')
@@ -116,7 +114,7 @@ const validationSchemaSettings = yup.object({
   .required('New Password is required'),
 });
 
-function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setGroup}) {
+function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setGroup, logout}) {
   const [openPromoteMember, setOpenPromoteMember] = React.useState(false)
   const [openRemoveMember, setOpenRemoveMember] = React.useState(false)
   const [openAddMember, setOpenAddMember] = React.useState(false)
@@ -159,9 +157,15 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
         let newGroup = {...group}
         newGroup.status = data.status
         setGroup(newGroup)
+        setNavTitle(buttonName)
         navigate(link, { replace: true })
       } else {
-        navigate('/', { replace: true })
+        if (err === 'Token error') {
+          logout()
+          navigate('/', { replace: true })
+        } else {
+          navigate('/', { replace: true })
+        }
       }
     }
 
@@ -210,7 +214,12 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
       setMMap(newMemberMap)
       setMList(newMemberList)
     } else {
-      setSnackbarMsg(errorText + ' Error: ' + err)
+      if (err === 'Token error') {
+        logout()
+        navigate('/', { replace: true })
+      } else {
+        setSnackbarMsg(errorText + ' Error: ' + err)
+      }
     }
   }
 
@@ -221,7 +230,12 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
       unSetGroup()
       navigate('/', { replace: true })
     } else {
-      setSnackbarMsg('Delete Group Error: ' + err)
+      if (err === 'Token error') {
+        logout()
+        navigate('/', { replace: true })
+      } else {
+        setSnackbarMsg('Delete Group Error: ' + err)
+      }
     }
   }
 
@@ -253,7 +267,12 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
       unSetGroup()
       navigate('/', { replace: true })
     } else {
-      setSnackbarMsg('Leave Group Error: ' + err)
+      if (err === 'Token error') {
+        logout()
+        navigate('/', { replace: true })
+      } else {
+        setSnackbarMsg('Leave Group Error: ' + err)
+      }
     }
   }
 
@@ -307,7 +326,12 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
             if (err === undefined) {
               setOpenDialog(false)
             } else {
-              setSnackbarMsg(title + ' Error: ' + err)
+              if (err === 'Token error') {
+                logout()
+                navigate('/', { replace: true })
+              } else {
+                setSnackbarMsg(title + ' Error: ' + err)
+              }
             }
           }}
           >
@@ -399,19 +423,42 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
 
   function SettingsDialog({openSettings, setOpenSettings}) {
 
-    const formikSettings = useFormik({
+    const formikSettingsUsername = useFormik({
       initialValues: {
-        username: '',
-        old_password: '',
-        new_password: ''
+        username: ''
       },
-      validationSchema: validationSchemaSettings,
+      validationSchema: validationSchemaSettingsUsername,
       onSubmit: async (values) => {
-        const [data, err] = await apiInvoker('/api/updateInformation', values)
+        const [data, err] = await apiInvoker('/api/updateUsername', {username: values.username})
         if (err === undefined) {
           setOpenSettings(false)
         } else {
-          setSnackbarMsg('Update Password Error: ' + err)
+          if (err === 'Token error') {
+            logout()
+            navigate('/', { replace: true })
+          } else {
+            setSnackbarMsg('Update Username Error: ' + err)
+          }
+        }
+      }
+    });
+
+    const formikSettingsPassword = useFormik({
+      initialValues: {
+        new_password: ''
+      },
+      validationSchema: validationSchemaSettingsPassword,
+      onSubmit: async (values) => {
+        const [data, err] = await apiInvoker('/api/updatePassword', {new_password: values.new_password})
+        if (err === undefined) {
+          setOpenSettings(false)
+        } else {
+          if (err === 'Token error') {
+            logout()
+            navigate('/', { replace: true })
+          } else {
+            setSnackbarMsg('Update Password Error: ' + err)
+          }
         }
       }
     });
@@ -420,79 +467,60 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
       <Dialog classes={{ paper: classes.dialogPaper }} open={openSettings} onClose={() => setOpenSettings(false)} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Edit Information</DialogTitle>
         <DialogContent>
-        <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <Typography className={classes.textLabel} align='left'>Username</Typography>
-              <TextField
-              fullWidth
-              margin="dense"
-              id="username"
-              name="username"
-              label="Username"
-              value={formikSettings.values.username}
-              placeholder="SaadSultanSheikh00"
-              onChange={formikSettings.handleChange}
-              error={formikSettings.touched.username && Boolean(formikSettings.errors.username)}
-              helperText={formikSettings.touched.username && formikSettings.errors.username}
-              color="background"
-              variant="outlined"
-              InputProps={{style: {fontSize: 12}}}
-              InputLabelProps={{style: {fontSize: 12}}}
-              />
-            </Grid>
-            <Grid item>
-              <Typography className={classes.textLabel} align='left'>Current Password</Typography>
-              <TextField
-              fullWidth
-              margin="dense"
-              id="old_password"
-              name="old_password"
-              label="Current Password"
-              value={formikSettings.values.old_password}
-              placeholder="Qwerty12345"
-              type="password"
-              onChange={formikSettings.handleChange}
-              error={formikSettings.touched.old_password && Boolean(formikSettings.errors.old_password)}
-              helperText={formikSettings.touched.old_password && formikSettings.errors.old_password}
-              color="background"
-              variant="outlined"
-              InputProps={{style: {fontSize: 12}}}
-              InputLabelProps={{style: {fontSize: 12}}}
-              />
-            </Grid>
-            <Grid item>
-              <Typography className={classes.textLabel} align='left'>New Password</Typography>
-              <TextField
-              fullWidth
-              margin="dense"
-              id="new_password"
-              name="new_password"
-              label="New Password"
-              value={formikSettings.values.new_password}
-              placeholder="Qwerty12345"
-              type="password"
-              onChange={formikSettings.handleChange}
-              error={formikSettings.touched.new_password && Boolean(formikSettings.errors.new_password)}
-              helperText={formikSettings.touched.new_password && formikSettings.errors.new_password}
-              color="background"
-              variant="outlined"
-              InputProps={{style: {fontSize: 12}}}
-              InputLabelProps={{style: {fontSize: 12}}}
-              />
-            </Grid>
-          </Grid>
+          <Typography className={classes.textLabel} align='left'>Username</Typography>
+          <TextField
+          fullWidth
+          margin="dense"
+          id="username"
+          name="username"
+          label="Username"
+          value={formikSettingsUsername.values.username}
+          placeholder="SaadSultanSheikh00"
+          onChange={formikSettingsUsername.handleChange}
+          error={formikSettingsUsername.touched.username && Boolean(formikSettingsUsername.errors.username)}
+          helperText={formikSettingsUsername.touched.username && formikSettingsUsername.errors.username}
+          color="background"
+          variant="outlined"
+          InputProps={{style: {fontSize: 12}}}
+          InputLabelProps={{style: {fontSize: 12}}}
+          />
           <Box pt={1}/>
           <Divider/>
           <Box pt={1}/>
           <DialogActions>
             <Grid container direction="row" justifyContent="flex-end" alignItems="right" spacing={2}>
               <Grid item>
-                <Button onClick={() => setOpenSettings(false)} variant='outlined' className={classes.button2}>
-                    Cancel
+                <Button onClick={formikSettingsUsername.handleSubmit} className={classes.buttonCreate}>
+                    Update
                 </Button>
               </Grid>
+            </Grid>
+          </DialogActions>
+          <Typography className={classes.textLabel} align='left'>New Password</Typography>
+          <TextField
+          fullWidth
+          margin="dense"
+          id="new_password"
+          name="new_password"
+          label="New Password"
+          value={formikSettingsPassword.values.new_password}
+          placeholder="Qwerty12345"
+          type="password"
+          onChange={formikSettingsPassword.handleChange}
+          error={formikSettingsPassword.touched.new_password && Boolean(formikSettingsPassword.errors.new_password)}
+          helperText={formikSettingsPassword.touched.new_password && formikSettingsPassword.errors.new_password}
+          color="background"
+          variant="outlined"
+          InputProps={{style: {fontSize: 12}}}
+          InputLabelProps={{style: {fontSize: 12}}}
+          />
+          <Box pt={1}/>
+          <Divider/>
+          <Box pt={1}/>
+          <DialogActions>
+            <Grid container direction="row" justifyContent="flex-end" alignItems="right" spacing={2}>
               <Grid item>
-                <Button onClick={formikSettings.handleSubmit} className={classes.buttonCreate}>
+                <Button onClick={formikSettingsPassword.handleSubmit} className={classes.buttonCreate}>
                     Update
                 </Button>
               </Grid>

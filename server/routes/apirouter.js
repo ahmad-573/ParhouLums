@@ -29,6 +29,7 @@ router.use('/api', require('./getTasks'));
 router.use('/api', require('./editTask'));
 router.use('/api', require('./deleteTask'));
 router.use('/api', require('./moveTask'));
+router.use('/api', require('./getGroupUsers'));
 
 
 module.exports = router;

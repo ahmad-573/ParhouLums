@@ -38,7 +38,7 @@ function ModalEditTask (props) {
     }
 
     const getUsers = async (e) => { 
-        let x = {type: "remove", group_id:props.groupid}
+        let x = {type: "remove", group_id:props.groupid, bypass: true}
         const [data, err] = await apiInvoker('/api/getUsers', x)
         if (data !== undefined) setUsers(data.users1);
         else if (err === 'Token error') props.logout()
