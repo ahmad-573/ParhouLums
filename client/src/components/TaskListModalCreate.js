@@ -84,7 +84,7 @@ function ModalCreateTask (props) {
                             <div>
                                 <label for="details" className="block mb-2 text-sm font-medium text-[#1D1C1D]">Details</label>
                                 <div className='grid grid-cols-2 gap-4'>
-                                    <input onChange={(e) => setDate(e.target.value)} type="text" name="text" id="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"/>
+                                    <input onChange={(e) => setDate(e.target.value)} type="text" name="text" id="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder='Date'/>
                                     <select onChange={(e) => setAssigned(e.target.value)} name="assigned" id="assigned" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' required>
                                         <option value="" selected disabled hidden>Assign to</option>
                                         {users.map(user => {
