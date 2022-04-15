@@ -174,19 +174,30 @@ function NavBar({username,navTitle, setNavTitle, setGroup, logout, setSnackbarMs
             validationSchema={validationSchemaCreateGroup}
             onSubmit={async (values) => {
               console.log(values)
-              const [data, err] = await apiInvoker('/api/createGroup', {group_name: values.groupName, member_ids: values.members.map((val) => memberMap[val].user_id)})
+              let all_members = {group_name: values.groupName, member_ids: values.members.map((val) => memberMap[val].user_id)}
+              const [data, err] = await apiInvoker('/api/createGroup', all_members)
               if (err === undefined) {
                 setGroups([...groups, {name: values.groupName, group_id: data.group_id, status: 1}])
-                try {
-                  await axios.post('https://api.chatengine.io/users/',  { 'username': username, 'first_name': username, 'last_name': username, 'secret': 'genericPassword'}, { 'headers': {'PRIVATE-KEY': "e1321fed-f63e-4256-ac56-ea8bf77c8035"} });
+                // try {
+                //   await axios.post('https://api.chatengine.io/users/',  { 'username': username, 'first_name': username, 'last_name': username, 'secret': 'genericPassword'}, { 'headers': {'PRIVATE-KEY': "e1321fed-f63e-4256-ac56-ea8bf77c8035"} });
+
+                //   const chat = await axios.post('https://api.chatengine.io/chats/',  { "title": `${group_name} chat`, "is_direct_chat": false }, { 'headers': {'Project-ID': "984bd544-267a-4407-a75e-a55ecb80c946", 'User-Name': username, 'User-secret': 'genericPassword'} });
+
+                //   for (let mem of memberList){
+                    
+                //     await axios.post(`https://api.chatengine.io/users/`,  {'username': mem.username, 'first_name': mem.username, 'last_name': mem.username, 'secret': 'genericPassword'}, { 'headers': {'PRIVATE-KEY': "e1321fed-f63e-4256-ac56-ea8bf77c8035"} });
+
+                //     await axios.post(`https://api.chatengine.io/chats/${chat.body.id}/people/`,  { "username": mem.username }, { 'headers': {'Project-ID': "984bd544-267a-4407-a75e-a55ecb80c946", 'User-Name': username, 'User-secret': 'genericPassword'} });
+                //   }
+
                   
-                } catch (error) {
-                    // alert("Wrong username or password")
-                    // setUsername('');
-                    // setPassword(''); 
-                    console.log(Error)
-                    setSnackbarMsg('Unable to add in chat: ', Error)
-                }
+                // } catch (error) {
+                //     // alert("Wrong username or password")
+                //     // setUsername('');
+                //     // setPassword(''); 
+                //     console.log(Error)
+                //     setSnackbarMsg('Unable to add in chat: ', Error)
+                // }
               } else {
                 if (err === 'Token error') {
                   logout()
