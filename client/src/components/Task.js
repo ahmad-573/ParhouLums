@@ -2,6 +2,7 @@ import React, {useState, useCallback, useEffect} from 'react';
 import { apiInvoker } from '../apiInvoker'
 import { TrashIcon, PencilIcon, ChevronRightIcon, PlusIcon } from '@heroicons/react/outline'
 import ModalEditTask from './TaskListModalEdit'
+import { setNestedObjectValues } from 'formik';
 
 
 function Task({task, groupid, logout, setSnackbarMsg}){
@@ -24,7 +25,7 @@ function Task({task, groupid, logout, setSnackbarMsg}){
             <div className='w-1/4 grid grid-cols-3'>
                 <button onClick={onDelClick}><TrashIcon className='w-5 h-5'/></button>
                 <button onClick={handleOpen}><PencilIcon className='w-5 h-5'/></button>
-                <ModalEditTask onClose={useCallback(() => setEditmodal(false), [])} editmodal={editmodal} task={task} setSnackbarMsg={setSnackbarMsg} groupid={groupid} key={task.task_id}/>
+                <ModalEditTask onClose={useCallback((setCat,cat) => {setEditmodal(false); setCat(cat)}, [])} editmodal={editmodal} task={task} setSnackbarMsg={setSnackbarMsg} groupid={groupid} key={task.task_id}/>
                 <ChevronRightIcon className='w-5 h-5' />
             </div>
         </div>

@@ -13,6 +13,19 @@ function TaskList({username, setGroup, setSnackbarMsg, groups, setGroups, group,
   const [mList, setMList] = React.useState([]) // [{username, fullname, user_id}]
   const [mMap, setMMap] = React.useState({}) // {`${fullname} ${username}`: {username, fullname, user_id}}
   const [tasks, setTasks] = React.useState([])
+  const [time, setTime] = useState(0);
+
+    function generateTime() {
+        return(
+            new Promise((resolve,reject) => {
+                setTimeout(resolve,2000);
+            }).then(() => {
+                if (time%2) setTime(time + 1)
+                else setTime(time - 1)
+            })
+        );
+        
+    }
 
   React.useEffect(() => {
     apiInvoker('/api/getTasks', {group_id:group.group_id}).then(([data, err]) => {
@@ -24,8 +37,9 @@ function TaskList({username, setGroup, setSnackbarMsg, groups, setGroups, group,
       else{
         setSnackbarMsg('Error: ' + err)
       }
+      generateTime();
     })
-  }, [])
+  }, [time])
 
   return (
     <div>

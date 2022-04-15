@@ -86,15 +86,29 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function GridNotes({setSnackbarMsg, group, logout}){    
+function GridNotes({setSnackbarMsg, group, logout}){ 
     const [flashcards, setFlashCards] = useState([])
     const [index, setIndex] = useState(0)
     const [index2, setIndex2] = useState(1)
+    const [time,setTime] = useState(0)
 
+
+    function generateTime() {
+        return(
+            new Promise((resolve,reject) => {
+                setTimeout(resolve,2000);
+            }).then(() => {
+                if (time%2) setTime(time + 1)
+                else setTime(time - 1)
+            })
+        );
+        
+    }
 
     const getCards = () =>{
         apiInvoker('/api/getCards', {group_id:group.group_id}).then(([data, err]) => {
             if (err === undefined) {
+                console.log("here")
                 setFlashCards(data.cards) 
             } else if (err === 'Token error'){
               logout()
@@ -102,12 +116,13 @@ function GridNotes({setSnackbarMsg, group, logout}){
             else{
               setSnackbarMsg('Error: ' + err)
             }
+            generateTime();
           })
     }
 
     useEffect(() => {
         getCards();
-    }, [flashcards]);
+    }, [time]);
 
 
     // return(  

@@ -4,6 +4,7 @@ const pool = require("../db");
 
 
 router.post('/editTask', async (req, res) => {
+    console.log(req.body)
     try {
         const result = await pool.query("SELECT * FROM group_membership WHERE user_id = $1 AND group_id = $2", [req.body.userid, req.body.group_id]);
         if (result.rowCount == 0) {
@@ -17,6 +18,7 @@ router.post('/editTask', async (req, res) => {
         }
 
         let q_str = `UPDATE task_list SET title = '${req.body.title}'`;
+        q_str = q_str + `, category = ${req.body.category}`;
         if (req.body.assign_to) {
             const check = await pool.query("SELECT * FROM group_membership WHERE user_id = $1 AND group_id = $2", [req.body.assign_to, req.body.group_id]);
             if (check.rowCount == 0) {
