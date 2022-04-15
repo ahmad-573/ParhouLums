@@ -34,6 +34,7 @@ router.post('/createTask', async (req, res) => {
         const query_output = await pool.query(query_string);
         res.status(200).json({ task_id: query_output.rows[0].task_id })
     } catch (err) {
+        console.log(err)
         res.status(400).json({ error: `Request failed. Try again.` })
     }
 });

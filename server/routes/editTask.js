@@ -43,6 +43,7 @@ router.post('/editTask', async (req, res) => {
         );
         res.status(200).json({})
     } catch (err) {
+        console.log(err)
         res.status(400).json({ error: `Request failed. Try again.` })
     }
 });
