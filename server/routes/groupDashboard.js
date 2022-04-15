@@ -121,6 +121,7 @@ router.post('/createGroup', async (req,res) => {
                 res.status(400).json({error: `Group was created but there was trouble adding all the members into the new group.`});
             }
         }
+        await createNewChat();
         res.status(200).json({group_id: newgroup_id});
     } catch (err) {
         console.log(err);
