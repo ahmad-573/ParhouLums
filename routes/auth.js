@@ -13,13 +13,13 @@ function createToken(userid, query_res) {
 function verifyToken(req, res, next) {
     const token = req.cookies.token;
     if (!token) {
-        res.status(400).json({ error: 'Token error 22' })
+        res.status(400).json({ error: 'Token error' })
         return
     }
 
     jwt.verify(token, key, function (err, decoded) {
         if (err) {
-            res.status(400).json({ error: 'Token error 22' })
+            res.status(400).json({ error: 'Token error' })
             return
         }
 
