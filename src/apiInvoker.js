@@ -1,4 +1,4 @@
-const base_url = 'http://localhost:4000'
+const base_url = process.env.BASE_URL;
 
 export async function apiInvoker(api, body = {}) {
   try {
