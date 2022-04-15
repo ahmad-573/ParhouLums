@@ -7,7 +7,7 @@ const PORT = process.env.SERVER_PORT;
 //const bodyParser = require(`body-parser`)
 
 //middleware
-app.use(cors({ origin: [`https://parhou-lums-93vpm.ondigitalocean.app`], credentials: true }));
+app.use(cors({ origin: [process.env.DOMAIN_NAME], credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
