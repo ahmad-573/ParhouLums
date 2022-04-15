@@ -10,7 +10,7 @@ router.use('/api', require('./signup'));
 router.use('/api', require('./forgot-password'));
 
 // Verify token
-router.use(verifyToken);
+//router.use(verifyToken);
 
 // Routes with verifyToken
 router.use('/api', require('./groupDashboard'));
