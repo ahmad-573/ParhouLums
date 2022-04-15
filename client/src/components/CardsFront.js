@@ -83,6 +83,7 @@ function CardsFront({username, setGroup, setSnackbarMsg, groups, setGroups, grou
                 modalClose={handleClose}
                 group={group}
                 logout={logout}
+                setSnackbarMsg={setSnackbarMsg}
             />
             <Card className={classes.subBox}>
                 <Typography className={classes.topo1}>

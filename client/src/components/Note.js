@@ -65,18 +65,18 @@ function Note({flashcard, group, setSnackbarMsg, logout}){
 
         <IconButton 
             color="secondary" 
-            aria-label="edit the card"  
-            onClick={handleOpen}
-        >
-            <EditIcon />
-        </IconButton>
-
-        <IconButton 
-            color="secondary" 
             aria-label="delete the card"  
             onClick={onDelClick}
         >
             <DeleteOutlineIcon />
+        </IconButton>
+
+        <IconButton 
+            color="secondary" 
+            aria-label="edit the card"  
+            onClick={handleOpen}
+        >
+            <EditIcon />
         </IconButton>
 
         <FrontSideNote title={flashcard.title} fflip = {flip} fsetFlip = {setFlip} key = {flashcard.id}/>

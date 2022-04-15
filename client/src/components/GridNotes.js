@@ -107,7 +107,7 @@ function GridNotes({setSnackbarMsg, group, logout}){
 
     useEffect(() => {
         getCards();
-    });
+    }, [flashcards]);
 
 
     // return(  

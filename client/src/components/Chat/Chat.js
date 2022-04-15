@@ -4,16 +4,16 @@ import ChatFeed from './ChatFeed';
 import './chat.css'
 
 function Chat({username, group}) {
-  return (
-    <ChatEngine 
-            height="90vh"
-            projectID="984bd544-267a-4407-a75e-a55ecb80c946"
-            userName={username}
-            userSecret={'ahmad9nov'}
-            renderChatFeed={(chatAppProps) => <ChatFeed {...chatAppProps} />}
-            renderChatList={(chatAppState) => {}}
-            renderChatSettings={(chatAppState) => {}}
-        />
+  return (<div></div>
+    // <ChatEngine 
+    //         height="90vh"
+    //         projectID="984bd544-267a-4407-a75e-a55ecb80c946"
+    //         userName={username}
+    //         userSecret={'moaiz'}
+    //         renderChatFeed={(chatAppProps) => <ChatFeed {...chatAppProps} />}
+    //         renderChatList={(chatAppState) => {}}
+    //         renderChatSettings={(chatAppState) => {}}
+    //     />
   )
 }
 

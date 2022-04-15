@@ -178,7 +178,7 @@ const style = {
       console.log(title)
       console.log(description)
       if(title == '' || description == ''){
-            alert('error all the required fields were not filled')
+            setSnackbarMsg('error all the required fields were not filled')
       }
       else{
             apiInvoker('/api/createCard', {title:title, description:description, group_id:group.group_id}).then(([data, err]) => {
