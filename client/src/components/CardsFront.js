@@ -78,7 +78,7 @@ function CardsFront({username, setGroup, setSnackbarMsg, groups, setGroups, grou
     const handleClose = useCallback(() => setOpmodal(false), [])
     const handleOpen = () => setOpmodal(true)
     return(
-        <div className='flex h-full w-full px-8 '>
+        <div className='flex h-full w-full px-8'>
             <div className='bg-white rounded-lg border ring-1 ring-[#1d1c1d] ring-opacity-10 grid grid-cols-1 m-auto w-full'>
                 <div>
                     <div className='grid grid-cols-10 content-center mt-3 border-b-2'>
