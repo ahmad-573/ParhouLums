@@ -54,12 +54,16 @@ const SAMPLE_FLASHCARDS = [
 
 const useStyles = makeStyles((theme) => ({
     nextButton:{
-        position: 'absolute',
+        // position: 'absolute',
+
         // width: '100%',
         // height: '50%',
-        top: '47%',
+        // top: '47%',
+
         // bottom: '5%',
-        left:'96%',
+        // left:'96%',
+
+        backgroundColor: 'green',
     },
 
     prevButton:{
@@ -138,24 +142,28 @@ function GridNotes({setSnackbarMsg, group, logout}){
     const classes = useStyles();
     return(
             <div>
-                <div class="wrapper">
+                {/* <div className='wrapper'></div> */}
+                <div className="min-h-[530px] grid grid-cols-1 gap-8 pt-5 pl-8 pr-8 pb-4 lg:grid-cols-2">
                     {flashcards.map(flashcard => {
                         // console.log(flashcard.id)
                         let index1 = flashcards.indexOf(flashcard) 
                         if(index1 >= index && index1 <= (index + 3)){
                             // console.log(flashcard.id)
-                            return <Note 
+                            return <div className='transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 hover:duration-300'><Note 
                                         flashcard={flashcard} 
                                         key={flashcard.id}
                                         group={group}
                                         setSnackbarMsg={setSnackbarMsg}
-                                    />
+                                    /></div>
                         }
                     })}
                 </div>
-                <IconButton className={classes.nextButton} disabled = {(index2*4) >= flashcards.length} onClick = {e => {setIndex(index + 4); setIndex2(index2 + 1)}}><NavigateNextIcon/></IconButton>
-                <IconButton className={classes.prevButton} disabled = {index == 0} onClick = {e => {setIndex(index - 4); setIndex2(index2 - 1)}}><NavigateBeforeIcon/></IconButton>  
+                <div className='grid grid-cols-2'>
+                    <IconButton disabled = {index == 0} onClick = {e => {setIndex(index - 4); setIndex2(index2 - 1)}}><NavigateBeforeIcon/></IconButton> 
+                    <IconButton disabled = {(index2*4) >= flashcards.length} onClick = {e => {setIndex(index + 4); setIndex2(index2 + 1)}}><NavigateNextIcon/></IconButton>
+                </div>
                 {/* <Button>Hello</Button>       */}
+                {/* className={classes.prevButton} */}
             </div>
     )
 }

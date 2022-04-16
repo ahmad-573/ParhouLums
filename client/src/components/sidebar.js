@@ -198,17 +198,15 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
     )
   }
   
-  const userFetcher = async (type, errorText, users = 'users1') => {
+  const userFetcher = async (type, errorText) => {
     // setMList(['Saad @saad', 'Taha @taha'])
     // setMMap({'Saad @saad': {username: '@saad', fullname: 'Saad', user_id: 1}, 'Taha @taha': {username: '@taha', fullname: 'Taha', user_id: 2}})
     const [data, err] = await apiInvoker('/api/getUsers', {type: type, group_id: group.group_id})
     
-    console.log('User Fetcher Data:', data)
-
     if (err === undefined) {
       let newMemberMap = {}
       let newMemberList = []
-      for (let m of data[users]) {
+      for (let m of data.users) {
         const key = m.fullname + ' ' + m.username
         newMemberList.push(key)
         newMemberMap[key] = m
@@ -242,14 +240,14 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
   }
 
   const handlePromoteMember = () => {
-    userFetcher('promote', 'Add Group', 'users2').then(() => console.log('Users Fetched'))
+    userFetcher('promote', 'Add Group').then(() => console.log('Users Fetched'))
 
     setSMember('')
     setOpenPromoteMember(true)
   }
 
   const handleAddMember = () => {
-    userFetcher('add', 'Add Member', 'users2').then(() => console.log('Users Fetched'))
+    userFetcher('add', 'Add Member').then(() => console.log('Users Fetched'))
 
     setSMember('')
     setOpenAddMember(true)

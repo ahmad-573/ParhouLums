@@ -11,6 +11,8 @@ import './notestyle.css'
 import GridNotes from './GridNotes';
 import CreateModal from './CreateModal';
 import NavBar from './NavBar';
+import { PlusIcon } from '@heroicons/react/outline'
+
 
 const useStyles = makeStyles((theme) => ({
   
@@ -25,13 +27,13 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
     },
     subBox:{
-        position: 'absolute',
-        width: '96%',
-        height: '85%',   
-        top: '13%',
-        bottom: '100px',
-        right: '4.5%',
-        left: '3%',
+        position: 'relative',
+        // width: '100%',
+        // height: '100%',   
+        // top: '13%',
+        // bottom: '100px',
+        // right: '4.5%',
+        // left: '3%',
         backgroundColor: theme.primary,
         border: '1px solid #d3d3d3',
         borderRadius: '20px',
@@ -76,34 +78,32 @@ function CardsFront({username, setGroup, setSnackbarMsg, groups, setGroups, grou
     const handleClose = useCallback(() => setOpmodal(false), [])
     const handleOpen = () => setOpmodal(true)
     return(
-        <Card className={classes.mainBox}>
-            {/* <NavBar/> */}
-            <CreateModal
-                open={opmodal}
-                modalClose={handleClose}
-                group={group}
-                logout={logout}
-            />
-            <Card className={classes.subBox}>
-                <Typography className={classes.topo1}>
-                    Flashcards
-                    <IconButton 
-                        className={classes.addicon}
-                        aria-label="create card"
-                        onClick={handleOpen}
-                    >
-                        <AddIcon/>
-                    </IconButton>
-                    <Divider className={classes.line}/>
-                </Typography>
-
+        <div className='flex h-full w-full px-8'>
+            <div className='bg-white rounded-lg border ring-1 ring-[#1d1c1d] ring-opacity-10 grid grid-cols-1 m-auto w-full'>
+                <div>
+                    <div className='grid grid-cols-10 content-center mt-3 border-b-2'>
+                        <div className='col-span-9 ml-8 text-[22px] mb-3 font-medium w-[100%] font-sans text-gray-900'>
+                            Flashcards
+                        </div>
+                        <div className='w-[100%]'>
+                            <button onClick={handleOpen}><PlusIcon className='w-5 h-5 mt-1 inline-block align-middle'/></button> 
+                            <CreateModal
+                                open={opmodal}
+                                modalClose={handleClose}
+                                group={group}
+                                logout={logout}
+                            />
+                        </div>
+                    </div>
+                
                 <GridNotes
                     setSnackbarMsg={setSnackbarMsg}
                     group={group}
                     logout={logout}
                 />
-            </Card>
-        </Card>
+            </div>
+            </div>
+        </div>
     )
 }
 

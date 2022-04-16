@@ -19,14 +19,14 @@ function Task({task, groupid, logout, setSnackbarMsg}){
 
     return(
         <div className='flex items-center h-[44px] px-[20px]'>
-            <div className="w-3/4">
+            <div className="w-[90%] truncate">
                 {task.title}
             </div>
-            <div className='w-1/4 grid grid-cols-3'>
+            <div className='w-[15%] grid grid-cols-2 gap-4'>
                 <button onClick={onDelClick}><TrashIcon className='w-5 h-5'/></button>
                 <button onClick={handleOpen}><PencilIcon className='w-5 h-5'/></button>
                 <ModalEditTask onClose={useCallback((setCat,cat) => {setEditmodal(false); setCat(cat)}, [])} editmodal={editmodal} task={task} setSnackbarMsg={setSnackbarMsg} groupid={groupid} key={task.task_id}/>
-                <ChevronRightIcon className='w-5 h-5' />
+                {/* <ChevronRightIcon className='w-5 h-5' /> */}
             </div>
         </div>
     );

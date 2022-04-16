@@ -14,6 +14,8 @@ import EditTopicModal from './EditTopicModal';
 import AddLinkModal from './AddLinkModal';
 import Link from './Link'
 import './notestyle.css'
+import { TrashIcon, PencilIcon, ChevronRightIcon, PlusIcon, PlusCircleIcon } from '@heroicons/react/outline'
+
 
 
 
@@ -83,7 +85,7 @@ function Topic({topic,groupid,logout, setSnackbarMsg, setRerendertopics, rerende
 
 
     const toRender = 
-        <div class="topic">
+        <div className="topic ">
             <EditTopicModal 
             open={opmodal}
             modalClose={handleClose}
@@ -105,53 +107,21 @@ function Topic({topic,groupid,logout, setSnackbarMsg, setRerendertopics, rerende
             topicid={topic.topic_id}
             setDeleted={setDeleted}
             />
-            <Grid display='flex' flexGrow={1}>
+            {/* <Grid display='flex' flexGrow={1}> */}
                 {/* whatever is on the left side */}
-                <div class='topic-content'>
+            <div className='w-full flex items-center p-4'>
+                <div class='w-[85%]'>
                     {topic.title}
                 </div>
-
-            </Grid>
+            {/* </Grid> */}
                 {/* whatever is on the right side */}
-
-                <IconButton 
-                color="secondary" 
-                aria-label="delete the topic"  
-                onClick={onDelClick}
-                className={classes.iconButton}
-                >
-                    <DeleteOutlineIcon />
-                </IconButton>
-
-                <IconButton 
-                color="secondary" 
-                aria-label="edit the topic"  
-                onClick={handleOpen}
-                className={classes.iconButton}
-                >
-                    <EditIcon />
-                </IconButton>
-                
-
-                <IconButton 
-                color="secondary" 
-                aria-label="add a link"
-                onClick={onAddLink}
-                className={classes.iconButton}
-                >
-                    <AddCircleIcon />
-                </IconButton>
-
-                <IconButton 
-                color="secondary" 
-                aria-label="view the links" 
-                onClick={onArrowClick} 
-                className={isDown ? classes.arrowDown : classes.arrowUp}
-                >
-                    <ArrowDropDownCircleIcon />
-                </IconButton>
-
-
+                <div className='w-[15%] grid grid-cols-4'>
+                    <button onClick={onDelClick}><TrashIcon className='w-5 h-5'/></button>
+                    <button onClick={handleOpen}><PencilIcon className='w-5 h-5'/></button>
+                    <button onClick={onAddLink}><PlusIcon className='w-5 h-5'/></button>
+                    <button onClick={onArrowClick}><ChevronRightIcon className='w-5 h-5 rotate-90'/></button>
+                </div>
+            </div>
         </div>
         ;
 
@@ -167,7 +137,7 @@ function Topic({topic,groupid,logout, setSnackbarMsg, setRerendertopics, rerende
         return(
             <div>
                 {toRender}
-                <Paper className='links-wrapper'>
+                <Paper className='links-wrapper w-full'>
                     {links.map(link => {
                         // console.log(flashcard.id)
                         return (

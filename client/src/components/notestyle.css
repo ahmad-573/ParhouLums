@@ -26,13 +26,13 @@
 .topic{
     box-sizing: border-box;
     position: relative;
-    width: 90%;
+    width: 100%;
     height:10%; 
     /* display: flex; */
     justify-content: center;
     transform-style: preserve-3d; 
     transition: all 0.5s ease; 
-    background: white;
+    /* background: white; */
     border: 1px solid lightgray;
     border-radius: 10px;
     margin-top: 1%;
@@ -68,16 +68,20 @@
     /* align-content: space-evenly; */
     /* justify-content: center; */
     /* position: absolute; */
+    min-height: 50px;
     align-items: center;
     justify-items: center;
     /* border: 3px solid red; */
-    width: 90%;
-    height: 100px;
+    width: 100%;
+    /* height: 100px; */
     position: relative;
     margin-left: 0%;
     margin-right: auto;
-    margin-top: -0.5%;
+    margin-top: 0.5%;
     overflow: auto;
+    border-style: solid;
+    border-width: 1px;
+    /* border-color: black; */
     /* margin-block-start: auto; */
     /* margin-top: auto; */
     margin-bottom: auto;
@@ -111,13 +115,13 @@
 
 
 .frontside{
-    position: absolute; 
+    /* position: absolute; 
     width: 100%; 
-    height: 100%;
+    height: 100%; */
     backface-visibility: hidden;
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    margin-top: 55px;
+    margin-top: 55px; */
     /* word-break: normal; */
     /* align-content: center; */
     /* text-align: center; */
@@ -136,23 +140,23 @@
 
 
 .backside{
-    position: absolute;
+    /* position: absolute;
     width: 100%; 
-    height: 100%; 
+    height: 100%;  */
     backface-visibility: hidden; 
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    margin-top: 55px;
+    margin-top: 55px; */
     /* text-align: center; */
     /* background: #ffc728; */
     color: #333;
     transform: rotateY(180deg);
     word-wrap: break-word;
-}
+} 
 
 .note{
     position: relative;
-    width: 450px;
+    /* width: 450px; */
     height: 220px; 
     /* display: flex; */
     justify-content: center;
@@ -162,7 +166,7 @@
     border: 1px solid lightgray;
     border-radius: 20px;
     transform: rotateY(var(--rotate-y, 0));
-    /* text-align: center; */
+    text-align: center;
 }
 
 .note.cardflip{

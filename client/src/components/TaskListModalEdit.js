@@ -82,7 +82,7 @@ function ModalEditTask (props) {
                                     <DisplayOptions curr_category={category} key={props.task.task_id}/>
                                 </select>
                                 <div className='grid grid-cols-2 gap-4'>
-                                    <input value={date} onChange={(e) => setDate(e.target.value)} type="text" name="text" id="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"/>
+                                    <input value={date} onChange={(e) => setDate(e.target.value)} type="text" name="text" id="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder='Date'/>
                                     <select value={assigned} onChange={(e) => setAssigned(e.target.value)} name="assigned" id="assigned" className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' required>
                                         <option value="" selected disabled hidden>null</option>
                                         {users.map(user => {

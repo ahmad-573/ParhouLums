@@ -63,7 +63,7 @@ function GroupList({type, groups, setGroup, logout}) {
       }
     }
   }
-
+ 
   function GroupTab({image, group}) {
 
     return (

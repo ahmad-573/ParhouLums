@@ -43,44 +43,44 @@ function Note({flashcard, group, setSnackbarMsg, logout}){
     };
 
     return(
-        <div class= {`note ${flip ? 'cardflip' : ''}`}>
-        <EditModal 
-            open={opmodal}
-            modalClose={handleClose}
-            mtitle = {flashcard.title}
-            mdescription = {flashcard.description}
-            card_id = {flashcard.id} 
-            group={group}
-            key = {flashcard.id}
-            setSnackbarMsg={setSnackbarMsg}
-            logout={logout}
-        />
-        <IconButton 
-            color="secondary" 
-            aria-label="flip the card" 
-            onClick={() => setFlip(!flip)}
-        >
-            <FlipCameraAndroidIcon />
-        </IconButton> 
+        <div className= {`note ${flip ? 'cardflip' : ''}`}>
+            <EditModal 
+                open={opmodal}
+                modalClose={handleClose}
+                mtitle = {flashcard.title}
+                mdescription = {flashcard.description}
+                card_id = {flashcard.id} 
+                group={group}
+                key = {flashcard.id}
+                setSnackbarMsg={setSnackbarMsg}
+                logout={logout}
+            />
+            <IconButton 
+                color="secondary" 
+                aria-label="flip the card" 
+                onClick={() => setFlip(!flip)}
+            >
+                <FlipCameraAndroidIcon />
+            </IconButton> 
 
-        <IconButton 
-            color="secondary" 
-            aria-label="edit the card"  
-            onClick={handleOpen}
-        >
-            <EditIcon />
-        </IconButton>
+            <IconButton 
+                color="secondary" 
+                aria-label="edit the card"  
+                onClick={handleOpen}
+            >
+                <EditIcon />
+            </IconButton>
 
-        <IconButton 
-            color="secondary" 
-            aria-label="delete the card"  
-            onClick={onDelClick}
-        >
-            <DeleteOutlineIcon />
-        </IconButton>
+            <IconButton 
+                color="secondary" 
+                aria-label="delete the card"  
+                onClick={onDelClick}
+            >
+                <DeleteOutlineIcon />
+            </IconButton>
 
-        <FrontSideNote title={flashcard.title} fflip = {flip} fsetFlip = {setFlip} key = {flashcard.id}/>
-        <BackSideNote description={flashcard.description} bflip = {flip} bsetFlip = {setFlip} key = {flashcard.id}/>
+            <FrontSideNote title={flashcard.title} fflip = {flip} fsetFlip = {setFlip} key = {flashcard.id}/>
+            <BackSideNote description={flashcard.description} bflip = {flip} bsetFlip = {setFlip} key = {flashcard.id}/>
         </div>
     )
 }

@@ -4,7 +4,7 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles, createTheme } from '@material-ui/core/styles';
 import { apiInvoker } from '../apiInvoker'
-
+ 
 const theme = createTheme({
     palette: {
       primary: {
@@ -230,7 +230,6 @@ const style = {
         >
           <Box sx={style}>   
               <Typography className = {classes.toptypo}>
-                  {/* <CheckBoxOutlineBlankIcon className = {classes.bicon}/>  */}
                   <Typography className = {classes.typo1} style = {{display: 'inline-block'}}>
                       Add New Topic
                   </Typography>
