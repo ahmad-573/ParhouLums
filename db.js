@@ -7,7 +7,14 @@ const pool = new Pool({
     host: 'db-postgresql-blr1-05163-do-user-11369164-0.b.db.ondigitalocean.com',
     port: 25060,
     database: 'parhoulums',
-    sslmode: 'require'
+    dialect: "postgres",
+    dialectOptions: {
+    ssl: {
+      require: true, // This will help you. But you will see nwe error
+      rejectUnauthorized: false // This line will fix new error
+    }
+  }
+    //sslmode: 'require'
 });
 
 module.exports = pool;
