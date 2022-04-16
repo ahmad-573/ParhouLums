@@ -1,5 +1,5 @@
 const Pool = require("pg").Pool;
-const con_string = process.env.DB_STRING;
+const con_string = process.env.DATABASE_URL;
 
 const pool = new Pool({
     con_string
