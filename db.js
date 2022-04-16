@@ -1,5 +1,7 @@
 const Pool = require("pg").Pool;
 //const { parseSsl } = require('pg-ssl');
+const fs = require(`fs`);
+const path = require('path');
 
 const pool = new Pool({
     user: 'doadmin',
@@ -7,6 +9,11 @@ const pool = new Pool({
     host: 'db-postgresql-blr1-05163-do-user-11369164-0.b.db.ondigitalocean.com',
     port: 25060,
     database: 'parhoulums',
+    ssl: {
+      require: true, // This will help you. But you will see nwe error
+      rejectUnauthorized: false, // This line will fix new error
+      ca: fs.readFileSync(path.join(__dirname, 'ca-certificate.crt')).toString()
+    }
     /*dialect: "postgres",
     dialectOptions: {
     ssl: {
