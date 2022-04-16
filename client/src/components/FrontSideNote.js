@@ -20,7 +20,7 @@ function FrontSideNote({title, fflip, fsetFlip}){
     const classes = useStyles();
     return(
         // <div class='frontside '>
-    <div className='frontside h-full grid place-items-center -mt-[7%] text-ellipsis overflow-hidden p-8'>
+    <div className='frontside bg-red-100 h-full grid place-items-center -mt-[7%] text-ellipsis overflow-hidden p-8'>
             {/* <IconButton className = {classes.iconButton} color="secondary" aria-label="flip the card" onClick={() => fsetFlip(!fflip)}>
                 <FlipCameraAndroidIcon />
             </IconButton> */}
