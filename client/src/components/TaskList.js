@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { TrashIcon, PencilIcon, ChevronRightIcon, PlusIcon } from '@heroicons/react/outline'
+import { TrashIcon, PencilIcon, ChevronRightIcon, PlusIcon, PlusCircleIcon } from '@heroicons/react/outline'
 import Modal from './TaskListModalCreate'
 import { apiInvoker } from '../apiInvoker'
 import Task from './Task'
@@ -43,7 +43,7 @@ function TaskList({username, setGroup, setSnackbarMsg, groups, setGroups, group,
 
   return (
     <div>
-      <div className = "grid grid-cols-1 gap-10 px-[48px] mt-[50px] min-h-[200px] md:grid-cols-2 lg:grid-cols-3">
+      <div className = "grid grid-cols-1 gap-10 px-[48px] mt-[50px] min-h-[200px] md:grid-cols-2 xl:grid-cols-3">
         {/* Category 0 */}
         <div className='relative rounded-lg bg-white border ring-1 ring-[#1d1c1d] ring-opacity-10'>
           <div className='flex center px-[20px] pb-[8px] border-b-2'>
@@ -51,7 +51,7 @@ function TaskList({username, setGroup, setSnackbarMsg, groups, setGroups, group,
               Not started
             </div>
             <div className='flex w-[5%] mt-2'>
-              <button onClick={() => setShowZero(true)}><PlusIcon className='w-5 h-5'/></button>
+              <button onClick={() => setShowZero(true)}><PlusCircleIcon className='w-5 h-5'/></button>
               <Modal onClose={useCallback(() => setShowZero(false), [])} show={showZero} category={0} groupid={group.group_id} mList={mList} mMap={mMap} setTasks={setTasks} logout={logout} setSnackbarMsg={setSnackbarMsg}/>
             </div>
           </div>
@@ -76,7 +76,7 @@ function TaskList({username, setGroup, setSnackbarMsg, groups, setGroups, group,
               In Progress
             </div>
             <div className='w-[5%] mt-2'>
-              <button onClick={() => setShowOne(true)}><PlusIcon className='w-5 h-5 mr-0 ml-auto mt-1'/></button>
+              <button onClick={() => setShowOne(true)}><PlusCircleIcon className='w-5 h-5 mr-0 ml-auto mt-1'/></button>
               <Modal onClose={useCallback(() => setShowOne(false), [])} show={showOne} category={1} groupid={group.group_id} mList={mList} mMap={mMap} setTasks={setTasks} logout={logout} setSnackbarMsg={setSnackbarMsg}/>
             </div>
           </div>
@@ -101,7 +101,7 @@ function TaskList({username, setGroup, setSnackbarMsg, groups, setGroups, group,
               Completed 
             </div>
             <div className='w-[5%] mt-2'>
-              <button onClick={() => setShowTwo(true)}><PlusIcon className='w-5 h-5 mr-0 ml-auto mt-1'/></button>
+              <button onClick={() => setShowTwo(true)}><PlusCircleIcon className='w-5 h-5 mr-0 ml-auto mt-1'/></button>
               <Modal onClose={useCallback(() => setShowTwo(false), [])} show={showTwo} category={2} groupid={group.group_id} mList={mList} mMap={mMap} setTasks={setTasks} logout={logout} setSnackbarMsg={setSnackbarMsg}/>
             </div>
           </div>

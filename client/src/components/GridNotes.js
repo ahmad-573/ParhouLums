@@ -143,7 +143,7 @@ function GridNotes({setSnackbarMsg, group, logout}){
     return(
             <div>
                 {/* <div className='wrapper'></div> */}
-                <div className="grid grid-cols-1 gap-8 pt-5 pl-8 pr-8 pb-4 lg:grid-cols-2">
+                <div className="min-h-[530px] grid grid-cols-1 gap-8 pt-5 pl-8 pr-8 pb-4 lg:grid-cols-2">
                     {flashcards.map(flashcard => {
                         // console.log(flashcard.id)
                         let index1 = flashcards.indexOf(flashcard) 

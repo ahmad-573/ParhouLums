@@ -79,18 +79,14 @@ function CardsFront({username, setGroup, setSnackbarMsg, groups, setGroups, grou
     const handleOpen = () => setOpmodal(true)
     return(
         <div className='flex h-full w-full px-8 '>
-        {/* <Card className={classes.mainBox}> */}
-            {/* <NavBar/> */}
             <div className='bg-white rounded-lg border ring-1 ring-[#1d1c1d] ring-opacity-10 grid grid-cols-1 m-auto w-full'>
-            {/* <Card className={classes.subBox}> */}
                 <div>
                     <div className='grid grid-cols-10 content-center mt-3 border-b-2'>
                         <div className='col-span-9 ml-8 text-[22px] mb-3 font-medium w-[100%] font-sans text-gray-900'>
                             Flashcards
                         </div>
                         <div className='w-[100%]'>
-                            <button onClick={handleOpen}><PlusIcon className='w-5 h-5 mt-1 inline-block align-middle'/></button>
-                            
+                            <button onClick={handleOpen}><PlusIcon className='w-5 h-5 mt-1 inline-block align-middle'/></button> 
                             <CreateModal
                                 open={opmodal}
                                 modalClose={handleClose}
@@ -99,8 +95,6 @@ function CardsFront({username, setGroup, setSnackbarMsg, groups, setGroups, grou
                             />
                         </div>
                     </div>
-                    {/* <Divider className={classes.line}/> */}
-                {/* </Typography> */}
                 
                 <GridNotes
                     setSnackbarMsg={setSnackbarMsg}
@@ -109,7 +103,6 @@ function CardsFront({username, setGroup, setSnackbarMsg, groups, setGroups, grou
                 />
             </div>
             </div>
-        {/* </Card> */}
         </div>
     )
 }

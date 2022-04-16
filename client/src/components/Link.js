@@ -13,7 +13,9 @@ import { apiInvoker } from '../apiInvoker'
 import EditTopicModal from './EditTopicModal';
 import AddLinkModal from './AddLinkModal';
 import './notestyle.css'
+import { TrashIcon, MinusIcon, XIcon } from '@heroicons/react/outline'
 
+ 
 const useStyles = makeStyles((theme) => ({
     iconButton:{
         position: "absolute",
@@ -60,9 +62,14 @@ function Link({setDeleted, link, setSnackbarMsg, logout, groupid, topicid}){
     };
 
     return(
-        <div class='links'>
-            <a href={link.link}>{link.title}</a>
-            <IconButton 
+        <div className='flex items-center px-8 py-3'>
+            <div className='w-[97.5%]'>
+                <a href={link.link} className='underline decoration-sky-500 text-sky-500'>{link.title}</a>
+            </div>
+            <div>
+                <button><XIcon onClick={onDelClick} className='w-5 h-5 text-red-400'/></button>
+            </div>
+            {/* <IconButton 
             color="secondary" 
             aria-label="delete the link"  
             onClick={onDelClick}
@@ -70,7 +77,7 @@ function Link({setDeleted, link, setSnackbarMsg, logout, groupid, topicid}){
             sx={{ fontSize: 20 }} 
             >
                 <DeleteOutlineIcon />
-            </IconButton>
+            </IconButton> */}
         </div>
     );
 

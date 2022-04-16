@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react';
-import { Typography, Modal, Button, Box, TextField, IconButton, Card,createTheme , ThemeProvider, Grid} from '@material-ui/core'
+import { Typography, Modal, Button, Box, TextField, IconButton, Card, createTheme , ThemeProvider, Grid} from '@material-ui/core'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CloseIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add';
@@ -11,6 +11,8 @@ import './notestyle.css'
 import Topics from './Topics';
 import TopicModal from './TopicModal';
 import NavBar from './NavBar';
+import { PlusIcon, PlusCircleIcon } from '@heroicons/react/outline'
+
 
 const useStyles = makeStyles((theme) => ({
   
@@ -118,33 +120,32 @@ function Resources({username, setGroup, setSnackbarMsg, groups, setGroups, group
       }, [time])
 
     return(
-        <Grid item xs="auto" className={classes.mainBox} flexGrow={1}>
-            <TopicModal
-                open={opmodal}
-                modalClose={handleClose}
-                groupid={group.group_id}
-                logout={logout}
-                setSnackbarMsg={setSnackbarMsg}
-                setRerendertopics={setRerendertopics}
-                rerendertopics={rerendertopics}
-            />
-            <Grid className={classes.subBox} >
-                <ThemeProvider theme={theme}>
-                    <Typography>
-                        Resources
-                        <IconButton 
-                        className={classes.addicon}
-                        aria-label="create card"
-                        onClick={handleOpen}
-                        >
-                            <AddIcon/>
-                        </IconButton>
-                        <Divider className={classes.line}/>
-                    </Typography>
-                </ThemeProvider>
-                <Topics topics={topics} groupid={group.group_id} logout={logout} setSnackbarMsg={setSnackbarMsg} setRerendertopics={setRerendertopics} rerendertopics={rerendertopics}/>
-            </Grid>
-        </Grid>
+      <>
+      <div className='flex h-full w-full px-8 '>
+        <div className='bg-white rounded-lg border ring-1 ring-[#1d1c1d] ring-opacity-10 grid grid-cols-1 m-auto w-full'>
+          <div>
+            <div className='grid grid-cols-10 content-center mt-3 border-b-2'>
+              <div className='col-span-9 ml-8 text-[22px] mb-3 font-medium w-[100%] font-sans text-gray-900'>
+                  Resources
+              </div>
+              <div className='w-[100%]'>
+                  <button onClick={handleOpen}><PlusCircleIcon className='w-6 h-6 mt-1 inline-block align-middle'/></button> 
+                  <TopicModal
+                    open={opmodal}
+                    modalClose={handleClose}
+                    groupid={group.group_id}
+                    logout={logout}
+                    setSnackbarMsg={setSnackbarMsg}
+                    setRerendertopics={setRerendertopics}
+                    rerendertopics={rerendertopics}
+                  />
+              </div>
+            </div>
+            <Topics topics={topics} groupid={group.group_id} logout={logout} setSnackbarMsg={setSnackbarMsg} setRerendertopics={setRerendertopics} rerendertopics={rerendertopics}/>
+          </div>
+        </div>
+      </div>
+        </>
     )
 }
 
