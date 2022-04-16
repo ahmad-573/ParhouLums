@@ -15,7 +15,6 @@ const pool = new Pool({
 module.exports = pool;
 
 
-
 /*
 user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
