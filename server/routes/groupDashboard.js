@@ -8,16 +8,23 @@ const axios = require('axios')
 async function createNewChat(username,group_name,memberList) {
     try {
         console.log("memss;", memberList);
-          await axios.post('https://api.chatengine.io/users/',  { 'username': username, 'first_name': username, 'last_name': username, 'secret': process.env.CHAT_USER_PASSWORD}, { 'headers': {'PRIVATE-KEY': process.env.CHAT_PRIVATE_KEY} });
-          const chat = await axios.post('https://api.chatengine.io/chats/',  { "title": `${group_name} chat`, "is_direct_chat": false }, { 'headers': {'Project-ID': process.env.CHAT_PROJECT_ID, 'User-Name': username, 'User-secret': process.env.CHAT_USER_PASSWORD} });
-          console.log(chat);
-          for (let mem of memberList){
-            
-            await axios.post(`https://api.chatengine.io/users/`,  {'username': mem.username, 'first_name': mem.username, 'last_name': mem.username, 'secret': process.env.CHAT_USER_PASSWORD}, { 'headers': {'PRIVATE-KEY': process.env.CHAT_PRIVATE_KEY} });
+        try {
+            await axios.post('https://api.chatengine.io/users/',  { 'username': username, 'first_name': username, 'last_name': username, 'secret': process.env.CHAT_USER_PASSWORD}, { 'headers': {'PRIVATE-KEY': process.env.CHAT_PRIVATE_KEY} });
+        } catch (error) {
+            console.log(error)
+        }
+        
+        const chat = await axios.post('https://api.chatengine.io/chats/',  { "title": `${group_name} chat`, "is_direct_chat": false }, { 'headers': {'Project-ID': process.env.CHAT_PROJECT_ID, 'User-Name': username, 'User-secret': process.env.CHAT_USER_PASSWORD} }); 
+        for (let mem of memberList){
+            try {
+                await axios.post(`https://api.chatengine.io/users/`,  {'username': mem.username, 'first_name': mem.username, 'last_name': mem.username, 'secret': process.env.CHAT_USER_PASSWORD}, { 'headers': {'PRIVATE-KEY': process.env.CHAT_PRIVATE_KEY} });
+                await axios.post(`https://api.chatengine.io/chats/${chat.data.id}/people/`,  { "username": mem.username }, { 'headers': {'Project-ID': process.env.CHAT_PROJECT_ID, 'User-Name': username, 'User-secret': process.env.CHAT_USER_PASSWORD} }); 
+            } catch (error) {
+                console.log(error);
+            }
 
-            await axios.post(`https://api.chatengine.io/chats/${chat.body.id}/people/`,  { "username": mem.username }, { 'headers': {'Project-ID': process.env.CHAT_PROJECT_ID, 'User-Name': username, 'User-secret': process.env.CHAT_USER_PASSWORD} });
-          }
-          return "Done"
+        }
+        return "Done"
 
           
     } catch (error) {
@@ -157,8 +164,7 @@ router.post('/createGroup', async (req,res) => {
             "SELECT username FROM users WHERE user_id = $1 ", [my_id]
         );
         console.log(res2.rows[0].username, name, names)
-        let x = await createNewChat(res2.rows[0].username,name,names);
-        console.log(x);
+        createNewChat(res2.rows[0].username,name,names);
         res.status(200).json({group_id: newgroup_id});
     } catch (err) {
         console.log(err);
