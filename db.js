@@ -1,5 +1,5 @@
 const Pool = require("pg").Pool;
-const { parseSsl } = require('pg-ssl');
+//const { parseSsl } = require('pg-ssl');
 
 const pool = new Pool({
     user: 'doadmin',
@@ -7,13 +7,10 @@ const pool = new Pool({
     host: 'db-postgresql-blr1-05163-do-user-11369164-0.b.db.ondigitalocean.com',
     port: 25060,
     database: 'parhoulums',
-    ssl: parseSsl({
-         sslmode: 'require'
-    })
+    sslmode: 'require'
 });
 
 module.exports = pool;
-
 
 /*
 user: process.env.DB_USER,
@@ -24,3 +21,8 @@ user: process.env.DB_USER,
     sslmode: 'require'
     */
 // connectionString: process.env.DATABASE_URL
+/*
+ssl: parseSsl({
+         sslmode: 'require'
+    })
+    */
