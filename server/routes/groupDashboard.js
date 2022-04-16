@@ -4,6 +4,7 @@ const pool = require("../db");
 
 // Get all groups of a user
 router.post('/getAllGroups', async (req,res) => {
+    console.log(req.body);
     try {
         let user_id = req.body.userid;
         const user_groups = await pool.query(
@@ -50,12 +51,11 @@ router.post('/getUsers', async (req,res) => {
                 const users_1 = await pool.query(
                     "SELECT u.username, u.fullname, u.user_id FROM users AS u INNER JOIN group_membership AS g ON u.user_id = g.user_id WHERE u.user_id <> $1 AND g.group_id = $2", [curr_userid, req.body.group_id]
                 );
-                const all_users = await pool.query(
-                    "SELECT username, fullname, user_id FROM users"
+                sql = "SELECT u.user_id FROM users AS u INNER JOIN group_membership AS g ON u.user_id = g.user_id WHERE u.user_id <> $1 AND g.group_id = $2";
+                const users_2 = await pool.query(
+                    `SELECT username, fullname, user_id  FROM users WHERE user_id NOT IN (${sql})`, [curr_userid, req.body.group_id]
                 );
-                
-                const users_2 = all_users.rows.filter((ele) => {!(users_1.rows.includes(ele))})
-                res.status(200).json({users1: users_1.rows,users2: users_2});
+                res.status(200).json({users1: users_1.rows,users2: users_2.rows});
             }
         }
         else if (req_type == "promote"){
@@ -121,6 +121,7 @@ router.post('/createGroup', async (req,res) => {
                 res.status(400).json({error: `Group was created but there was trouble adding all the members into the new group.`});
             }
         }
+        await createNewChat();
         res.status(200).json({group_id: newgroup_id});
     } catch (err) {
         console.log(err);
