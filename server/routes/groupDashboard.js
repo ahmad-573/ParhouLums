@@ -1,10 +1,37 @@
 const express = require(`express`)
 const router = express.Router()
 const pool = require("../db");
+require('dotenv').config({path:__dirname+'../.env'})
+const axios = require('axios')
+
+
+async function createNewChat(username,group_name,memberList) {
+    try {
+        console.log("memss;", memberList);
+          await axios.post('https://api.chatengine.io/users/',  { 'username': username, 'first_name': username, 'last_name': username, 'secret': process.env.CHAT_USER_PASSWORD}, { 'headers': {'PRIVATE-KEY': process.env.CHAT_PRIVATE_KEY} });
+          const chat = await axios.post('https://api.chatengine.io/chats/',  { "title": `${group_name} chat`, "is_direct_chat": false }, { 'headers': {'Project-ID': process.env.CHAT_PROJECT_ID, 'User-Name': username, 'User-secret': process.env.CHAT_USER_PASSWORD} });
+          console.log(chat);
+          for (let mem of memberList){
+            
+            await axios.post(`https://api.chatengine.io/users/`,  {'username': mem.username, 'first_name': mem.username, 'last_name': mem.username, 'secret': process.env.CHAT_USER_PASSWORD}, { 'headers': {'PRIVATE-KEY': process.env.CHAT_PRIVATE_KEY} });
+
+            await axios.post(`https://api.chatengine.io/chats/${chat.body.id}/people/`,  { "username": mem.username }, { 'headers': {'Project-ID': process.env.CHAT_PROJECT_ID, 'User-Name': username, 'User-secret': process.env.CHAT_USER_PASSWORD} });
+          }
+          return "Done"
+
+          
+    } catch (error) {
+        // alert("Wrong username or password")
+        // setUsername('');
+        // setPassword(''); 
+        console.log("error: ", error)
+        //return error
+        
+    }
+}
 
 // Get all groups of a user
 router.post('/getAllGroups', async (req,res) => {
-    console.log(req.body);
     try {
         let user_id = req.body.userid;
         const user_groups = await pool.query(
@@ -111,17 +138,27 @@ router.post('/createGroup', async (req,res) => {
             );
             res.status(400).json({error: `Trouble Creating a new group. Try again.`})
         }
+        let names = []
         for (let id of ids){
             try {
                 const result4 = await pool.query(
                     "INSERT INTO group_membership VALUES($1,$2,0) ", [newgroup_id, id]
                 );
+                const res1 = await pool.query(
+                    "SELECT username FROM users WHERE user_id = $1 ", [id]
+                );
+                names.push(res1.rows[0]);
             } catch (err) {
                 console.log(err);
                 res.status(400).json({error: `Group was created but there was trouble adding all the members into the new group.`});
             }
         }
-        await createNewChat();
+        const res2 = await pool.query(
+            "SELECT username FROM users WHERE user_id = $1 ", [my_id]
+        );
+        console.log(res2.rows[0].username, name, names)
+        let x = await createNewChat(res2.rows[0].username,name,names);
+        console.log(x);
         res.status(200).json({group_id: newgroup_id});
     } catch (err) {
         console.log(err);
