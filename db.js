@@ -7,13 +7,7 @@ const pool = new Pool({
     host: 'db-postgresql-blr1-05163-do-user-11369164-0.b.db.ondigitalocean.com',
     port: 25060,
     database: 'parhoulums',
-    dialect: "postgres",
-    dialectOptions: {
-        ssl: {
-            require: true,
-            rejectUnauthorized: false
-        }
-    }
+    sslmode: 'require'
 });
 
 module.exports = pool;
@@ -32,3 +26,11 @@ ssl: parseSsl({
          sslmode: 'require'
     })
     */
+
+/*dialect: "postgres",
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    }*/
