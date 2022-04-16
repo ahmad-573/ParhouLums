@@ -19,11 +19,12 @@ const useStyles = makeStyles((theme) => ({
 function FrontSideNote({title, fflip, fsetFlip}){
     const classes = useStyles();
     return(
-        <div class='frontside'>
+        // <div class='frontside '>
+    <div className='frontside h-full grid place-items-center -mt-[7%] text-ellipsis overflow-hidden p-8'>
             {/* <IconButton className = {classes.iconButton} color="secondary" aria-label="flip the card" onClick={() => fsetFlip(!fflip)}>
                 <FlipCameraAndroidIcon />
             </IconButton> */}
-            {title}
+            <div className='truncate w-full'>{title}</div>
         </div>
     )
 }

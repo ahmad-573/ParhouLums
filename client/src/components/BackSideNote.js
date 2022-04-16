@@ -15,15 +15,15 @@ const useStyles = makeStyles((theme) => ({
         // alignItems: "flex-start"
     }
   }));
-
+ 
 function BackSideNote({description, bflip, bsetFlip}){
     const classes = useStyles();
     return(
-        <div class='backside'>
+        <div className='backside h-full inline-block grid place-items-center -mt-[30%] text-ellipsis overflow-hidden p-8'>
              {/* <IconButton className = {classes.iconButton} color="secondary" aria-label="flip the card" onClick={() => bsetFlip(!bflip)}>
                 <FlipCameraAndroidIcon />
             </IconButton> */}
-            {description}
+            <div className='truncate w-full -mt-[15%]'>{description}</div>
         </div>
         
     )

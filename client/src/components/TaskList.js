@@ -45,7 +45,7 @@ function TaskList({username, setGroup, setSnackbarMsg, groups, setGroups, group,
     <div>
       <div className = "grid grid-cols-1 gap-10 px-[48px] mt-[50px] min-h-[200px] md:grid-cols-2 lg:grid-cols-3">
         {/* Category 0 */}
-        <div className='relative rounded-lg border ring-1 ring-[#1d1c1d] ring-opacity-10'>
+        <div className='relative rounded-lg bg-white border ring-1 ring-[#1d1c1d] ring-opacity-10'>
           <div className='flex center px-[20px] pb-[8px] border-b-2'>
             <div className='text-[22px] font-medium mt-[8px] w-[95%] font-sans text-gray-900'>
               Not started
@@ -70,7 +70,7 @@ function TaskList({username, setGroup, setSnackbarMsg, groups, setGroups, group,
         </div>
 
         {/* Category 1 */}
-        <div className='relative rounded-lg border ring-1 ring-[#1d1c1d] ring-opacity-10'>
+        <div className='relative rounded-lg bg-white border ring-1 ring-[#1d1c1d] ring-opacity-10'>
           <div className='flex center px-[20px] pb-[8px] border-b-2 boder-[#1d1c1d]'>
             <div className='text-[22px] font-medium mt-[8px] w-[95%] font-sans text-gray-900'>
               In Progress
@@ -95,7 +95,7 @@ function TaskList({username, setGroup, setSnackbarMsg, groups, setGroups, group,
         </div>
 
         {/* Category 2 */}
-        <div className='relative rounded-lg border ring-1 ring-[#1d1c1d] ring-opacity-10'>
+        <div className='relative rounded-lg bg-white border ring-1 ring-[#1d1c1d] ring-opacity-10'>
           <div className='flex center px-[20px] pb-[8px] border-b-2 boder-[#1d1c1d]'>
             <div className='text-[22px] font-medium mt-[8px] w-[95%] font-sans text-gray-900'>
               Completed 
