@@ -8,7 +8,7 @@ import GroupSelectorPage from './components/GroupSelectorPage'
 import ErrorPopup from './components/ErrorPopup'
 import NavBar from './components/NavBar'
 import TaskList from './components/TaskList'
-import SideBar from './components/SideBar'
+import SideBar from './components/SideBar_2'
 import CardsFront from "./components/CardsFront";
 import Resources from "./components/Resources";
 import { Link, useNavigate } from 'react-router-dom';
