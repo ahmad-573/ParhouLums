@@ -92,11 +92,12 @@ function Resources({username, setGroup, setSnackbarMsg, groups, setGroups, group
     const [topics, setTopics] = useState([])
     const [rerendertopics, setRerendertopics] = useState(0);
     const [time, setTime] = useState(0);
+    const [changed, setChanged] = useState(false);
 
     function generateTime() {
         return(
             new Promise((resolve,reject) => {
-                setTimeout(resolve,2000);
+                setTimeout(resolve,6000);
             }).then(() => {
                 if (time%2) setTime(time + 1)
                 else setTime(time - 1)
@@ -104,20 +105,28 @@ function Resources({username, setGroup, setSnackbarMsg, groups, setGroups, group
         );
         
     }
+    const getTopics = async () => {
+      apiInvoker('/api/getTopics', {group_id:group.group_id}).then(([data, err]) => {
+        if (err === undefined) {
+          {setTopics(data.topics)}
+        } else if (err === 'Token error'){
+          logout()
+        }
+        else{
+          setSnackbarMsg('Error: ' + err)
+        }
+        generateTime();
+      })
+    } 
 
     React.useEffect(() => {
-        apiInvoker('/api/getTopics', {group_id:group.group_id}).then(([data, err]) => {
-          if (err === undefined) {
-            {setTopics(data.topics)}
-          } else if (err === 'Token error'){
-            logout()
-          }
-          else{
-            setSnackbarMsg('Error: ' + err)
-          }
-          generateTime();
-        })
+        getTopics();
       }, [time])
+
+    if (changed){
+      getTopics();
+      setChanged(false);
+    }
 
     return(
       <>
@@ -138,10 +147,11 @@ function Resources({username, setGroup, setSnackbarMsg, groups, setGroups, group
                     setSnackbarMsg={setSnackbarMsg}
                     setRerendertopics={setRerendertopics}
                     rerendertopics={rerendertopics}
+                    setChanged={setChanged}
                   />
               </div>
             </div>
-            <Topics topics={topics} groupid={group.group_id} logout={logout} setSnackbarMsg={setSnackbarMsg} setRerendertopics={setRerendertopics} rerendertopics={rerendertopics}/>
+            <Topics setChanged={setChanged} topics={topics} groupid={group.group_id} logout={logout} setSnackbarMsg={setSnackbarMsg} setRerendertopics={setRerendertopics} rerendertopics={rerendertopics}/>
           </div>
         </div>
       </div>

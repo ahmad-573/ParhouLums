@@ -32,7 +32,7 @@ const TheirMessage = ({ lastMessage, message }) => {
                             style={{ marginLeft: isFirstMessageByUser ? '4px' : '48px' }}
                         />
                     ) : (
-                        <div className="message" style={{ float: 'left', backgroundColor: '#32C022', marginLeft: isFirstMessageByUser ? '4px' : '48px' }}>
+                        <div className="message" style={{ float: 'left', backgroundColor: '#526bb8', marginLeft: isFirstMessageByUser ? '4px' : '48px' }}>
                         <div className='sender-name'>{message.sender.username}</div>
                         <Divider className={{width: '100%'}}/>
                         {message.text.replace(/(<p[^>]+?>|<p>|<\/p>)/img, "")}

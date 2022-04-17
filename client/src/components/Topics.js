@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-function Topics({groupid, logout, setSnackbarMsg,topics,setRerendertopics, rerendertopics}){    
+function Topics({ setChanged,groupid, logout, setSnackbarMsg,topics,setRerendertopics, rerendertopics}){    
     //const [topics, setTopics] = useState([])
     const [index, setIndex] = useState(0)
     const [index2, setIndex2] = useState(1)
@@ -56,7 +56,7 @@ function Topics({groupid, logout, setSnackbarMsg,topics,setRerendertopics, reren
                 <div className="min-h-[540px] px-10">
                     {topics.map(topic => {
                         // console.log(flashcard.id)
-                        return <Topic rerendertopics={rerendertopics} setRerendertopics={setRerendertopics} topic = {topic} key = {topic.topic_id} logout={logout} groupid={groupid} setSnackbarMsg={setSnackbarMsg}/>
+                        return <Topic setChanged={setChanged} rerendertopics={rerendertopics} setRerendertopics={setRerendertopics} topic = {topic} key = {topic.topic_id} logout={logout} groupid={groupid} setSnackbarMsg={setSnackbarMsg}/>
                     })}
                 </div> 
                 {/* <Button>Hello</Button>       */}

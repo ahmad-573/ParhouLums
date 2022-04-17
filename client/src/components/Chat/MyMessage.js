@@ -13,7 +13,7 @@ const MyMessage = ({ message }) => {
         )
     }
     return (
-        <div className="message" style={{ float: 'right', marginRight: '18px', color: 'white', backgroundColor: '#116B0E' }}>
+        <div className="message" style={{ float: 'right', marginRight: '18px', color: 'white', backgroundColor: '#1f46bc' }}>
             <div className='sender-name'>{message.sender.username}</div>
             <Divider className={{width: '100%'}}/>
             {message.text.replace(/(<p[^>]+?>|<p>|<\/p>)/img, "")}

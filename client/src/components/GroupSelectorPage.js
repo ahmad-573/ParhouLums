@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function GroupSelectorPage({setMychats,mychats,setCurrchat,username, setGroup, setSnackbarMsg, groups, setGroups, logout}) {
+function GroupSelectorPage({setNavTitle,setMychats,mychats,setCurrchat,username, setGroup, setSnackbarMsg, groups, setGroups, logout}) {
 
   const classes = useStyles()
   const navigate = useNavigate()
@@ -50,7 +50,7 @@ function GroupSelectorPage({setMychats,mychats,setCurrchat,username, setGroup, s
         <Grid item>
           <Grid container direction='row' justifyContent='center' alignItems='center'>
             <Grid item>
-              <GroupList mychats={mychats} setCurrchat={setCurrchat} logout={logout} type={'Admin'} setGroup={setGroup} groups={groups.filter((obj) => obj.status ? true : false)}/>
+              <GroupList setNavTitle={setNavTitle} mychats={mychats} setCurrchat={setCurrchat} logout={logout} type={'Admin'} setGroup={setGroup} groups={groups.filter((obj) => obj.status ? true : false)}/>
             </Grid>
             <Divider
               orientation='vertical'
@@ -58,7 +58,7 @@ function GroupSelectorPage({setMychats,mychats,setCurrchat,username, setGroup, s
               flexItem
             />
             <Grid item>
-            <GroupList mychats={mychats} setCurrchat={setCurrchat} logout={logout} type={'Member'} setGroup={setGroup} groups={groups.filter((obj) => obj.status ? false : true)}/>
+            <GroupList setNavTitle={setNavTitle} mychats={mychats} setCurrchat={setCurrchat} logout={logout} type={'Member'} setGroup={setGroup} groups={groups.filter((obj) => obj.status ? false : true)}/>
             </Grid>
           </Grid>
         </Grid>

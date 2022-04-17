@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     //border: '2px solid #000',
   };
 
-function Topic({topic,groupid,logout, setSnackbarMsg, setRerendertopics, rerendertopics}){
+function Topic({setChanged,topic,groupid,logout, setSnackbarMsg, setRerendertopics, rerendertopics}){
     // console.log(key)
     const classes = useStyles();
     const [opmodal, setOpmodal] = useState(false)
@@ -65,7 +65,7 @@ function Topic({topic,groupid,logout, setSnackbarMsg, setRerendertopics, rerende
 
     const onDelClick = async e =>{
         const [data, err] = await apiInvoker('/api/deleteTopic', {topic_id:topic.topic_id,group_id: groupid})
-        if (data !== undefined) setRerendertopics(rerendertopics+1);
+        if (data !== undefined) {setRerendertopics(rerendertopics+1); setChanged(true)} 
         else if (err === 'Token error') logout()
         else setSnackbarMsg('Error: ' + err)          
     };
@@ -97,6 +97,7 @@ function Topic({topic,groupid,logout, setSnackbarMsg, setRerendertopics, rerende
             setSnackbarMsg={setSnackbarMsg}
             setRerendertopics={setRerendertopics}
             rerendertopics={rerendertopics}
+            setChanged={setChanged}
             />
             <AddLinkModal 
             open={addmodal}

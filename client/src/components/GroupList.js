@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function GroupList({setCurrchat, mychats, type, groups, setGroup, logout}) {
+function GroupList({setNavTitle,setCurrchat, mychats, type, groups, setGroup, logout}) {
 
   const classes = useStyles()
   const navigate = useNavigate()
@@ -58,6 +58,7 @@ function GroupList({setCurrchat, mychats, type, groups, setGroup, logout}) {
           setCurrchat(ch.id);
         }
       }
+      setNavTitle('task-list')
       navigate('/task-list', { replace: true })
     } else {
       if (err === 'Token error') {
