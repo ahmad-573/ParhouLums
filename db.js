@@ -10,18 +10,11 @@ const pool = new Pool({
     port: 25060,
     database: 'parhoulums',
     ssl: {
-      require: true, // This will help you. But you will see nwe error
-      rejectUnauthorized: false, // This line will fix new error
+      require: true,
+      rejectUnauthorized: false,
       ca: fs.readFileSync(path.join(__dirname, 'ca-certificate.crt')).toString()
     }
-    /*dialect: "postgres",
-    dialectOptions: {
-    ssl: {
-      require: true, // This will help you. But you will see nwe error
-      rejectUnauthorized: false // This line will fix new error
-    }
-  }*/
-    //sslmode: 'require'
+    
 });
 
 module.exports = pool;
