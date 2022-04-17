@@ -8,6 +8,7 @@ import { apiInvoker } from '../apiInvoker'
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -76,11 +77,11 @@ const validationSchemaCreateGroup = yup.object({
   members: yup
   .array('Select members')
   .of(yup.string('Member name should be a string').min(3, 'Member should be of minimum 3 characters length'))
-  .min(1, 'Please select atleast 1 member')
+  .min(0, 'Please select atleast 1 member')
   .required('Member(s) required')
 });
 
-function NavBar({navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGroups, groups, sidebarWidth}) {
+function NavBar({mychats, setMychats, username,navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGroups, groups, sidebarWidth}) {
   const [openCreateGroup, setOpenCreateGroup] = React.useState(false)
   const [memberList, setMemberList] = React.useState([]) // [{username, fullname, user_id}]
   const [memberMap, setMemberMap] = React.useState({}) // {`${fullname} ${username}`: {username, fullname, user_id}}
@@ -102,7 +103,7 @@ function NavBar({navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGro
       if (err === undefined) {
         let newMemberMap = {}
         let newMemberList = []
-        for (let m of data.users) {
+        for (let m of data.users1) {
           const key = m.fullname + ' ' + m.username
           newMemberList.push(key)
           newMemberMap[key] = m
@@ -110,7 +111,12 @@ function NavBar({navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGro
         setMemberMap(newMemberMap)
         setMemberList(newMemberList)
       } else {
-        setSnackbarMsg('Create Group Error: ' + err)
+        if (err === 'Token error') {
+          logout()
+          navigate('/', { replace: true })
+        } else {
+          setSnackbarMsg('Create Group Error: ' + err)
+        }
       }
     })
 
@@ -167,16 +173,48 @@ function NavBar({navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGro
             }}
             validationSchema={validationSchemaCreateGroup}
             onSubmit={async (values) => {
-              const [data, err] = await apiInvoker('/api/createGroup', {groupName: values.groupName, member_ids: values.members.map((val) => memberMap[val].user_id)})
+              console.log(values)
+              let all_members = {group_name: values.groupName, member_ids: values.members.map((val) => memberMap[val].user_id)}
+              const [data, err] = await apiInvoker('/api/createGroup', all_members)
               if (err === undefined) {
                 setGroups([...groups, {name: values.groupName, group_id: data.group_id, status: 1}])
+                setMychats([...mychats, {id: data.chatid, name: values.groupName} ])
+                
+                // try {
+                //   await axios.post('https://api.chatengine.io/users/',  { 'username': username, 'first_name': username, 'last_name': username, 'secret': 'genericPassword'}, { 'headers': {'PRIVATE-KEY': "e1321fed-f63e-4256-ac56-ea8bf77c8035"} });
+
+                //   const chat = await axios.post('https://api.chatengine.io/chats/',  { "title": `${group_name} chat`, "is_direct_chat": false }, { 'headers': {'Project-ID': "984bd544-267a-4407-a75e-a55ecb80c946", 'User-Name': username, 'User-secret': 'genericPassword'} });
+
+                //   for (let mem of memberList){
+                    
+                //     await axios.post(`https://api.chatengine.io/users/`,  {'username': mem.username, 'first_name': mem.username, 'last_name': mem.username, 'secret': 'genericPassword'}, { 'headers': {'PRIVATE-KEY': "e1321fed-f63e-4256-ac56-ea8bf77c8035"} });
+
+                //     await axios.post(`https://api.chatengine.io/chats/${chat.body.id}/people/`,  { "username": mem.username }, { 'headers': {'Project-ID': "984bd544-267a-4407-a75e-a55ecb80c946", 'User-Name': username, 'User-secret': 'genericPassword'} });
+                //   }
+
+                  
+                // } catch (error) {
+                //     // alert("Wrong username or password")
+                //     // setUsername('');
+                //     // setPassword(''); 
+                //     console.log(Error)
+                //     setSnackbarMsg('Unable to add in chat: ', Error)
+                // }
               } else {
-                setSnackbarMsg('Create Group Error: ' + err)
+                if (err === 'Token error') {
+                  logout()
+                  navigate('/', { replace: true })
+                } else {
+                  setSnackbarMsg('Create Group Error: ' + err)
+                }
               }
             }}
             >
               {({values, touched, errors, handleChange, handleBlur, isValid, handleSubmit}) => {
-
+                function test(){
+                  handleSubmit();
+                  handleCloseCreateGroup();
+                }
                 return (<Form noValidate autoComplete="off">
                   <Grid container direction="column" spacing={2}>
                     <Grid item>
@@ -266,7 +304,7 @@ function NavBar({navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGro
                       </Button>
                     </Grid>
                     <Grid item>
-                      <Button onClick={handleSubmit} className={classes.buttonCreate}>
+                      <Button onClick={test} className={classes.buttonCreate}>
                           Create
                       </Button>
                     </Grid>

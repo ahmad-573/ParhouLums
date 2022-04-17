@@ -30,9 +30,9 @@ CREATE TABLE task_list(
     task_id SERIAL PRIMARY KEY, 
     group_id INT NOT NULL REFERENCES groups(group_id) ON DELETE CASCADE,
     title TEXT NOT NULL,
-    description TEXT NOT NULL,
+    description TEXT,
     category INT NOT NULL,
-    deadline DATE NOT NULL,
+    deadline TEXT,
     assign_to INT DEFAULT NULL REFERENCES users(user_id) ON DELETE SET DEFAULT
 );
 
@@ -63,6 +63,7 @@ CREATE TABLE files(
 CREATE TABLE links(
     link_id SERIAL PRIMARY KEY, 
     topic_id INT NOT NULL REFERENCES topic(topic_id) ON DELETE CASCADE,
+    title TEXT NOT NULL,
     link TEXT NOT NULL -- to review
 );
 

@@ -76,12 +76,12 @@ const validationSchemaRegister = yup.object({
   .required('Password is required'),
   answer: yup
   .string("Enter your answer")
-  .min(8, 'Answer should be of minimum 8 characters length')
+  .min(1, 'Answer should be of minimum 1 characters length')
   .max(30, 'Answer should be of maximum 30 characters length')
   .required('Answer is required'),
   name: yup
   .string("Enter your name")
-  .min(3, 'Name should be of minimum 8 characters length')
+  .min(3, 'Name should be of minimum 3 characters length')
   .max(30, 'Name should be of maximum 30 characters length')
   .required('Name is required'),
 });
@@ -256,9 +256,11 @@ function RegisterPage({setSnackbarMsg}) {
                     helperText={formikRegister.touched.securityId && formikRegister.errors.securityId}
                   >
                     <option value={-1}>None</option>
-                    <option value={0}>0th</option>
-                    <option value={1}>1st</option>
-                    <option value={2}>2nd</option>
+                    <option value={0}>What is the middle name of your first child?</option>
+                    <option value={1}>What was the name of your first pet?</option>
+                    <option value={2}>In what city were you born?</option>
+                    <option value={3}>What is your mother's maiden name?</option>
+                    <option value={4}>In which school did you study?</option>
                   </NativeSelect>
                 </Grid>
                 <Grid item>  
