@@ -43,7 +43,7 @@ function ModalCreateTask (props) {
         console.log("In modal: ", props.category);
         const [data, err] = await apiInvoker('/api/createTask', x)
         console.log(data, err)
-        if (data !== undefined) ;//getTasks();
+        if (data !== undefined) props.setChanged(true);//getTasks();
         else if (err === 'Token error') props.logout()
         else props.setSnackbarMsg('Error: ' + err)
     }

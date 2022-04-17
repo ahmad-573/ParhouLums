@@ -31,7 +31,7 @@ function ModalEditTask (props) {
         let x = {task_id: props.task.task_id, category: category, title: title, description: description, group_id: props.groupid, deadline: date, assign_to: assigned}
         console.log(x);
         const [data, err] = await apiInvoker('/api/editTask', x)
-        if (data !== undefined) ;//props.setTasks(data.tasks)
+        if (data !== undefined) props.setChanged(true);//props.setTasks(data.tasks)
         else if (err === 'Token error' ) props.logout()
         else props.setSnackbarMsg('Error: ' + err)
     }

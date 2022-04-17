@@ -14,11 +14,12 @@ function TaskList({username, setGroup, setSnackbarMsg, groups, setGroups, group,
   const [mMap, setMMap] = React.useState({}) // {`${fullname} ${username}`: {username, fullname, user_id}}
   const [tasks, setTasks] = React.useState([])
   const [time, setTime] = useState(0);
+  const [changed, setChanged] = useState(false)
 
     function generateTime() {
         return(
             new Promise((resolve,reject) => {
-                setTimeout(resolve,2000);
+                setTimeout(resolve,6000);
             }).then(() => {
                 if (time%2) setTime(time + 1)
                 else setTime(time - 1)
@@ -26,20 +27,28 @@ function TaskList({username, setGroup, setSnackbarMsg, groups, setGroups, group,
         );
         
     }
+    const getTasks = async () => {
+      apiInvoker('/api/getTasks', {group_id:group.group_id}).then(([data, err]) => {
+        if (err === undefined) {
+          setTasks(data.tasks)
+        } else if (err === 'Token error'){
+          logout()
+        }
+        else{
+          setSnackbarMsg('Error: ' + err)
+        }
+        generateTime();
+      })
+    }
 
   React.useEffect(() => {
-    apiInvoker('/api/getTasks', {group_id:group.group_id}).then(([data, err]) => {
-      if (err === undefined) {
-        setTasks(data.tasks)
-      } else if (err === 'Token error'){
-        logout()
-      }
-      else{
-        setSnackbarMsg('Error: ' + err)
-      }
-      generateTime();
-    })
+    getTasks();
   }, [time])
+
+  if (changed){
+    getTasks();
+    setChanged(false)
+  }
 
   return (
     <div>
@@ -52,7 +61,7 @@ function TaskList({username, setGroup, setSnackbarMsg, groups, setGroups, group,
             </div>
             <div className='flex w-[5%] mt-2'>
               <button onClick={() => setShowZero(true)}><PlusCircleIcon className='w-5 h-5'/></button>
-              <Modal onClose={useCallback(() => setShowZero(false), [])} show={showZero} category={0} groupid={group.group_id} mList={mList} mMap={mMap} setTasks={setTasks} logout={logout} setSnackbarMsg={setSnackbarMsg}/>
+              <Modal setChanged={setChanged} onClose={useCallback(() => setShowZero(false), [])} show={showZero} category={0} groupid={group.group_id} mList={mList} mMap={mMap} setTasks={setTasks} logout={logout} setSnackbarMsg={setSnackbarMsg}/>
             </div>
           </div>
           <div>
@@ -61,7 +70,7 @@ function TaskList({username, setGroup, setSnackbarMsg, groups, setGroups, group,
                   console.log("In 0: ", task.category)
                   return (
                     <div className='divide-y-2 divide-[#1d1c1d]-500'>
-                      <Task task={task} groupid={group.group_id} logout={logout} setSnackbarMsg={setSnackbarMsg} key={task.task_id}/>
+                      <Task setChanged={setChanged} task={task} groupid={group.group_id} logout={logout} setSnackbarMsg={setSnackbarMsg} key={task.task_id}/>
                     </div>
                   );
                 }
