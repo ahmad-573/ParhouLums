@@ -1,6 +1,43 @@
 const express = require(`express`)
 const router = express.Router()
 const pool = require("../db");
+require('dotenv').config({path:__dirname+'../.env'})
+const axios = require('axios')
+
+
+async function createNewChat(username,group_name,memberList) {
+    try {
+        try {
+            await axios.post('https://api.chatengine.io/users/',  { 'username': username, 'first_name': username, 'last_name': username, 'secret': process.env.CHAT_USER_PASSWORD}, { 'headers': {'PRIVATE-KEY': process.env.CHAT_PRIVATE_KEY} });
+        } catch (error) {
+            console.log(error)
+        }
+        
+        const chat = await axios.post('https://api.chatengine.io/chats/',  { "title": `${group_name} chat`, "is_direct_chat": false }, { 'headers': {'Project-ID': process.env.CHAT_PROJECT_ID, 'User-Name': username, 'User-secret': process.env.CHAT_USER_PASSWORD} }); 
+        for (let mem of memberList){
+            try {
+                await axios.post(`https://api.chatengine.io/users/`,  {'username': mem.username, 'first_name': mem.username, 'last_name': mem.username, 'secret': process.env.CHAT_USER_PASSWORD}, { 'headers': {'PRIVATE-KEY': process.env.CHAT_PRIVATE_KEY} }); 
+            } catch (error) {
+                console.log(error);
+            }
+            try {
+                await axios.post(`https://api.chatengine.io/chats/${chat.data.id}/people/`,  { "username": mem.username }, { 'headers': {'Project-ID': process.env.CHAT_PROJECT_ID, 'User-Name': username, 'User-secret': process.env.CHAT_USER_PASSWORD} });
+            } catch (error) {
+                console.log(error);
+            }
+
+        }
+
+          
+    } catch (error) {
+        // alert("Wrong username or password")
+        // setUsername('');
+        // setPassword(''); 
+        console.log("error: ", error)
+        //return error
+        
+    }
+}
 
 // Get all groups of a user
 router.post('/getAllGroups', async (req,res) => {
@@ -50,12 +87,11 @@ router.post('/getUsers', async (req,res) => {
                 const users_1 = await pool.query(
                     "SELECT u.username, u.fullname, u.user_id FROM users AS u INNER JOIN group_membership AS g ON u.user_id = g.user_id WHERE u.user_id <> $1 AND g.group_id = $2", [curr_userid, req.body.group_id]
                 );
-                const all_users = await pool.query(
-                    "SELECT username, fullname, user_id FROM users"
+                sql = "SELECT u.user_id FROM users AS u INNER JOIN group_membership AS g ON u.user_id = g.user_id WHERE u.user_id <> $1 AND g.group_id = $2";
+                const users_2 = await pool.query(
+                    `SELECT username, fullname, user_id  FROM users WHERE user_id NOT IN (${sql})`, [curr_userid, req.body.group_id]
                 );
-                
-                const users_2 = all_users.rows.filter((ele) => {!(users_1.rows.includes(ele))})
-                res.status(200).json({users1: users_1.rows,users2: users_2});
+                res.status(200).json({users1: users_1.rows,users2: users_2.rows});
             }
         }
         else if (req_type == "promote"){
@@ -111,16 +147,26 @@ router.post('/createGroup', async (req,res) => {
             );
             res.status(400).json({error: `Trouble Creating a new group. Try again.`})
         }
+        let names = []
         for (let id of ids){
             try {
                 const result4 = await pool.query(
                     "INSERT INTO group_membership VALUES($1,$2,0) ", [newgroup_id, id]
                 );
+                const res1 = await pool.query(
+                    "SELECT username FROM users WHERE user_id = $1 ", [id]
+                );
+                names.push(res1.rows[0]);
             } catch (err) {
                 console.log(err);
                 res.status(400).json({error: `Group was created but there was trouble adding all the members into the new group.`});
             }
         }
+        const res2 = await pool.query(
+            "SELECT username FROM users WHERE user_id = $1 ", [my_id]
+        );
+        console.log(res2.rows[0].username, name, names)
+        createNewChat(res2.rows[0].username,name,names);
         res.status(200).json({group_id: newgroup_id});
     } catch (err) {
         console.log(err);
