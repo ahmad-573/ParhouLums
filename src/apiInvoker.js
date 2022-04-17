@@ -1,4 +1,5 @@
-const base_url = 'http://localhost:4000'
+const base_url = process.env.REACT_APP_BASE_URL;
+console.log(base_url);
 
 export async function apiInvoker(api, body = {}) {
   try {
@@ -15,6 +16,7 @@ export async function apiInvoker(api, body = {}) {
     if (body !== {}) {
       reqHeader['body'] = JSON.stringify(body)
     }
+    console.log(base_url + api)
     const res = await fetch(base_url + api, reqHeader)
     const data = await res.json()
     if (res.status === 200) {

@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
         top: 0,
         right: 0,
         zIndex: 2
+<<<<<<< HEAD
     },
 
     initialStyle: {
@@ -26,12 +27,19 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 function Note({setChanged,flashcard, group, setSnackbarMsg, logout}){
+=======
+    }
+  }));
+
+function Note({flashcard, group, setSnackbarMsg, logout}){
+>>>>>>> 2fef839a183679f3b5ef31e34a5ee06c084076d3
     // console.log(key)
     // const classes = useStyles();
     const [flip, setFlip] = useState(false)
     const [opmodal, setOpmodal] = useState(false)
     const handleClose = useCallback(() => setOpmodal(false), [])
     const handleOpen = () => setOpmodal(true)
+<<<<<<< HEAD
     const [click, setClick] = useState(true)
     const [shtyle, setShtyle] = useState('frontside w-full h-full grid place-items-center pb-20')
 
@@ -45,6 +53,13 @@ function Note({setChanged,flashcard, group, setSnackbarMsg, logout}){
         apiInvoker('/api/deleteCard', {card_id:flashcard.id, group_id:group.group_id}).then(([data, err]) => {
             if (err === undefined) {
                 setChanged(true)
+=======
+
+    const onDelClick = e =>{
+        apiInvoker('/api/deleteCard', {card_id:flashcard.id, group_id:group.group_id}).then(([data, err]) => {
+            if (err === undefined) {
+                // 
+>>>>>>> 2fef839a183679f3b5ef31e34a5ee06c084076d3
             } else if (err === 'Token error'){
               logout()
             }
@@ -55,6 +70,7 @@ function Note({setChanged,flashcard, group, setSnackbarMsg, logout}){
     };
 
     return(
+<<<<<<< HEAD
         <>
         <div className= {`note`}>
             <EditModal 
@@ -102,6 +118,47 @@ function Note({setChanged,flashcard, group, setSnackbarMsg, logout}){
             <BackSideNote description={flashcard.description} bflip = {flip} bsetFlip = {setFlip} key = {flashcard.id}/> */}
         </div>
         </>
+=======
+        <div class= {`note ${flip ? 'cardflip' : ''}`}>
+        <EditModal 
+            open={opmodal}
+            modalClose={handleClose}
+            mtitle = {flashcard.title}
+            mdescription = {flashcard.description}
+            card_id = {flashcard.id} 
+            group={group}
+            key = {flashcard.id}
+            setSnackbarMsg={setSnackbarMsg}
+            logout={logout}
+        />
+        <IconButton 
+            color="secondary" 
+            aria-label="flip the card" 
+            onClick={() => setFlip(!flip)}
+        >
+            <FlipCameraAndroidIcon />
+        </IconButton> 
+
+        <IconButton 
+            color="secondary" 
+            aria-label="edit the card"  
+            onClick={handleOpen}
+        >
+            <EditIcon />
+        </IconButton>
+
+        <IconButton 
+            color="secondary" 
+            aria-label="delete the card"  
+            onClick={onDelClick}
+        >
+            <DeleteOutlineIcon />
+        </IconButton>
+
+        <FrontSideNote title={flashcard.title} fflip = {flip} fsetFlip = {setFlip} key = {flashcard.id}/>
+        <BackSideNote description={flashcard.description} bflip = {flip} bsetFlip = {setFlip} key = {flashcard.id}/>
+        </div>
+>>>>>>> 2fef839a183679f3b5ef31e34a5ee06c084076d3
     )
 }
 

@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "short_name": "React App",
   "name": "Create React App Sample",
   "icons": [
@@ -16,6 +17,14 @@
       "src": "logo512.png",
       "type": "image/png",
       "sizes": "512x512"
+=======
+  "short_name": "Parhou@LUMS",
+  "name": "Parhou@LUMS application",
+  "icons": [
+    {
+      "src": "logo.svg",
+      "type": "image/svg"
+>>>>>>> 2fef839a183679f3b5ef31e34a5ee06c084076d3
     }
   ],
   "start_url": ".",
