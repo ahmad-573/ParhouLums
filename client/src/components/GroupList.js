@@ -53,7 +53,7 @@ function GroupList({type, groups, setGroup, logout}) {
     if (err === undefined) {
       group.status = type === 'Admin' ? 1 : 0
       setGroup(group)
-      navigate('/chat', { replace: true })
+      navigate('/task-list', { replace: true })
     } else {
       if (err === 'Token error') {
         logout()
