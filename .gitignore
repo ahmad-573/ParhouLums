@@ -3,6 +3,10 @@ env/
 .ipynb_checkpoints
 .env
 node_modules/
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7f52cd39fc6108bbcfffe3cf63b2f061db935010
 ### VisualStudioCode ###
 .vscode
 .vscode/*
