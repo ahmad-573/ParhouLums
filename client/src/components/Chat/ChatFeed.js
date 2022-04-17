@@ -2,11 +2,32 @@ import MessageForm from "./MessageForm";
 import MyMessage from "./MyMessage";
 import TheirMessage from "./TheirMessage";
 import './chat.css'
+import axios from 'axios'
+import { useEffect, useState } from "react";
+
 
 const ChatFeed = (props) => {
-    const { chats, activeChat, userName, messages } = props;
+    const [isset, setIsset] = useState(false);
+    console.log(isset);
+    const { chats, activeChat, userName, setActiveChat, messages, setMessages } = props;
+    let chat = null
+    if (chats) {
+        for (let [key,value] of Object.entries(chats)){
+            if (value.title.toString().slice(0,-5) == props.group_name){
+                setActiveChat(key)
+                break;
+            }
+        }
+    }
+    chat = chats && chats[activeChat]
+    if (chat && !isset) {
+        axios.get(`https://api.chatengine.io/chats/${activeChat}/messages/`, { 'headers': {'Project-ID': '984bd544-267a-4407-a75e-a55ecb80c946', 'User-Name': props.userName, 'User-secret': 'genericPassword'} }).then((messages) => {setMessages(messages.data); setIsset(true)}).catch((error) => console.log(error))
+    }
+    else{
+       // setTimeout(() => setMessages({}), 5000);
+    }
 
-    const chat = chats && chats[activeChat];
+    //const chat = chats && chats[activeChat];
 
     const renderReadReceipts = (message, isMyMessage) => {
         return chat.people.map((person, index) => person.last_read === message.id && ( 
@@ -45,9 +66,8 @@ const ChatFeed = (props) => {
         })
         
     }
-    renderMessages();
-
-    if(!chat) return 'Loading...';
+    //renderMessages();
+    if(!chat || !isset) return 'Loading...';
 
     return (
         <div className="chat-feed">

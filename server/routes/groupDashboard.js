@@ -7,7 +7,6 @@ const axios = require('axios')
 
 async function createNewChat(username,group_name,memberList) {
     try {
-        console.log("memss;", memberList);
         try {
             await axios.post('https://api.chatengine.io/users/',  { 'username': username, 'first_name': username, 'last_name': username, 'secret': process.env.CHAT_USER_PASSWORD}, { 'headers': {'PRIVATE-KEY': process.env.CHAT_PRIVATE_KEY} });
         } catch (error) {
@@ -17,14 +16,17 @@ async function createNewChat(username,group_name,memberList) {
         const chat = await axios.post('https://api.chatengine.io/chats/',  { "title": `${group_name} chat`, "is_direct_chat": false }, { 'headers': {'Project-ID': process.env.CHAT_PROJECT_ID, 'User-Name': username, 'User-secret': process.env.CHAT_USER_PASSWORD} }); 
         for (let mem of memberList){
             try {
-                await axios.post(`https://api.chatengine.io/users/`,  {'username': mem.username, 'first_name': mem.username, 'last_name': mem.username, 'secret': process.env.CHAT_USER_PASSWORD}, { 'headers': {'PRIVATE-KEY': process.env.CHAT_PRIVATE_KEY} });
-                await axios.post(`https://api.chatengine.io/chats/${chat.data.id}/people/`,  { "username": mem.username }, { 'headers': {'Project-ID': process.env.CHAT_PROJECT_ID, 'User-Name': username, 'User-secret': process.env.CHAT_USER_PASSWORD} }); 
+                await axios.post(`https://api.chatengine.io/users/`,  {'username': mem.username, 'first_name': mem.username, 'last_name': mem.username, 'secret': process.env.CHAT_USER_PASSWORD}, { 'headers': {'PRIVATE-KEY': process.env.CHAT_PRIVATE_KEY} }); 
+            } catch (error) {
+                console.log(error);
+            }
+            try {
+                await axios.post(`https://api.chatengine.io/chats/${chat.data.id}/people/`,  { "username": mem.username }, { 'headers': {'Project-ID': process.env.CHAT_PROJECT_ID, 'User-Name': username, 'User-secret': process.env.CHAT_USER_PASSWORD} });
             } catch (error) {
                 console.log(error);
             }
 
         }
-        return "Done"
 
           
     } catch (error) {

@@ -19,6 +19,7 @@ function App() {
   const [username, setUsername] = React.useState('')
   const [group, setGroup] = React.useState(undefined) // {name: 'G1', group_id: 1, status: 1}
   const [groups, setGroups] = React.useState([])
+  const [currchat, setCurrchat] = React.useState('')
   
   const [navTitle, setNavTitle] = React.useState('groups')
   const [snackbarMsg, setSnackbarMsg] = React.useState('')
@@ -67,7 +68,7 @@ function App() {
             <Route path='/notes' element={(isLoggedIn && group != undefined) ? <CardsFront username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups} group={group} logout={logout}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
             <Route path='/resources' element={(isLoggedIn && group != undefined) ? <Resources username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups} group={group} logout={logout}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
             <Route path='/task-list' element={(isLoggedIn && group != undefined) ? <TaskList username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups} group={group} logout={logout}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
-            <Route path='/chat' element={(isLoggedIn && group != undefined) ? <Chat username={username} group={group}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
+            <Route path='/chat' element={(isLoggedIn && group != undefined) ? <Chat username={username} group={group} setSnackbarMsg={setSnackbarMsg}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
           </Routes>
         </Box>
       </Box>
