@@ -206,11 +206,8 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
     if (err === undefined) {
       let newMemberMap = {}
       let newMemberList = []
-<<<<<<<< HEAD:src/components/SideBar_2.js
-      for (let m of data[users]) {
-========
-      for (let m of data.users1) {
->>>>>>>> 2fef839a183679f3b5ef31e34a5ee06c084076d3:src/components/SideBar.js
+
+      for (let m of data[users]) {    
         const key = m.fullname + ' ' + m.username
         newMemberList.push(key)
         newMemberMap[key] = m

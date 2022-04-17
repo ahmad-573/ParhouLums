@@ -3,7 +3,6 @@ import { ChatEngine } from 'react-chat-engine';
 import ChatFeed from './ChatFeed';
 import './chat.css'
 
-<<<<<<< HEAD
 function Chat({username, group, setSnackbarMsg, setCurrchat, setMychats, mychats}) {
   return (
     <ChatEngine 
@@ -12,16 +11,6 @@ function Chat({username, group, setSnackbarMsg, setCurrchat, setMychats, mychats
             userName={username}
             userSecret='genericPassword'//{process.env.CHAT_USER_PASSWORD}
             renderChatFeed={(chatAppProps) => <ChatFeed {...chatAppProps} mychats={mychats} setMychats={setMychats} setCurrchat={setCurrchat} group_name={group.name} setSnackbarMsg={setSnackbarMsg} username={username} />}
-=======
-function Chat({username, group}) {
-  return (
-    <ChatEngine 
-            height="90vh"
-            projectID="984bd544-267a-4407-a75e-a55ecb80c946"
-            userName={username}
-            userSecret={'genericPassword'}
-            renderChatFeed={(chatAppProps) => <ChatFeed {...chatAppProps} />}
->>>>>>> 2fef839a183679f3b5ef31e34a5ee06c084076d3
             renderChatList={(chatAppState) => {}}
             renderChatSettings={(chatAppState) => {}}
         />
