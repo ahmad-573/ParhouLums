@@ -17,12 +17,12 @@ router.post('/forgot-password', async (req,res) => {
                 const questions = await pool.query(
                     "SELECT question_field FROM users WHERE email = $1", [req.body.email]
                 );
-                if (questions.rows[0].question_field === req.body.question){
+                if (questions.rows[0].question_field == req.body.question){
                     try {
                         const answers = await pool.query(
                             "SELECT answer FROM users WHERE email = $1", [req.body.email]
                         );
-                        if (answers.rows[0].answer === req.body.answer){
+                        if (answers.rows[0].answer == req.body.answer){
                             try {
                                 const hash = await helpers.encrypt(req.body.new_password);
 

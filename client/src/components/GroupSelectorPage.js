@@ -37,7 +37,7 @@ function GroupSelectorPage({setNavTitle,setMychats,mychats,setCurrchat,username,
 
   React.useEffect(() => {
     // get All chats
-    axios.get(`https://api.chatengine.io/chats/`, { 'headers': {'Project-ID': '984bd544-267a-4407-a75e-a55ecb80c946', 'User-Name': username, 'User-secret': 'genericPassword'} }).then((chats) => setMychats(chats)).catch((error) => setSnackbarMsg(error))
+    axios.get(`https://api.chatengine.io/chats/`, { 'headers': {'Project-ID': '984bd544-267a-4407-a75e-a55ecb80c946', 'User-Name': username, 'User-secret': 'genericPassword'} }).then((chats) => setMychats(chats)).catch((error) => console.log(error))
   }, [])
 
   return (

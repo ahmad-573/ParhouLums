@@ -211,7 +211,10 @@ function NavBar({mychats, setMychats, username,navTitle, setNavTitle, setGroup, 
             }}
             >
               {({values, touched, errors, handleChange, handleBlur, isValid, handleSubmit}) => {
-
+                function test(){
+                  handleSubmit();
+                  handleCloseCreateGroup();
+                }
                 return (<Form noValidate autoComplete="off">
                   <Grid container direction="column" spacing={2}>
                     <Grid item>
@@ -301,7 +304,7 @@ function NavBar({mychats, setMychats, username,navTitle, setNavTitle, setGroup, 
                       </Button>
                     </Grid>
                     <Grid item>
-                      <Button onClick={handleSubmit} className={classes.buttonCreate}>
+                      <Button onClick={test} className={classes.buttonCreate}>
                           Create
                       </Button>
                     </Grid>

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
 import { Box, Toolbar } from '@material-ui/core'
 import LoginPage from './components/LoginPage'
 import RegisterPage from './components/RegisterPage'
@@ -13,6 +13,8 @@ import CardsFront from "./components/CardsFront";
 import Resources from "./components/Resources";
 import { Link, useNavigate } from 'react-router-dom';
 import Chat from './components/Chat/Chat';
+import Cookies from 'js-cookie';
+import { apiInvoker } from "./apiInvoker";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false)
@@ -24,6 +26,7 @@ function App() {
   
   const [navTitle, setNavTitle] = React.useState('groups')
   const [snackbarMsg, setSnackbarMsg] = React.useState('')
+  //const navigate = useNavigate();
   
   const sidebarWidth = 300
 
@@ -33,12 +36,23 @@ function App() {
     setNavTitle('groups')
   }
 
-  function logout() {
+  async function logout() {
     unSetGroup()
     setUsername('')
     setIsLoggedIn(false)
+    await apiInvoker('/api/logout')
     //window.location.replace('/')
   }
+
+  // React.useEffect(() => {
+  //   try {
+  //     Cookies.get('token');
+  //     setIsLoggedIn(true);
+  //     navigate('/', {replace:true})
+  //   } catch (error) {
+      
+  //   }
+  // }, [])
 
   return (
     <Router>

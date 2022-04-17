@@ -76,12 +76,12 @@ const validationSchemaRegister = yup.object({
   .required('Password is required'),
   answer: yup
   .string("Enter your answer")
-  .min(8, 'Answer should be of minimum 8 characters length')
+  .min(1, 'Answer should be of minimum 1 characters length')
   .max(30, 'Answer should be of maximum 30 characters length')
   .required('Answer is required'),
   name: yup
   .string("Enter your name")
-  .min(3, 'Name should be of minimum 8 characters length')
+  .min(3, 'Name should be of minimum 3 characters length')
   .max(30, 'Name should be of maximum 30 characters length')
   .required('Name is required'),
 });
