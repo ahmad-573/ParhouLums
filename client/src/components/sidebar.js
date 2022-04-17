@@ -114,7 +114,7 @@ const validationSchemaSettingsPassword = yup.object({
   .required('New Password is required'),
 });
 
-function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setGroup, logout}) {
+function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setGroup, logout, currchat}) {
   const [openPromoteMember, setOpenPromoteMember] = React.useState(false)
   const [openRemoveMember, setOpenRemoveMember] = React.useState(false)
   const [openAddMember, setOpenAddMember] = React.useState(false)
@@ -198,7 +198,7 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
     )
   }
   
-  const userFetcher = async (type, errorText) => {
+  const userFetcher = async (type, errorText, users='users1') => {
     // setMList(['Saad @saad', 'Taha @taha'])
     // setMMap({'Saad @saad': {username: '@saad', fullname: 'Saad', user_id: 1}, 'Taha @taha': {username: '@taha', fullname: 'Taha', user_id: 2}})
     const [data, err] = await apiInvoker('/api/getUsers', {type: type, group_id: group.group_id})
@@ -206,7 +206,7 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
     if (err === undefined) {
       let newMemberMap = {}
       let newMemberList = []
-      for (let m of data.users) {
+      for (let m of data[users]) {
         const key = m.fullname + ' ' + m.username
         newMemberList.push(key)
         newMemberMap[key] = m
@@ -240,14 +240,14 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
   }
 
   const handlePromoteMember = () => {
-    userFetcher('promote', 'Add Group').then(() => console.log('Users Fetched'))
+    userFetcher('promote', 'Add Group', 'users2').then(() => console.log('Users Fetched'))
 
     setSMember('')
     setOpenPromoteMember(true)
   }
 
   const handleAddMember = () => {
-    userFetcher('add', 'Add Member').then(() => console.log('Users Fetched'))
+    userFetcher('add', 'Add Member', 'users2').then(() => console.log('Users Fetched'))
 
     setSMember('')
     setOpenAddMember(true)
@@ -322,7 +322,7 @@ function SideBar({username, setNavTitle, group, unSetGroup, setSnackbarMsg, setG
           }}
           validationSchema={validationSchemaGroupDialog}
           onSubmit={async (values) => {
-            const [data, err] = await apiInvoker(apiLink, {group_id: group.group_id, member_ids: values.members.map((val) => memberMap[val].user_id)})
+            const [data, err] = await apiInvoker(apiLink, {chatid: currchat, group_id: group.group_id, members: values.members.map((val) => memberMap[val].user_id)})
             if (err === undefined) {
               setOpenDialog(false)
             } else {

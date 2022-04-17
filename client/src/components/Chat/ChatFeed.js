@@ -9,16 +9,19 @@ import { useEffect, useState } from "react";
 const ChatFeed = (props) => {
     const [isset, setIsset] = useState(false);
     console.log(isset);
+    let found = false;
     const { chats, activeChat, userName, setActiveChat, messages, setMessages } = props;
     let chat = null
     if (chats) {
         for (let [key,value] of Object.entries(chats)){
             if (value.title.toString().slice(0,-5) == props.group_name){
                 setActiveChat(key)
+                found=true;
                 break;
             }
         }
     }
+    if (!found) return 'Loading...'
     chat = chats && chats[activeChat]
     if (chat && !isset) {
         axios.get(`https://api.chatengine.io/chats/${activeChat}/messages/`, { 'headers': {'Project-ID': '984bd544-267a-4407-a75e-a55ecb80c946', 'User-Name': props.userName, 'User-secret': 'genericPassword'} }).then((messages) => {setMessages(messages.data); setIsset(true)}).catch((error) => console.log(error))
@@ -76,7 +79,7 @@ const ChatFeed = (props) => {
                 <div className="chat-subtitle">{chat.people.map((person) => `${person.person.username} `)}</div>
 
             </div>
-            {renderMessages()}
+            { renderMessages()}
             <div style={{ height: '100px' }} />
             <div className="message-form-container">
                 <MessageForm {...props} chatId={activeChat}/>

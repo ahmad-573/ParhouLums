@@ -19,7 +19,8 @@ function App() {
   const [username, setUsername] = React.useState('')
   const [group, setGroup] = React.useState(undefined) // {name: 'G1', group_id: 1, status: 1}
   const [groups, setGroups] = React.useState([])
-  const [currchat, setCurrchat] = React.useState('')
+  const [mychats, setMychats] = React.useState([])
+  const [currchat, setCurrchat] = React.useState(undefined)
   
   const [navTitle, setNavTitle] = React.useState('groups')
   const [snackbarMsg, setSnackbarMsg] = React.useState('')
@@ -45,14 +46,14 @@ function App() {
         {/* NavBar */}
         {
           isLoggedIn && 
-          <NavBar username={username} setGroup={setGroup} setGroups={setGroups} setSnackbarMsg={setSnackbarMsg} groups={groups} logout={logout} navTitle={navTitle} setNavTitle={setNavTitle} sidebarWidth={group === undefined ? 0 : sidebarWidth}/>
+          <NavBar setMychats={setMychats} username={username} setGroup={setGroup} setGroups={setGroups} setSnackbarMsg={setSnackbarMsg} groups={groups} logout={logout} navTitle={navTitle} setNavTitle={setNavTitle} sidebarWidth={group === undefined ? 0 : sidebarWidth}/>
         }
         {/* ErrorPopup */}
           <ErrorPopup snackbarMsg={snackbarMsg} setSnackbarMsg={setSnackbarMsg}/>
         {/* SideBar */}
         {
           isLoggedIn && group !== undefined &&
-          <SideBar logout={logout} username={username} setNavTitle={setNavTitle} group={group} setSnackbarMsg={setSnackbarMsg} unSetGroup={unSetGroup} setGroup={setGroup}/>
+          <SideBar currchat={currchat} logout={logout} username={username} setNavTitle={setNavTitle} group={group} setSnackbarMsg={setSnackbarMsg} unSetGroup={unSetGroup} setGroup={setGroup}/>
         }
         <Box
           component="main"
@@ -61,14 +62,14 @@ function App() {
           <Toolbar />
           {/* Routes */}
           <Routes>
-            <Route path='/' element={(isLoggedIn && group === undefined) ? <GroupSelectorPage username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups} logout={logout}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
+            <Route path='/' element={(isLoggedIn && group === undefined) ? <GroupSelectorPage setMychats={setMychats} mychats={mychats} setCurrchat={setCurrchat} username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups} logout={logout}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
             <Route path='/register' element={<RegisterPage setSnackbarMsg={setSnackbarMsg}/>}/>
             <Route path='/forgot-password' element={<FPassPage setSnackbarMsg={setSnackbarMsg}/>}/>
             {/* <Route path='/cards-front' element={<CardsFront/>}/> */}
             <Route path='/notes' element={(isLoggedIn && group != undefined) ? <CardsFront username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups} group={group} logout={logout}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
             <Route path='/resources' element={(isLoggedIn && group != undefined) ? <Resources username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups} group={group} logout={logout}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
             <Route path='/task-list' element={(isLoggedIn && group != undefined) ? <TaskList username={username} setGroup={setGroup} setSnackbarMsg={setSnackbarMsg} groups={groups} setGroups={setGroups} group={group} logout={logout}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
-            <Route path='/chat' element={(isLoggedIn && group != undefined) ? <Chat username={username} group={group} setSnackbarMsg={setSnackbarMsg}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
+            <Route path='/chat' element={(isLoggedIn && group != undefined) ? <Chat mychats={mychats} setMychats setCurrchat={setCurrchat} username={username} group={group} setSnackbarMsg={setSnackbarMsg}/> : ((!isLoggedIn) ? <LoginPage setIsLoggedIn={setIsLoggedIn} setSnackbarMsg={setSnackbarMsg} setUsername={setUsername}/> : <div></div>)}/>
           </Routes>
         </Box>
       </Box>

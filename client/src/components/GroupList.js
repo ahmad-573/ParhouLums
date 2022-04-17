@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function GroupList({type, groups, setGroup, logout}) {
+function GroupList({setCurrchat, mychats, type, groups, setGroup, logout}) {
 
   const classes = useStyles()
   const navigate = useNavigate()
@@ -53,6 +53,11 @@ function GroupList({type, groups, setGroup, logout}) {
     if (err === undefined) {
       group.status = type === 'Admin' ? 1 : 0
       setGroup(group)
+      for (let ch of mychats.data){
+        if (ch.title.toString().slice(0,-5) == group.name){
+          setCurrchat(ch.id);
+        }
+      }
       navigate('/task-list', { replace: true })
     } else {
       if (err === 'Token error') {

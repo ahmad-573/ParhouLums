@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Grid, Divider, Box } from '@material-ui/core'
 import GroupList from './GroupList'
 import { apiInvoker } from '../apiInvoker'
+import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
   textBig: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function GroupSelectorPage({username, setGroup, setSnackbarMsg, groups, setGroups, logout}) {
+function GroupSelectorPage({setMychats,mychats,setCurrchat,username, setGroup, setSnackbarMsg, groups, setGroups, logout}) {
 
   const classes = useStyles()
   const navigate = useNavigate()
@@ -34,6 +35,11 @@ function GroupSelectorPage({username, setGroup, setSnackbarMsg, groups, setGroup
     })
   }, [])
 
+  React.useEffect(() => {
+    // get All chats
+    axios.get(`https://api.chatengine.io/chats/`, { 'headers': {'Project-ID': '984bd544-267a-4407-a75e-a55ecb80c946', 'User-Name': username, 'User-secret': 'genericPassword'} }).then((chats) => setMychats(chats)).catch((error) => setSnackbarMsg(error))
+  }, [])
+
   return (
     <Box>
       <Box pt={5}/>
@@ -44,7 +50,7 @@ function GroupSelectorPage({username, setGroup, setSnackbarMsg, groups, setGroup
         <Grid item>
           <Grid container direction='row' justifyContent='center' alignItems='center'>
             <Grid item>
-              <GroupList logout={logout} type={'Admin'} setGroup={setGroup} groups={groups.filter((obj) => obj.status ? true : false)}/>
+              <GroupList mychats={mychats} setCurrchat={setCurrchat} logout={logout} type={'Admin'} setGroup={setGroup} groups={groups.filter((obj) => obj.status ? true : false)}/>
             </Grid>
             <Divider
               orientation='vertical'
@@ -52,7 +58,7 @@ function GroupSelectorPage({username, setGroup, setSnackbarMsg, groups, setGroup
               flexItem
             />
             <Grid item>
-            <GroupList logout={logout} type={'Member'} setGroup={setGroup} groups={groups.filter((obj) => obj.status ? false : true)}/>
+            <GroupList mychats={mychats} setCurrchat={setCurrchat} logout={logout} type={'Member'} setGroup={setGroup} groups={groups.filter((obj) => obj.status ? false : true)}/>
             </Grid>
           </Grid>
         </Grid>

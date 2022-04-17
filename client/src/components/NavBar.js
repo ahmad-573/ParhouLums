@@ -81,7 +81,7 @@ const validationSchemaCreateGroup = yup.object({
   .required('Member(s) required')
 });
 
-function NavBar({username,navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGroups, groups, sidebarWidth}) {
+function NavBar({mychats, setMychats, username,navTitle, setNavTitle, setGroup, logout, setSnackbarMsg, setGroups, groups, sidebarWidth}) {
   const [openCreateGroup, setOpenCreateGroup] = React.useState(false)
   const [memberList, setMemberList] = React.useState([]) // [{username, fullname, user_id}]
   const [memberMap, setMemberMap] = React.useState({}) // {`${fullname} ${username}`: {username, fullname, user_id}}
@@ -178,6 +178,8 @@ function NavBar({username,navTitle, setNavTitle, setGroup, logout, setSnackbarMs
               const [data, err] = await apiInvoker('/api/createGroup', all_members)
               if (err === undefined) {
                 setGroups([...groups, {name: values.groupName, group_id: data.group_id, status: 1}])
+                setMychats([...mychats, {id: data.chatid, name: values.groupName} ])
+                
                 // try {
                 //   await axios.post('https://api.chatengine.io/users/',  { 'username': username, 'first_name': username, 'last_name': username, 'secret': 'genericPassword'}, { 'headers': {'PRIVATE-KEY': "e1321fed-f63e-4256-ac56-ea8bf77c8035"} });
 
