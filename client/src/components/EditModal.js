@@ -170,7 +170,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function EditModal({open, modalClose, mtitle, mdescription, card_id, group, setSnackbarMsg, logout}) {  
+function EditModal({setChanged,open, modalClose, mtitle, mdescription, card_id, group, setSnackbarMsg, logout}) {  
 //   const [open, setOpen] = useState(false);
 //   console.log(open, 'in modal')  
 //   const handleOpen = () => setOpen(modalop);
@@ -186,6 +186,7 @@ function EditModal({open, modalClose, mtitle, mdescription, card_id, group, setS
     setiDescription(description)
     apiInvoker('/api/editCard', {new_title:title, new_description:description, card_id:card_id, group_id:group.group_id}).then(([data, err]) => {
         if (err === undefined) {
+            setChanged(true)
             modalClose() 
         } else if (err === 'Token error'){
           logout()

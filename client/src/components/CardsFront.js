@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import { Typography, Modal, Button, Box, TextField, IconButton, Card } from '@material-ui/core'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CloseIcon from '@material-ui/icons/Close';
@@ -73,6 +73,48 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 function CardsFront({username, setGroup, setSnackbarMsg, groups, setGroups, group, logout}){
+
+    const [flashcards, setFlashCards] = useState([])
+    const [changed, setChanged] = useState(false)
+    const [time, setTime ] = useState(0)
+
+
+    function generateTime() {
+        return(
+            new Promise((resolve,reject) => {
+                setTimeout(resolve,6000);
+            }).then(() => {
+                if (time%2) setTime(time + 1)
+                else setTime(time - 1)
+            })
+        );
+        
+    }
+
+    const getCards = () =>{
+        apiInvoker('/api/getCards', {group_id:group.group_id}).then(([data, err]) => {
+            if (err === undefined) {
+                console.log("here")
+                setFlashCards(data.cards) 
+            } else if (err === 'Token error'){
+              logout()
+            }
+            else{
+              setSnackbarMsg('Error: ' + err)
+            }
+            generateTime();
+          })
+    }
+
+    useEffect(() => {
+        getCards();
+    }, [time]);
+
+    if (changed){
+        getCards();
+        setChanged(false);
+    }
+
     const classes = useStyles();
     const [opmodal, setOpmodal] = useState(false)
     const handleClose = useCallback(() => setOpmodal(false), [])
@@ -92,6 +134,7 @@ function CardsFront({username, setGroup, setSnackbarMsg, groups, setGroups, grou
                                 modalClose={handleClose}
                                 group={group}
                                 logout={logout}
+                                setChanged={setChanged}
                             />
                         </div>
                     </div>
@@ -100,6 +143,8 @@ function CardsFront({username, setGroup, setSnackbarMsg, groups, setGroups, grou
                     setSnackbarMsg={setSnackbarMsg}
                     group={group}
                     logout={logout}
+                    flashcards={flashcards}
+                    setChanged={setChanged}
                 />
             </div>
             </div>

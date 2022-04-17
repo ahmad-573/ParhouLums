@@ -90,43 +90,49 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function GridNotes({setSnackbarMsg, group, logout}){ 
-    const [flashcards, setFlashCards] = useState([])
+function GridNotes({flashcards,setChanged,setSnackbarMsg, group, logout}){ 
+    //const [flashcards, setFlashCards] = useState([])
     const [index, setIndex] = useState(0)
     const [index2, setIndex2] = useState(1)
-    const [time,setTime] = useState(0)
+    //const [time,setTime] = useState(0)
+    // const [changed, setChanged] = useState(false)
 
 
-    function generateTime() {
-        return(
-            new Promise((resolve,reject) => {
-                setTimeout(resolve,2000);
-            }).then(() => {
-                if (time%2) setTime(time + 1)
-                else setTime(time - 1)
-            })
-        );
+    // function generateTime() {
+    //     return(
+    //         new Promise((resolve,reject) => {
+    //             setTimeout(resolve,6000);
+    //         }).then(() => {
+    //             if (time%2) setTime(time + 1)
+    //             else setTime(time - 1)
+    //         })
+    //     );
         
-    }
+    // }
 
-    const getCards = () =>{
-        apiInvoker('/api/getCards', {group_id:group.group_id}).then(([data, err]) => {
-            if (err === undefined) {
-                console.log("here")
-                setFlashCards(data.cards) 
-            } else if (err === 'Token error'){
-              logout()
-            }
-            else{
-              setSnackbarMsg('Error: ' + err)
-            }
-            generateTime();
-          })
-    }
+    // const getCards = () =>{
+    //     apiInvoker('/api/getCards', {group_id:group.group_id}).then(([data, err]) => {
+    //         if (err === undefined) {
+    //             console.log("here")
+    //             setFlashCards(data.cards) 
+    //         } else if (err === 'Token error'){
+    //           logout()
+    //         }
+    //         else{
+    //           setSnackbarMsg('Error: ' + err)
+    //         }
+    //         generateTime();
+    //       })
+    // }
 
-    useEffect(() => {
-        getCards();
-    }, [time]);
+    // useEffect(() => {
+    //     getCards();
+    // }, [time]);
+
+    // if (changed){
+    //     getCards();
+    //     setChanged(false);
+    // }
 
 
     // return(  
@@ -154,6 +160,7 @@ function GridNotes({setSnackbarMsg, group, logout}){
                                         key={flashcard.id}
                                         group={group}
                                         setSnackbarMsg={setSnackbarMsg}
+                                        setChanged={setChanged}
                                     /></div>
                         }
                     })}

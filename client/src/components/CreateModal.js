@@ -169,7 +169,7 @@ const style = {
   
   
   
-  function CreateModal({open, modalClose, group, logout, setSnackbarMsg}) {  
+  function CreateModal({setChanged,open, modalClose, group, logout, setSnackbarMsg}) {  
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
   
@@ -183,7 +183,8 @@ const style = {
       else{
             apiInvoker('/api/createCard', {title:title, description:description, group_id:group.group_id}).then(([data, err]) => {
                 if (err === undefined) {
-                    modalClose() 
+                  setChanged(true)
+                  modalClose() 
                 } else if (err === 'Token error'){
                   logout()
                 }

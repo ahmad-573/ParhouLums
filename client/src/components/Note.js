@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-function Note({flashcard, group, setSnackbarMsg, logout}){
+function Note({setChanged,flashcard, group, setSnackbarMsg, logout}){
     // console.log(key)
     // const classes = useStyles();
     const [flip, setFlip] = useState(false)
@@ -44,7 +44,7 @@ function Note({flashcard, group, setSnackbarMsg, logout}){
     const onDelClick = () => {
         apiInvoker('/api/deleteCard', {card_id:flashcard.id, group_id:group.group_id}).then(([data, err]) => {
             if (err === undefined) {
-                // 
+                setChanged(true)
             } else if (err === 'Token error'){
               logout()
             }
@@ -67,6 +67,7 @@ function Note({flashcard, group, setSnackbarMsg, logout}){
                 key = {flashcard.id}
                 setSnackbarMsg={setSnackbarMsg}
                 logout={logout}
+                setChanged={setChanged}
             />
             <IconButton 
                 color="secondary" 
