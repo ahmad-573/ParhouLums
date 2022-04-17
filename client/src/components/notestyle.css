@@ -157,20 +157,35 @@
 .note{
     position: relative;
     /* width: 450px; */
-    height: 220px; 
+    height: 220px;
     /* display: flex; */
     justify-content: center;
-    transform-style: preserve-3d; 
-    transition: all 0.5s ease; 
+    /* transform-style: preserve-3d; 
+    transition: all 0.5s ease;  */
     background: white;
     border: 1px solid lightgray;
     border-radius: 20px;
-    transform: rotateY(var(--rotate-y, 0));
+    /* transform: rotateY(var(--rotate-y, 0)); */
     text-align: center;
 }
 
-.note.cardflip{
+/* .note.cardflip{
    --rotate-y: 180deg;
+} */
+
+
+.innernote{
+    /* position: absolute; */
+    transform-style: preserve-3d; 
+    transition: all 0.5s ease; 
+    transform: rotateY(var(--rotate-y, 0));
+    /* justify-content: center;
+    text-align: center; */
+    /* display: inline; */
+}
+
+.innernote.cardflip{
+    --rotate-y: 180deg;
 }
 
 .wrapper{
