@@ -1,12 +1,17 @@
-require('dotenv').config()
+const path = require("path");
 const Pool = require("pg").Pool;
 
 const pool = new Pool({
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    database: "parhoulums"
+    user: 'doadmin',
+    password: 'AVNS_FQAFGBgKUByO9XH',
+    host: 'db-postgresql-blr1-05163-do-user-11369164-0.b.db.ondigitalocean.com',
+    port: 25060,
+    database: 'parhoulums'
+    ssl: {
+      require: true, 
+      rejectUnauthorized: false, 
+      ca: fs.readFileSync(path.join(__dirname, 'ca-certificate.crt')).toString()
+    }
 });
 
 module.exports = pool;
