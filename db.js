@@ -1,5 +1,6 @@
 const path = require("path");
 const Pool = require("pg").Pool;
+const fs = require('fs');
 
 const pool = new Pool({
     user: 'doadmin',
